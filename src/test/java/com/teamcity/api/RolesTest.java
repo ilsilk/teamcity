@@ -8,28 +8,27 @@ import com.teamcity.api.requests.unchecked.UncheckedBuildType;
 import com.teamcity.api.requests.unchecked.UncheckedProject;
 import com.teamcity.api.spec.Specifications;
 import org.apache.http.HttpStatus;
+import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
-
-import static org.hamcrest.Matchers.containsString;
 
 public class RolesTest extends BaseApiTest {
 
-    @Test
-    public void unauthorizedUser() {
+    @Test(description = "Unauthorized user should not have rights to create project")
+    public void unauthorizedUserCreateProjectNegativeTest() {
         var testData = testDataStorage.addTestData();
 
         new UncheckedProject(Specifications.getSpec().unauthSpec())
                 .create(testData.getProject())
                 .then().assertThat().statusCode(HttpStatus.SC_UNAUTHORIZED)
-                .body(containsString("Authentication required"));
+                .body(Matchers.containsString("Authentication required"));
 
         uncheckedSuperUser.getProjectRequest()
                 .read(testData.getProject().getId())
                 .then().assertThat().statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
-    @Test
-    public void systemAdminTest() {
+    @Test(description = "System admin should have rights to create project")
+    public void systemAdminCreateProjectTest() {
         var testData = testDataStorage.addTestData();
 
         checkedSuperUser.getUserRequest().create(testData.getUser());
@@ -41,14 +40,14 @@ public class RolesTest extends BaseApiTest {
         softy.assertThat(project.getId()).isEqualTo(testData.getProject().getId());
     }
 
-    @Test
-    public void projectAdminTest() {
+    @Test(description = "Project admin should have rights to create build type for their project")
+    public void projectAdminCreateBuildTypeTest() {
         var testData = testDataStorage.addTestData();
 
         checkedSuperUser.getProjectRequest().create(testData.getProject());
 
-        testData.getUser().setRoles(TestDataGenerator.generateRoles(RoleEnum.PROJECT_ADMIN,
-                "p:" + testData.getProject().getId()));
+        testData.getUser().setRoles(TestDataGenerator.generateRoles(
+                RoleEnum.PROJECT_ADMIN, "p:" + testData.getProject().getId()));
 
         checkedSuperUser.getUserRequest().create(testData.getUser());
 
@@ -59,18 +58,18 @@ public class RolesTest extends BaseApiTest {
         softy.assertThat(buildType.getId()).isEqualTo(testData.getBuildType().getId());
     }
 
-    @Test
-    public void projectAdminTestNegative() {
+    @Test(description = "Project admin should not have rights to create build type for not their project")
+    public void projectAdminCreateBuildTypeNegativeTest() {
         var firstTestData = testDataStorage.addTestData();
         var secondTestData = testDataStorage.addTestData();
 
         checkedSuperUser.getProjectRequest().create(firstTestData.getProject());
         checkedSuperUser.getProjectRequest().create(secondTestData.getProject());
 
-        firstTestData.getUser().setRoles(TestDataGenerator.generateRoles(RoleEnum.PROJECT_ADMIN,
-                "p:" + firstTestData.getProject().getId()));
-        secondTestData.getUser().setRoles(TestDataGenerator.generateRoles(RoleEnum.PROJECT_ADMIN,
-                "p:" + secondTestData.getProject().getId()));
+        firstTestData.getUser().setRoles(TestDataGenerator.generateRoles(
+                RoleEnum.PROJECT_ADMIN, "p:" + firstTestData.getProject().getId()));
+        secondTestData.getUser().setRoles(TestDataGenerator.generateRoles(
+                RoleEnum.PROJECT_ADMIN, "p:" + secondTestData.getProject().getId()));
 
         checkedSuperUser.getUserRequest().create(firstTestData.getUser());
         checkedSuperUser.getUserRequest().create(secondTestData.getUser());

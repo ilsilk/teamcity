@@ -6,8 +6,8 @@ import org.testng.annotations.Test;
 
 public class BuildConfigurationTest extends BaseApiTest {
 
-    @Test
-    public void buildConfigurationTest() {
+    @Test(description = "User should be able to create project")
+    public void createProjectTest() {
         var testData = testDataStorage.addTestData();
 
         checkedSuperUser.getUserRequest().create(testData.getUser());
