@@ -15,8 +15,6 @@ public class RolesTest extends BaseApiTest {
 
     @Test(description = "Unauthorized user should not have rights to create project")
     public void unauthorizedUserCreateProjectNegativeTest() {
-        var testData = testDataStorage.addTestData();
-
         new UncheckedProject(Specifications.getSpec().unauthSpec())
                 .create(testData.getProject())
                 .then().assertThat().statusCode(HttpStatus.SC_UNAUTHORIZED)
@@ -29,8 +27,6 @@ public class RolesTest extends BaseApiTest {
 
     @Test(description = "System admin should have rights to create project")
     public void systemAdminCreateProjectTest() {
-        var testData = testDataStorage.addTestData();
-
         checkedSuperUser.getUserRequest().create(testData.getUser());
 
         var project = new CheckedProject(Specifications.getSpec()
@@ -42,8 +38,6 @@ public class RolesTest extends BaseApiTest {
 
     @Test(description = "Project admin should have rights to create build type for their project")
     public void projectAdminCreateBuildTypeTest() {
-        var testData = testDataStorage.addTestData();
-
         checkedSuperUser.getProjectRequest().create(testData.getProject());
 
         testData.getUser().setRoles(TestDataGenerator.generateRoles(
@@ -60,7 +54,7 @@ public class RolesTest extends BaseApiTest {
 
     @Test(description = "Project admin should not have rights to create build type for not their project")
     public void projectAdminCreateBuildTypeNegativeTest() {
-        var firstTestData = testDataStorage.addTestData();
+        var firstTestData = testData;
         var secondTestData = testDataStorage.addTestData();
 
         checkedSuperUser.getProjectRequest().create(firstTestData.getProject());
