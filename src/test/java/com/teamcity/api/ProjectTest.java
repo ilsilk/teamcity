@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 public class ProjectTest extends BaseApiTest {
 
     @Test(description = "User should be able to create project")
-    public void createProjectTest() {
+    public void createProjectPositiveTest() {
         checkedSuperUser.getUserRequest().create(testData.getUser());
 
         var project = new CheckedProject(Specifications.getSpec()

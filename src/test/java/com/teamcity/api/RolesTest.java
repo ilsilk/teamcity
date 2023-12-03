@@ -26,7 +26,7 @@ public class RolesTest extends BaseApiTest {
     }
 
     @Test(description = "System admin should have rights to create project")
-    public void systemAdminCreateProjectTest() {
+    public void systemAdminCreateProjectPositiveTest() {
         checkedSuperUser.getUserRequest().create(testData.getUser());
 
         var project = new CheckedProject(Specifications.getSpec()
@@ -37,7 +37,7 @@ public class RolesTest extends BaseApiTest {
     }
 
     @Test(description = "Project admin should have rights to create build type for their project")
-    public void projectAdminCreateBuildTypeTest() {
+    public void projectAdminCreateBuildTypePositiveTest() {
         checkedSuperUser.getProjectRequest().create(testData.getProject());
 
         testData.getUser().setRoles(TestDataGenerator.generateRoles(

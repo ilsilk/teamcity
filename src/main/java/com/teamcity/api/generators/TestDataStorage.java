@@ -30,6 +30,7 @@ public final class TestDataStorage {
 
     public void deleteTestData() {
         getStorage().testDataList.forEach(TestData::delete);
+        getStorage().testDataList.clear();
     }
 
 }
