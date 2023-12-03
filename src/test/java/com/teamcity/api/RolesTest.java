@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 public class RolesTest extends BaseApiTest {
 
     @Test(description = "Unauthorized user should not have rights to create project")
-    public void unauthorizedUserCreateProjectNegativeTest() {
+    public void unauthorizedUserCreatesProjectTest() {
         new UncheckedProject(Specifications.getSpec().unauthSpec())
                 .create(testData.getProject())
                 .then().assertThat().statusCode(HttpStatus.SC_UNAUTHORIZED)
@@ -22,11 +22,12 @@ public class RolesTest extends BaseApiTest {
 
         uncheckedSuperUser.getProjectRequest()
                 .read(testData.getProject().getId())
-                .then().assertThat().statusCode(HttpStatus.SC_NOT_FOUND);
+                .then().assertThat().statusCode(HttpStatus.SC_NOT_FOUND)
+                .body(Matchers.containsString("Could not find the entity requested"));
     }
 
     @Test(description = "System admin should have rights to create project")
-    public void systemAdminCreateProjectPositiveTest() {
+    public void systemAdminCreatesProjectTest() {
         checkedSuperUser.getUserRequest().create(testData.getUser());
 
         var project = new CheckedProject(Specifications.getSpec()
@@ -37,7 +38,7 @@ public class RolesTest extends BaseApiTest {
     }
 
     @Test(description = "Project admin should have rights to create build type for their project")
-    public void projectAdminCreateBuildTypePositiveTest() {
+    public void projectAdminCreatesBuildTypeTest() {
         checkedSuperUser.getProjectRequest().create(testData.getProject());
 
         testData.getUser().setRoles(TestDataGenerator.generateRoles(
@@ -53,7 +54,7 @@ public class RolesTest extends BaseApiTest {
     }
 
     @Test(description = "Project admin should not have rights to create build type for not their project")
-    public void projectAdminCreateBuildTypeNegativeTest() {
+    public void projectAdminCreatesBuildTypeForAnotherUserProjectTest() {
         var firstTestData = testData;
         var secondTestData = testDataStorage.addTestData();
 
@@ -71,7 +72,8 @@ public class RolesTest extends BaseApiTest {
         new UncheckedBuildType(Specifications.getSpec()
                 .authSpec(firstTestData.getUser()))
                 .create(secondTestData.getBuildType())
-                .then().assertThat().statusCode(HttpStatus.SC_FORBIDDEN);
+                .then().assertThat().statusCode(HttpStatus.SC_FORBIDDEN)
+                .body(Matchers.containsString("Access denied"));
     }
 
 }
