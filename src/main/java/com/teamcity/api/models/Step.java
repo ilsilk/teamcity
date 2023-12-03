@@ -9,9 +9,10 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Role {
+public class Step {
 
-    private String roleId;
-    private String scope;
+    private String name;
+    private String type;
+    private Properties properties;
 
 }

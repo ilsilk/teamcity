@@ -1,6 +1,6 @@
 package com.teamcity.api.enums;
 
-public enum RoleEnum {
+public enum UserRole {
 
     SYSTEM_ADMIN,
     PROJECT_ADMIN,

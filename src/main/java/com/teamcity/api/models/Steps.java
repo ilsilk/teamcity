@@ -5,13 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 
+import java.util.List;
+
 @Data
 @Builder
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Role {
+public class Steps {
 
-    private String roleId;
-    private String scope;
+    private List<Step> step;
 
 }

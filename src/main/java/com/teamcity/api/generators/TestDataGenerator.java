@@ -1,11 +1,13 @@
 package com.teamcity.api.generators;
 
-import com.teamcity.api.enums.RoleEnum;
+import com.teamcity.api.enums.UserRole;
 import com.teamcity.api.models.*;
 
 import java.util.List;
 
 public final class TestDataGenerator {
+
+    private static final String SIMPLE_RUNNER_STEP_TYPE = "simpleRunner";
 
     private TestDataGenerator() {
     }
@@ -24,7 +26,7 @@ public final class TestDataGenerator {
                 .username(RandomData.getString())
                 .email(RandomData.getString() + "@gmail.com")
                 .password(RandomData.getString())
-                .roles(generateRoles(RoleEnum.SYSTEM_ADMIN, "g"))
+                .roles(generateRoles(UserRole.SYSTEM_ADMIN, "g"))
                 .build();
 
         var buildType = BuildType.builder()
@@ -40,11 +42,29 @@ public final class TestDataGenerator {
                 .build();
     }
 
-    public static Roles generateRoles(RoleEnum role, String scope) {
+    public static Roles generateRoles(UserRole role, String scope) {
         return Roles.builder()
                 .role(List.of(Role.builder()
                         .roleId(role.toString())
                         .scope(scope)
+                        .build()))
+                .build();
+    }
+
+    public static Steps generateSimpleRunnerSteps(String value) {
+        return Steps.builder()
+                .step(List.of(Step.builder()
+                        .name(RandomData.getString())
+                        .type(SIMPLE_RUNNER_STEP_TYPE)
+                        .properties(Properties.builder()
+                                .property(List.of(Property.builder()
+                                        .name("script.content")
+                                        .value(value)
+                                        .build(), Property.builder()
+                                        .name("use.custom.script")
+                                        .value("true")
+                                        .build()))
+                                .build())
                         .build()))
                 .build();
     }

@@ -1,6 +1,6 @@
 package com.teamcity.api;
 
-import com.teamcity.api.enums.RoleEnum;
+import com.teamcity.api.enums.UserRole;
 import com.teamcity.api.generators.RandomData;
 import com.teamcity.api.generators.TestDataGenerator;
 import com.teamcity.api.requests.checked.CheckedBuildType;
@@ -17,7 +17,6 @@ public class BuildTypeTest extends BaseApiTest {
     @Test(description = "User should be able to create build type")
     public void userCreatesBuildTypeTest() {
         checkedSuperUser.getUserRequest().create(testData.getUser());
-
         checkedSuperUser.getProjectRequest().create(testData.getProject());
 
         var buildType = new CheckedBuildType(Specifications.getSpec()
@@ -33,7 +32,6 @@ public class BuildTypeTest extends BaseApiTest {
         var secondTestData = testDataStorage.addTestData();
 
         checkedSuperUser.getUserRequest().create(firstTestData.getUser());
-
         checkedSuperUser.getProjectRequest().create(firstTestData.getProject());
 
         new CheckedBuildType(Specifications.getSpec()
@@ -52,7 +50,6 @@ public class BuildTypeTest extends BaseApiTest {
     @Test(description = "User should not be able to create build type with id exceeding the limit")
     public void userCreatesBuildTypeWithIdExceedingLimitTest() {
         checkedSuperUser.getUserRequest().create(testData.getUser());
-
         checkedSuperUser.getProjectRequest().create(testData.getProject());
 
         testData.getBuildType().setId(RandomData.getString(BUILD_TYPE_ID_CHARACTERS_LIMIT + 1));
@@ -87,7 +84,6 @@ public class BuildTypeTest extends BaseApiTest {
     @Test(description = "User should be able to delete build type")
     public void userDeletesBuildTypeTest() {
         checkedSuperUser.getUserRequest().create(testData.getUser());
-
         checkedSuperUser.getProjectRequest().create(testData.getProject());
 
         new CheckedBuildType(Specifications.getSpec()
@@ -110,7 +106,7 @@ public class BuildTypeTest extends BaseApiTest {
         checkedSuperUser.getProjectRequest().create(testData.getProject());
 
         testData.getUser().setRoles(TestDataGenerator.generateRoles(
-                RoleEnum.PROJECT_ADMIN, "p:" + testData.getProject().getId()));
+                UserRole.PROJECT_ADMIN, "p:" + testData.getProject().getId()));
 
         checkedSuperUser.getUserRequest().create(testData.getUser());
 
@@ -130,9 +126,9 @@ public class BuildTypeTest extends BaseApiTest {
         checkedSuperUser.getProjectRequest().create(secondTestData.getProject());
 
         firstTestData.getUser().setRoles(TestDataGenerator.generateRoles(
-                RoleEnum.PROJECT_ADMIN, "p:" + firstTestData.getProject().getId()));
+                UserRole.PROJECT_ADMIN, "p:" + firstTestData.getProject().getId()));
         secondTestData.getUser().setRoles(TestDataGenerator.generateRoles(
-                RoleEnum.PROJECT_ADMIN, "p:" + secondTestData.getProject().getId()));
+                UserRole.PROJECT_ADMIN, "p:" + secondTestData.getProject().getId()));
 
         checkedSuperUser.getUserRequest().create(firstTestData.getUser());
         checkedSuperUser.getUserRequest().create(secondTestData.getUser());
