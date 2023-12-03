@@ -63,6 +63,7 @@ public class RolesTest extends BaseApiTest {
 
         firstTestData.getUser().setRoles(TestDataGenerator.generateRoles(
                 RoleEnum.PROJECT_ADMIN, "p:" + firstTestData.getProject().getId()));
+
         secondTestData.getUser().setRoles(TestDataGenerator.generateRoles(
                 RoleEnum.PROJECT_ADMIN, "p:" + secondTestData.getProject().getId()));
 

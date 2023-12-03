@@ -15,13 +15,13 @@ public class BaseApiTest extends BaseTest {
     protected CheckedRequests checkedSuperUser = new CheckedRequests(Specifications.getSpec().superUserSpec());
     protected UncheckedRequests uncheckedSuperUser = new UncheckedRequests(Specifications.getSpec().superUserSpec());
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setUp() {
         testDataStorage = TestDataStorage.getStorage();
         testData = testDataStorage.addTestData();
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void cleanUp() {
         testDataStorage.deleteTestData();
     }

@@ -8,12 +8,12 @@ public class BaseTest {
 
     protected SoftAssertions softy;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void beforeMethod() {
         softy = new SoftAssertions();
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void afterMethod() {
         softy.assertAll();
     }
