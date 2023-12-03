@@ -30,11 +30,11 @@ public class ProjectTest extends BaseApiTest {
 
         checkedSuperUser.getUserRequest().create(firstTestData.getUser());
 
-        secondTestData.getProject().setId(firstTestData.getProject().getId());
-
         new CheckedProject(Specifications.getSpec()
                 .authSpec(firstTestData.getUser()))
                 .create(firstTestData.getProject());
+
+        secondTestData.getProject().setId(firstTestData.getProject().getId());
 
         new UncheckedProject(Specifications.getSpec()
                 .authSpec(firstTestData.getUser()))
@@ -58,6 +58,19 @@ public class ProjectTest extends BaseApiTest {
         new CheckedProject(Specifications.getSpec()
                 .authSpec(testData.getUser()))
                 .create(testData.getProject());
+    }
+
+    @Test(description = "Unauthorized user should not be able to create project")
+    public void unauthorizedUserCreatesProjectTest() {
+        new UncheckedProject(Specifications.getSpec().unauthSpec())
+                .create(testData.getProject())
+                .then().assertThat().statusCode(HttpStatus.SC_UNAUTHORIZED)
+                .body(Matchers.containsString("Authentication required"));
+
+        uncheckedSuperUser.getProjectRequest()
+                .read(testData.getProject().getId())
+                .then().assertThat().statusCode(HttpStatus.SC_NOT_FOUND)
+                .body(Matchers.containsString("Could not find the entity requested"));
     }
 
     @Test(description = "User should be able to delete project")
