@@ -6,11 +6,11 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
-public class UncheckedProject extends Request implements CrudInterface {
+public class UncheckedBuildTypes extends Request implements CrudInterface {
 
-    private static final String PROJECT_ENDPOINT = "/app/rest/projects";
+    private static final String BUILD_TYPE_ENDPOINT = "/app/rest/buildTypes";
 
-    public UncheckedProject(RequestSpecification spec) {
+    public UncheckedBuildTypes(RequestSpecification spec) {
         super(spec);
     }
 
@@ -19,14 +19,14 @@ public class UncheckedProject extends Request implements CrudInterface {
         return RestAssured.given()
                 .spec(spec)
                 .body(obj)
-                .post(PROJECT_ENDPOINT);
+                .post(BUILD_TYPE_ENDPOINT);
     }
 
     @Override
     public Response read(String id) {
         return RestAssured.given()
                 .spec(spec)
-                .get(PROJECT_ENDPOINT + "/id:" + id);
+                .get(BUILD_TYPE_ENDPOINT + "/id:" + id);
     }
 
     @Override
@@ -34,14 +34,14 @@ public class UncheckedProject extends Request implements CrudInterface {
         return RestAssured.given()
                 .spec(spec)
                 .body(obj)
-                .put(PROJECT_ENDPOINT + "/id:" + id);
+                .put(BUILD_TYPE_ENDPOINT + "/id:" + id);
     }
 
     @Override
     public Response delete(String id) {
         return RestAssured.given()
                 .spec(spec)
-                .delete(PROJECT_ENDPOINT + "/id:" + id);
+                .delete(BUILD_TYPE_ENDPOINT + "/id:" + id);
     }
 
 }

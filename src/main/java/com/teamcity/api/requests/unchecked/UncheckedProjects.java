@@ -6,11 +6,11 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
-public class UncheckedUser extends Request implements CrudInterface {
+public class UncheckedProjects extends Request implements CrudInterface {
 
-    private static final String USER_ENDPOINT = "/app/rest/users";
+    private static final String PROJECT_ENDPOINT = "/app/rest/projects";
 
-    public UncheckedUser(RequestSpecification spec) {
+    public UncheckedProjects(RequestSpecification spec) {
         super(spec);
     }
 
@@ -19,14 +19,14 @@ public class UncheckedUser extends Request implements CrudInterface {
         return RestAssured.given()
                 .spec(spec)
                 .body(obj)
-                .post(USER_ENDPOINT);
+                .post(PROJECT_ENDPOINT);
     }
 
     @Override
     public Response read(String id) {
         return RestAssured.given()
                 .spec(spec)
-                .get(USER_ENDPOINT + "/username:" + id);
+                .get(PROJECT_ENDPOINT + "/id:" + id);
     }
 
     @Override
@@ -34,14 +34,14 @@ public class UncheckedUser extends Request implements CrudInterface {
         return RestAssured.given()
                 .spec(spec)
                 .body(obj)
-                .put(USER_ENDPOINT + "/username:" + id);
+                .put(PROJECT_ENDPOINT + "/id:" + id);
     }
 
     @Override
     public Response delete(String id) {
         return RestAssured.given()
                 .spec(spec)
-                .delete(USER_ENDPOINT + "/username:" + id);
+                .delete(PROJECT_ENDPOINT + "/id:" + id);
     }
 
 }

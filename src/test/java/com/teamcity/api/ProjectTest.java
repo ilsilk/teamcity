@@ -1,8 +1,8 @@
 package com.teamcity.api;
 
 import com.teamcity.api.generators.RandomData;
-import com.teamcity.api.requests.checked.CheckedProject;
-import com.teamcity.api.requests.unchecked.UncheckedProject;
+import com.teamcity.api.requests.checked.CheckedProjects;
+import com.teamcity.api.requests.unchecked.UncheckedProjects;
 import com.teamcity.api.spec.Specifications;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
@@ -16,7 +16,7 @@ public class ProjectTest extends BaseApiTest {
     public void userCreatesProjectTest() {
         checkedSuperUser.getUserRequest().create(testData.getUser());
 
-        var project = new CheckedProject(Specifications.getSpec()
+        var project = new CheckedProjects(Specifications.getSpec()
                 .authSpec(testData.getUser()))
                 .create(testData.getProject());
 
@@ -30,13 +30,13 @@ public class ProjectTest extends BaseApiTest {
 
         checkedSuperUser.getUserRequest().create(firstTestData.getUser());
 
-        new CheckedProject(Specifications.getSpec()
+        new CheckedProjects(Specifications.getSpec()
                 .authSpec(firstTestData.getUser()))
                 .create(firstTestData.getProject());
 
         secondTestData.getProject().setId(firstTestData.getProject().getId());
 
-        new UncheckedProject(Specifications.getSpec()
+        new UncheckedProjects(Specifications.getSpec()
                 .authSpec(firstTestData.getUser()))
                 .create(secondTestData.getProject())
                 .then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST);
@@ -48,21 +48,21 @@ public class ProjectTest extends BaseApiTest {
 
         testData.getProject().setId(RandomData.getString(PROJECT_ID_CHARACTERS_LIMIT + 1));
 
-        new UncheckedProject(Specifications.getSpec()
+        new UncheckedProjects(Specifications.getSpec()
                 .authSpec(testData.getUser()))
                 .create(testData.getProject())
                 .then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 
         testData.getProject().setId(RandomData.getString(PROJECT_ID_CHARACTERS_LIMIT));
 
-        new CheckedProject(Specifications.getSpec()
+        new CheckedProjects(Specifications.getSpec()
                 .authSpec(testData.getUser()))
                 .create(testData.getProject());
     }
 
     @Test(description = "Unauthorized user should not be able to create project")
     public void unauthorizedUserCreatesProjectTest() {
-        new UncheckedProject(Specifications.getSpec().unauthSpec())
+        new UncheckedProjects(Specifications.getSpec().unauthSpec())
                 .create(testData.getProject())
                 .then().assertThat().statusCode(HttpStatus.SC_UNAUTHORIZED)
                 .body(Matchers.containsString("Authentication required"));
@@ -77,15 +77,15 @@ public class ProjectTest extends BaseApiTest {
     public void userDeletesProjectTest() {
         checkedSuperUser.getUserRequest().create(testData.getUser());
 
-        new CheckedProject(Specifications.getSpec()
+        new CheckedProjects(Specifications.getSpec()
                 .authSpec(testData.getUser()))
                 .create(testData.getProject());
 
-        new CheckedProject(Specifications.getSpec()
+        new CheckedProjects(Specifications.getSpec()
                 .authSpec(testData.getUser()))
                 .delete(testData.getProject().getId());
 
-        new UncheckedProject(Specifications.getSpec()
+        new UncheckedProjects(Specifications.getSpec()
                 .authSpec(testData.getUser()))
                 .read(testData.getProject().getId())
                 .then().assertThat().statusCode(HttpStatus.SC_NOT_FOUND)

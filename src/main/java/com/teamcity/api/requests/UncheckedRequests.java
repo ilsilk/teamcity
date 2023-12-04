@@ -1,22 +1,22 @@
 package com.teamcity.api.requests;
 
-import com.teamcity.api.requests.unchecked.UncheckedBuildType;
-import com.teamcity.api.requests.unchecked.UncheckedProject;
-import com.teamcity.api.requests.unchecked.UncheckedUser;
+import com.teamcity.api.requests.unchecked.UncheckedBuildTypes;
+import com.teamcity.api.requests.unchecked.UncheckedProjects;
+import com.teamcity.api.requests.unchecked.UncheckedUsers;
 import io.restassured.specification.RequestSpecification;
 import lombok.Getter;
 
 @Getter
 public class UncheckedRequests {
 
-    private final UncheckedProject projectRequest;
-    private final UncheckedUser userRequest;
-    private final UncheckedBuildType buildTypeRequest;
+    private final UncheckedProjects projectRequest;
+    private final UncheckedUsers userRequest;
+    private final UncheckedBuildTypes buildTypeRequest;
 
     public UncheckedRequests(RequestSpecification spec) {
-        projectRequest = new UncheckedProject(spec);
-        userRequest = new UncheckedUser(spec);
-        buildTypeRequest = new UncheckedBuildType(spec);
+        projectRequest = new UncheckedProjects(spec);
+        userRequest = new UncheckedUsers(spec);
+        buildTypeRequest = new UncheckedBuildTypes(spec);
     }
 
 }

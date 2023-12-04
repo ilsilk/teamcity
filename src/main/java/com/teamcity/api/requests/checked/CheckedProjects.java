@@ -1,45 +1,45 @@
 package com.teamcity.api.requests.checked;
 
-import com.teamcity.api.models.BuildType;
+import com.teamcity.api.models.Project;
 import com.teamcity.api.requests.CrudInterface;
 import com.teamcity.api.requests.Request;
-import com.teamcity.api.requests.unchecked.UncheckedBuildType;
+import com.teamcity.api.requests.unchecked.UncheckedProjects;
 import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
 
-public class CheckedBuildType extends Request implements CrudInterface {
+public class CheckedProjects extends Request implements CrudInterface {
 
-    public CheckedBuildType(RequestSpecification spec) {
+    public CheckedProjects(RequestSpecification spec) {
         super(spec);
     }
 
     @Override
-    public BuildType create(Object obj) {
-        return new UncheckedBuildType(spec)
+    public Project create(Object obj) {
+        return new UncheckedProjects(spec)
                 .create(obj)
                 .then().assertThat().statusCode(HttpStatus.SC_OK)
-                .extract().as(BuildType.class);
+                .extract().as(Project.class);
     }
 
     @Override
-    public BuildType read(String id) {
-        return new UncheckedBuildType(spec)
+    public Project read(String id) {
+        return new UncheckedProjects(spec)
                 .read(id)
                 .then().assertThat().statusCode(HttpStatus.SC_OK)
-                .extract().as(BuildType.class);
+                .extract().as(Project.class);
     }
 
     @Override
-    public BuildType update(String id, Object obj) {
-        return new UncheckedBuildType(spec)
+    public Project update(String id, Object obj) {
+        return new UncheckedProjects(spec)
                 .update(id, obj)
                 .then().assertThat().statusCode(HttpStatus.SC_OK)
-                .extract().as(BuildType.class);
+                .extract().as(Project.class);
     }
 
     @Override
     public String delete(String id) {
-        return new UncheckedBuildType(spec)
+        return new UncheckedProjects(spec)
                 .delete(id)
                 .then().assertThat().statusCode(HttpStatus.SC_NO_CONTENT)
                 .extract().asString();
