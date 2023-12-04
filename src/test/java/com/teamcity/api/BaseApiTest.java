@@ -14,6 +14,22 @@ public class BaseApiTest extends BaseTest {
     protected TestData testData;
     protected CheckedRequests checkedSuperUser = new CheckedRequests(Specifications.getSpec().superUserSpec());
     protected UncheckedRequests uncheckedSuperUser = new UncheckedRequests(Specifications.getSpec().superUserSpec());
+    private boolean perProjectPermissions;
+
+    /* TODO: In progress
+    @BeforeSuite(alwaysRun = true)
+    public void setUpSettings() {
+        perProjectPermissions = new CheckedServerAuthSettings(Specifications.getSpec()
+                .superUserSpec())
+                .read(null)
+                .getPerProjectPermissions();
+
+        new CheckedServerAuthSettings(Specifications.getSpec()
+                .superUserSpec())
+                .update(null, ServerAuthSettings.builder()
+                        .perProjectPermissions(true)
+                        .build());
+    }*/
 
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
@@ -25,5 +41,15 @@ public class BaseApiTest extends BaseTest {
     public void cleanUp() {
         testDataStorage.deleteTestData();
     }
+
+    /* TODO: In progress
+    @AfterSuite(alwaysRun = true)
+    public void cleanUpSettings() {
+        new CheckedServerAuthSettings(Specifications.getSpec()
+                .superUserSpec())
+                .update(null, ServerAuthSettings.builder()
+                        .perProjectPermissions(perProjectPermissions)
+                        .build());
+    }*/
 
 }
