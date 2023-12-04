@@ -9,9 +9,9 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ServerAuthSettings {
+public class AuthModule {
 
-    private Boolean perProjectPermissions;
-    private AuthModules modules;
+    private String name;
+    private Properties properties;
 
 }

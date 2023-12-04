@@ -51,7 +51,7 @@ public final class TestDataGenerator {
                 .build();
     }
 
-    public static Steps generateSimpleRunnerSteps(String value) {
+    public static Steps generateSimpleRunnerSteps(String propertyValue) {
         return Steps.builder()
                 .step(List.of(Step.builder()
                         .name(RandomData.getString())
@@ -59,12 +59,20 @@ public final class TestDataGenerator {
                         .properties(Properties.builder()
                                 .property(List.of(Property.builder()
                                         .name("script.content")
-                                        .value(value)
+                                        .value(propertyValue)
                                         .build(), Property.builder()
                                         .name("use.custom.script")
                                         .value("true")
                                         .build()))
                                 .build())
+                        .build()))
+                .build();
+    }
+
+    public static AuthModules generateAuthModules() {
+        return AuthModules.builder()
+                .module(List.of(AuthModule.builder()
+                        .name("HTTP-Basic")
                         .build()))
                 .build();
     }
