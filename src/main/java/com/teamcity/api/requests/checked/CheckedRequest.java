@@ -21,7 +21,7 @@ public class CheckedRequest extends Request implements CrudInterface {
                 .create(obj)
                 .then().assertThat().statusCode(HttpStatus.SC_OK)
                 .extract().as(endpoint.getModelClass());
-        return TestDataStorage.getStorage().addCreatedModel(endpoint, model);
+        return TestDataStorage.getStorage().addCreatedEntity(endpoint, model);
     }
 
     @Override

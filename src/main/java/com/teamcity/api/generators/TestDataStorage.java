@@ -25,7 +25,7 @@ public final class TestDataStorage {
         return testDataStorage;
     }
 
-    public BaseModel addCreatedModel(Endpoint endpoint, BaseModel model) {
+    public BaseModel addCreatedEntity(Endpoint endpoint, BaseModel model) {
         createdEntitiesMap.computeIfAbsent(endpoint, key -> new ArrayList<>()).add(model);
         return model;
     }
