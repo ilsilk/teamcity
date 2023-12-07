@@ -8,11 +8,11 @@ import lombok.Getter;
 @Getter
 public enum Endpoint {
 
-    PROJECTS("/app/rest/projects", Project.class),
-    USERS("/app/rest/users", User.class),
-    BUILD_TYPES("/app/rest/buildTypes", BuildType.class),
+    BUILD_QUEUE("/app/rest/buildQueue", Build.class),
     BUILDS("/app/rest/builds", Build.class),
-    BUILD_QUEUE("/app/rest/buildQueue", Build.class);
+    BUILD_TYPES("/app/rest/buildTypes", BuildType.class),
+    USERS("/app/rest/users", User.class),
+    PROJECTS("/app/rest/projects", Project.class);
 
     private String url;
     private Class<? extends BaseModel> modelClass;
