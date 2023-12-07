@@ -8,6 +8,8 @@ import com.teamcity.api.spec.Specifications;
 import lombok.Builder;
 import lombok.Data;
 
+import static com.teamcity.api.enums.Endpoint.*;
+
 @Data
 @Builder
 public class TestData {
@@ -18,9 +20,9 @@ public class TestData {
 
     public void delete() {
         var uncheckedSuperUser = new UncheckedRequests(Specifications.getSpec().superUserSpec());
-        uncheckedSuperUser.getUserRequest().delete(user.getUsername());
-        uncheckedSuperUser.getBuildTypeRequest().delete(buildType.getId());
-        uncheckedSuperUser.getProjectRequest().delete(project.getId());
+        uncheckedSuperUser.getRequest(PROJECTS).delete(project.getId());
+        uncheckedSuperUser.getRequest(USERS).delete(user.getUsername());
+        uncheckedSuperUser.getRequest(BUILD_TYPES).delete(buildType.getId());
     }
 
 }

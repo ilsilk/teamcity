@@ -2,10 +2,11 @@ package com.teamcity.api;
 
 import com.teamcity.api.generators.TestDataGenerator;
 import com.teamcity.api.models.Build;
-import com.teamcity.api.requests.checked.CheckedBuildQueue;
-import com.teamcity.api.requests.checked.CheckedBuilds;
+import com.teamcity.api.requests.checked.CheckedRequest;
 import com.teamcity.api.spec.Specifications;
 import org.testng.annotations.Test;
+
+import static com.teamcity.api.enums.Endpoint.*;
 
 public class StartBuildTest extends BaseApiTest {
 
@@ -13,18 +14,18 @@ public class StartBuildTest extends BaseApiTest {
 
     @Test(description = "User should be able to start build")
     public void userStartsBuildTest() {
-        checkedSuperUser.getUserRequest().create(testData.getUser());
-        checkedSuperUser.getProjectRequest().create(testData.getProject());
+        checkedSuperUser.getRequest(USERS).create(testData.getUser());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
 
         testData.getBuildType().setSteps(TestDataGenerator.generateSimpleRunnerSteps("echo 'Hello World!'"));
 
-        checkedSuperUser.getBuildTypeRequest().create(testData.getBuildType());
+        checkedSuperUser.getRequest(BUILD_TYPES).create(testData.getBuildType());
 
-        var build = new CheckedBuildQueue(Specifications.getSpec()
-                .authSpec(testData.getUser()))
-                .create(Build.builder()
-                        .buildType(testData.getBuildType())
-                        .build());
+        var checkedBuildQueueRequest = new CheckedRequest(Specifications.getSpec()
+                .authSpec(testData.getUser()), BUILD_QUEUE);
+        var build = (Build) checkedBuildQueueRequest.create(Build.builder()
+                .buildType(testData.getBuildType())
+                .build());
 
         softy.assertThat(build.getState()).isEqualTo("queued");
 
@@ -35,9 +36,9 @@ public class StartBuildTest extends BaseApiTest {
             throw new RuntimeException(e);
         }
 
-        build = new CheckedBuilds(Specifications.getSpec()
-                .authSpec(testData.getUser()))
-                .read(build.getId());
+        var checkedBuildRequest = new CheckedRequest(Specifications.getSpec()
+                .authSpec(testData.getUser()), BUILDS);
+        build = (Build) checkedBuildRequest.read(build.getId());
 
         softy.assertThat(build.getState()).isEqualTo("finished");
         softy.assertThat(build.getStatus()).isEqualTo("SUCCESS");

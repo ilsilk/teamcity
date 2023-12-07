@@ -9,7 +9,7 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class User {
+public class User extends BaseModel {
 
     private String username;
     private String email;

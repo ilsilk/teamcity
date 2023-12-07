@@ -3,12 +3,15 @@ package com.teamcity.api;
 import com.teamcity.api.enums.UserRole;
 import com.teamcity.api.generators.RandomData;
 import com.teamcity.api.generators.TestDataGenerator;
-import com.teamcity.api.requests.checked.CheckedBuildTypes;
-import com.teamcity.api.requests.unchecked.UncheckedBuildTypes;
+import com.teamcity.api.models.BuildType;
+import com.teamcity.api.requests.checked.CheckedRequest;
+import com.teamcity.api.requests.unchecked.UncheckedRequest;
 import com.teamcity.api.spec.Specifications;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
+
+import static com.teamcity.api.enums.Endpoint.*;
 
 public class BuildTypeTest extends BaseApiTest {
 
@@ -16,12 +19,12 @@ public class BuildTypeTest extends BaseApiTest {
 
     @Test(description = "User should be able to create build type")
     public void userCreatesBuildTypeTest() {
-        checkedSuperUser.getUserRequest().create(testData.getUser());
-        checkedSuperUser.getProjectRequest().create(testData.getProject());
+        checkedSuperUser.getRequest(USERS).create(testData.getUser());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
 
-        var buildType = new CheckedBuildTypes(Specifications.getSpec()
-                .authSpec(testData.getUser()))
-                .create(testData.getBuildType());
+        var checkedBuildTypeRequest = new CheckedRequest(Specifications.getSpec()
+                .authSpec(testData.getUser()), BUILD_TYPES);
+        var buildType = (BuildType) checkedBuildTypeRequest.create(testData.getBuildType());
 
         softy.assertThat(buildType.getId()).isEqualTo(testData.getBuildType().getId());
     }
@@ -31,88 +34,85 @@ public class BuildTypeTest extends BaseApiTest {
         var firstTestData = testData;
         var secondTestData = testDataStorage.addTestData();
 
-        checkedSuperUser.getUserRequest().create(firstTestData.getUser());
-        checkedSuperUser.getProjectRequest().create(firstTestData.getProject());
+        checkedSuperUser.getRequest(USERS).create(testData.getUser());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
 
-        new CheckedBuildTypes(Specifications.getSpec()
-                .authSpec(firstTestData.getUser()))
-                .create(firstTestData.getBuildType());
+        var checkedBuildTypeRequest = new CheckedRequest(Specifications.getSpec()
+                .authSpec(testData.getUser()), BUILD_TYPES);
+        checkedBuildTypeRequest.create(firstTestData.getBuildType());
 
         secondTestData.getBuildType().setId(firstTestData.getBuildType().getId());
         secondTestData.getBuildType().setProject(firstTestData.getBuildType().getProject());
 
-        new UncheckedBuildTypes(Specifications.getSpec()
-                .authSpec(firstTestData.getUser()))
-                .create(secondTestData.getBuildType())
+        var uncheckedBuildTypeRequest = new UncheckedRequest(Specifications.getSpec()
+                .authSpec(firstTestData.getUser()), BUILD_TYPES);
+        uncheckedBuildTypeRequest.create(secondTestData.getBuildType())
                 .then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test(description = "User should not be able to create build type with id exceeding the limit")
     public void userCreatesBuildTypeWithIdExceedingLimitTest() {
-        checkedSuperUser.getUserRequest().create(testData.getUser());
-        checkedSuperUser.getProjectRequest().create(testData.getProject());
+        checkedSuperUser.getRequest(USERS).create(testData.getUser());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
 
         testData.getBuildType().setId(RandomData.getString(BUILD_TYPE_ID_CHARACTERS_LIMIT + 1));
 
-        new UncheckedBuildTypes(Specifications.getSpec()
-                .authSpec(testData.getUser()))
-                .create(testData.getBuildType())
+        var uncheckedBuildTypeRequest = new UncheckedRequest(Specifications.getSpec()
+                .authSpec(testData.getUser()), BUILD_TYPES);
+        uncheckedBuildTypeRequest.create(testData.getBuildType())
                 .then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 
         testData.getBuildType().setId(RandomData.getString(BUILD_TYPE_ID_CHARACTERS_LIMIT));
 
-        new CheckedBuildTypes(Specifications.getSpec()
-                .authSpec(testData.getUser()))
-                .create(testData.getBuildType());
+        var checkedBuildTypeRequest = new CheckedRequest(Specifications.getSpec()
+                .authSpec(testData.getUser()), BUILD_TYPES);
+        checkedBuildTypeRequest.create(testData.getBuildType());
     }
 
     @Test(description = "Unauthorized user should not be able to create build type")
     public void unauthorizedUserCreatesBuildTypeTest() {
-        checkedSuperUser.getProjectRequest().create(testData.getProject());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
 
-        new UncheckedBuildTypes(Specifications.getSpec().unauthSpec())
-                .create(testData.getBuildType())
+        var uncheckedBuildTypeRequest = new UncheckedRequest(Specifications.getSpec()
+                .unauthSpec(), BUILD_TYPES);
+        uncheckedBuildTypeRequest.create(testData.getBuildType())
                 .then().assertThat().statusCode(HttpStatus.SC_UNAUTHORIZED)
                 .body(Matchers.containsString("Authentication required"));
 
-        uncheckedSuperUser.getBuildTypeRequest()
-                .read(testData.getBuildType().getId())
+        uncheckedSuperUser.getRequest(BUILD_TYPES).read(testData.getBuildType().getId())
                 .then().assertThat().statusCode(HttpStatus.SC_NOT_FOUND)
                 .body(Matchers.containsString("Could not find the entity requested"));
     }
 
     @Test(description = "User should be able to delete build type")
     public void userDeletesBuildTypeTest() {
-        checkedSuperUser.getUserRequest().create(testData.getUser());
-        checkedSuperUser.getProjectRequest().create(testData.getProject());
+        checkedSuperUser.getRequest(USERS).create(testData.getUser());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
 
-        new CheckedBuildTypes(Specifications.getSpec()
-                .authSpec(testData.getUser()))
-                .create(testData.getBuildType());
+        var checkedBuildTypeRequest = new CheckedRequest(Specifications.getSpec()
+                .authSpec(testData.getUser()), BUILD_TYPES);
+        checkedBuildTypeRequest.create(testData.getBuildType());
+        checkedBuildTypeRequest.delete(testData.getBuildType().getId());
 
-        new CheckedBuildTypes(Specifications.getSpec()
-                .authSpec(testData.getUser()))
-                .delete(testData.getBuildType().getId());
-
-        new UncheckedBuildTypes(Specifications.getSpec()
-                .authSpec(testData.getUser()))
-                .read(testData.getBuildType().getId())
+        var uncheckedBuildTypeRequest = new UncheckedRequest(Specifications.getSpec()
+                .authSpec(testData.getUser()), BUILD_TYPES);
+        uncheckedBuildTypeRequest.read(testData.getBuildType().getId())
                 .then().assertThat().statusCode(HttpStatus.SC_NOT_FOUND)
                 .body(Matchers.containsString("Could not find the entity requested"));
     }
 
     @Test(description = "Project admin should be able to create build type for their project")
     public void projectAdminCreatesBuildTypeTest() {
-        checkedSuperUser.getProjectRequest().create(testData.getProject());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
 
         testData.getUser().setRoles(TestDataGenerator.generateRoles(
                 UserRole.PROJECT_ADMIN, "p:" + testData.getProject().getId()));
 
-        checkedSuperUser.getUserRequest().create(testData.getUser());
+        checkedSuperUser.getRequest(USERS).create(testData.getUser());
 
-        var buildType = new CheckedBuildTypes(Specifications.getSpec()
-                .authSpec(testData.getUser()))
-                .create(testData.getBuildType());
+        var checkedBuildTypeRequest = new CheckedRequest(Specifications.getSpec()
+                .authSpec(testData.getUser()), BUILD_TYPES);
+        var buildType = (BuildType) checkedBuildTypeRequest.create(testData.getBuildType());
 
         softy.assertThat(buildType.getId()).isEqualTo(testData.getBuildType().getId());
     }
@@ -122,20 +122,20 @@ public class BuildTypeTest extends BaseApiTest {
         var firstTestData = testData;
         var secondTestData = testDataStorage.addTestData();
 
-        checkedSuperUser.getProjectRequest().create(firstTestData.getProject());
-        checkedSuperUser.getProjectRequest().create(secondTestData.getProject());
+        checkedSuperUser.getRequest(PROJECTS).create(firstTestData.getProject());
+        checkedSuperUser.getRequest(PROJECTS).create(secondTestData.getProject());
 
         firstTestData.getUser().setRoles(TestDataGenerator.generateRoles(
                 UserRole.PROJECT_ADMIN, "p:" + firstTestData.getProject().getId()));
         secondTestData.getUser().setRoles(TestDataGenerator.generateRoles(
                 UserRole.PROJECT_ADMIN, "p:" + secondTestData.getProject().getId()));
 
-        checkedSuperUser.getUserRequest().create(firstTestData.getUser());
-        checkedSuperUser.getUserRequest().create(secondTestData.getUser());
+        checkedSuperUser.getRequest(USERS).create(firstTestData.getUser());
+        checkedSuperUser.getRequest(USERS).create(secondTestData.getUser());
 
-        new UncheckedBuildTypes(Specifications.getSpec()
-                .authSpec(firstTestData.getUser()))
-                .create(secondTestData.getBuildType())
+        var uncheckedBuildTypeRequest = new UncheckedRequest(Specifications.getSpec()
+                .authSpec(firstTestData.getUser()), BUILD_TYPES);
+        uncheckedBuildTypeRequest.create(secondTestData.getBuildType())
                 .then().assertThat().statusCode(HttpStatus.SC_FORBIDDEN)
                 .body(Matchers.containsString("Access denied"));
     }

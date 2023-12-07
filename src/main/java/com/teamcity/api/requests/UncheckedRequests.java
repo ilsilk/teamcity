@@ -1,22 +1,25 @@
 package com.teamcity.api.requests;
 
-import com.teamcity.api.requests.unchecked.UncheckedBuildTypes;
-import com.teamcity.api.requests.unchecked.UncheckedProjects;
-import com.teamcity.api.requests.unchecked.UncheckedUsers;
+import com.teamcity.api.enums.Endpoint;
+import com.teamcity.api.requests.unchecked.UncheckedRequest;
 import io.restassured.specification.RequestSpecification;
 import lombok.Getter;
+
+import java.util.EnumMap;
 
 @Getter
 public class UncheckedRequests {
 
-    private final UncheckedProjects projectRequest;
-    private final UncheckedUsers userRequest;
-    private final UncheckedBuildTypes buildTypeRequest;
+    private final EnumMap<Endpoint, UncheckedRequest> uncheckedRequests = new EnumMap<>(Endpoint.class);
 
     public UncheckedRequests(RequestSpecification spec) {
-        projectRequest = new UncheckedProjects(spec);
-        userRequest = new UncheckedUsers(spec);
-        buildTypeRequest = new UncheckedBuildTypes(spec);
+        for (var endpoint : Endpoint.values()) {
+            uncheckedRequests.put(endpoint, new UncheckedRequest(spec, endpoint));
+        }
+    }
+
+    public UncheckedRequest getRequest(Endpoint endpoint) {
+        return uncheckedRequests.get(endpoint);
     }
 
 }

@@ -1,17 +1,20 @@
 package com.teamcity.api.requests.unchecked;
 
+import com.teamcity.api.enums.Endpoint;
 import com.teamcity.api.requests.CrudInterface;
 import com.teamcity.api.requests.Request;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
-public class UncheckedUsers extends Request implements CrudInterface {
+public class UncheckedRequest extends Request implements CrudInterface {
 
-    private static final String USER_ENDPOINT = "/app/rest/users";
+    public UncheckedRequest(RequestSpecification spec, String url) {
+        super(spec, url);
+    }
 
-    public UncheckedUsers(RequestSpecification spec) {
-        super(spec);
+    public UncheckedRequest(RequestSpecification spec, Endpoint endpoint) {
+        this(spec, endpoint.getUrl());
     }
 
     @Override
@@ -19,14 +22,14 @@ public class UncheckedUsers extends Request implements CrudInterface {
         return RestAssured.given()
                 .spec(spec)
                 .body(obj)
-                .post(USER_ENDPOINT);
+                .post(url);
     }
 
     @Override
     public Response read(String id) {
         return RestAssured.given()
                 .spec(spec)
-                .get(USER_ENDPOINT + "/username:" + id);
+                .get(url + "/id:" + id);
     }
 
     @Override
@@ -34,14 +37,14 @@ public class UncheckedUsers extends Request implements CrudInterface {
         return RestAssured.given()
                 .spec(spec)
                 .body(obj)
-                .put(USER_ENDPOINT + "/username:" + id);
+                .put(url + "/id:" + id);
     }
 
     @Override
     public Response delete(String id) {
         return RestAssured.given()
                 .spec(spec)
-                .delete(USER_ENDPOINT + "/username:" + id);
+                .delete(url + "/id:" + id);
     }
 
 }

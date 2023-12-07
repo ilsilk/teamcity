@@ -15,25 +15,23 @@ import org.testng.annotations.BeforeSuite;
 
 public class BaseApiTest extends BaseTest {
 
+    protected final CheckedRequests checkedSuperUser = new CheckedRequests(Specifications.getSpec().superUserSpec());
+    protected final UncheckedRequests uncheckedSuperUser = new UncheckedRequests(Specifications.getSpec().superUserSpec());
+    private final CheckedServerAuthSettings checkedServerAuthSettings = new CheckedServerAuthSettings(Specifications.getSpec()
+            .superUserSpec());
     protected TestDataStorage testDataStorage;
     protected TestData testData;
-    protected CheckedRequests checkedSuperUser = new CheckedRequests(Specifications.getSpec().superUserSpec());
-    protected UncheckedRequests uncheckedSuperUser = new UncheckedRequests(Specifications.getSpec().superUserSpec());
     private boolean perProjectPermissions;
 
     @BeforeSuite(alwaysRun = true)
     public void setUpSettings() {
-        perProjectPermissions = new CheckedServerAuthSettings(Specifications.getSpec()
-                .superUserSpec())
-                .read(null)
+        perProjectPermissions = checkedServerAuthSettings.read(null)
                 .getPerProjectPermissions();
 
-        new CheckedServerAuthSettings(Specifications.getSpec()
-                .superUserSpec())
-                .update(null, ServerAuthSettings.builder()
-                        .perProjectPermissions(true)
-                        .modules(TestDataGenerator.generateAuthModules())
-                        .build());
+        checkedServerAuthSettings.update(null, ServerAuthSettings.builder()
+                .perProjectPermissions(true)
+                .modules(TestDataGenerator.generateAuthModules())
+                .build());
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -49,12 +47,10 @@ public class BaseApiTest extends BaseTest {
 
     @AfterSuite(alwaysRun = true)
     public void cleanUpSettings() {
-        new CheckedServerAuthSettings(Specifications.getSpec()
-                .superUserSpec())
-                .update(null, ServerAuthSettings.builder()
-                        .perProjectPermissions(perProjectPermissions)
-                        .modules(TestDataGenerator.generateAuthModules())
-                        .build());
+        checkedServerAuthSettings.update(null, ServerAuthSettings.builder()
+                .perProjectPermissions(perProjectPermissions)
+                .modules(TestDataGenerator.generateAuthModules())
+                .build());
     }
 
 }

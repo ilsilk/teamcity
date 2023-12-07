@@ -9,7 +9,7 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BuildType {
+public class BuildType extends BaseModel {
 
     private String id;
     private String name;
