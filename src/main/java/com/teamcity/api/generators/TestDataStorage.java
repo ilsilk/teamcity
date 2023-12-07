@@ -4,14 +4,14 @@ import com.teamcity.api.enums.Endpoint;
 import com.teamcity.api.requests.unchecked.UncheckedRequest;
 import com.teamcity.api.spec.Specifications;
 
-import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public final class TestDataStorage {
 
     private static TestDataStorage testDataStorage;
-    private final EnumMap<Endpoint, List<String>> createdEntitiesMap;
+    private final EnumMap<Endpoint, Set<String>> createdEntitiesMap;
 
     private TestDataStorage() {
         createdEntitiesMap = new EnumMap<>(Endpoint.class);
@@ -25,7 +25,7 @@ public final class TestDataStorage {
     }
 
     public void addCreatedEntity(Endpoint endpoint, String id) {
-        createdEntitiesMap.computeIfAbsent(endpoint, key -> new ArrayList<>()).add(id);
+        createdEntitiesMap.computeIfAbsent(endpoint, key -> new HashSet<>()).add(id);
     }
 
     public void deleteTestData() {

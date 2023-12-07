@@ -14,7 +14,7 @@ public enum Endpoint {
     USERS("/app/rest/users", User.class),
     PROJECTS("/app/rest/projects", Project.class);
 
-    private String url;
-    private Class<? extends BaseModel> modelClass;
+    private final String url;
+    private final Class<? extends BaseModel> modelClass;
 
 }
