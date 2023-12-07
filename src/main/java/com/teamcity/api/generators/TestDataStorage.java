@@ -1,15 +1,21 @@
 package com.teamcity.api.generators;
 
+import com.teamcity.api.enums.Endpoint;
+import com.teamcity.api.models.BaseModel;
+import com.teamcity.api.requests.unchecked.UncheckedRequest;
+import com.teamcity.api.spec.Specifications;
+
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 
 public final class TestDataStorage {
 
     private static TestDataStorage testDataStorage;
-    private final List<TestData> testDataList;
+    private final EnumMap<Endpoint, List<BaseModel>> createdEntitiesMap;
 
     private TestDataStorage() {
-        testDataList = new ArrayList<>();
+        createdEntitiesMap = new EnumMap<>(Endpoint.class);
     }
 
     public static TestDataStorage getStorage() {
@@ -19,18 +25,15 @@ public final class TestDataStorage {
         return testDataStorage;
     }
 
-    public TestData addTestData() {
-        return addTestData(TestDataGenerator.generate());
-    }
-
-    public TestData addTestData(TestData testData) {
-        getStorage().testDataList.add(testData);
-        return testData;
+    public BaseModel addCreatedModel(Endpoint endpoint, BaseModel model) {
+        createdEntitiesMap.computeIfAbsent(endpoint, key -> new ArrayList<>()).add(model);
+        return model;
     }
 
     public void deleteTestData() {
-        getStorage().testDataList.forEach(TestData::delete);
-        getStorage().testDataList.clear();
+        createdEntitiesMap.forEach((endpoint, models) -> models.stream().sorted().forEach(model ->
+                new UncheckedRequest(Specifications.getSpec().superUserSpec(), endpoint).delete(model.getId())));
+        createdEntitiesMap.clear();
     }
 
 }

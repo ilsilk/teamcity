@@ -11,6 +11,7 @@ import lombok.extern.jackson.Jacksonized;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User extends BaseModel {
 
+    private String id;
     private String username;
     private String email;
     private String password;

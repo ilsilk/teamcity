@@ -10,7 +10,7 @@ import org.apache.http.HttpStatus;
 public class CheckedServerAuthSettings extends Request implements CrudInterface {
 
     public CheckedServerAuthSettings(RequestSpecification spec) {
-        super(spec);
+        super(spec, null);
     }
 
     @Override

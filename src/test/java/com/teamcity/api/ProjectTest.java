@@ -1,6 +1,7 @@
 package com.teamcity.api;
 
 import com.teamcity.api.generators.RandomData;
+import com.teamcity.api.generators.TestDataGenerator;
 import com.teamcity.api.models.Project;
 import com.teamcity.api.requests.checked.CheckedRequest;
 import com.teamcity.api.requests.unchecked.UncheckedRequest;
@@ -30,7 +31,7 @@ public class ProjectTest extends BaseApiTest {
     @Test(description = "User should not be able to create two projects with the same id")
     public void userCreatesTwoProjectsWithSameIdTest() {
         var firstTestData = testData;
-        var secondTestData = testDataStorage.addTestData();
+        var secondTestData = TestDataGenerator.generate();
 
         checkedSuperUser.getRequest(USERS).create(firstTestData.getUser());
 

@@ -9,12 +9,8 @@ import io.restassured.specification.RequestSpecification;
 
 public class UncheckedRequest extends Request implements CrudInterface {
 
-    public UncheckedRequest(RequestSpecification spec, String url) {
-        super(spec, url);
-    }
-
     public UncheckedRequest(RequestSpecification spec, Endpoint endpoint) {
-        this(spec, endpoint.getUrl());
+        super(spec, endpoint);
     }
 
     @Override
@@ -22,14 +18,14 @@ public class UncheckedRequest extends Request implements CrudInterface {
         return RestAssured.given()
                 .spec(spec)
                 .body(obj)
-                .post(url);
+                .post(endpoint.getUrl());
     }
 
     @Override
     public Response read(String id) {
         return RestAssured.given()
                 .spec(spec)
-                .get(url + "/id:" + id);
+                .get(endpoint.getUrl() + "/id:" + id);
     }
 
     @Override
@@ -37,14 +33,14 @@ public class UncheckedRequest extends Request implements CrudInterface {
         return RestAssured.given()
                 .spec(spec)
                 .body(obj)
-                .put(url + "/id:" + id);
+                .put(endpoint.getUrl() + "/id:" + id);
     }
 
     @Override
     public Response delete(String id) {
         return RestAssured.given()
                 .spec(spec)
-                .delete(url + "/id:" + id);
+                .delete(endpoint.getUrl() + "/id:" + id);
     }
 
 }

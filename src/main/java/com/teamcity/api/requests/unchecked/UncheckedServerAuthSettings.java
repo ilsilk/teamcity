@@ -8,10 +8,10 @@ import io.restassured.specification.RequestSpecification;
 
 public class UncheckedServerAuthSettings extends Request implements CrudInterface {
 
-    private static final String SERVER_AUTH_SETTINGS_ENDPOINT = "/app/rest/server/authSettings";
+    private static final String SERVER_AUTH_SETTINGS_URL = "/app/rest/server/authSettings";
 
     public UncheckedServerAuthSettings(RequestSpecification spec) {
-        super(spec);
+        super(spec, null);
     }
 
     @Override
@@ -23,7 +23,7 @@ public class UncheckedServerAuthSettings extends Request implements CrudInterfac
     public Response read(String id) {
         return RestAssured.given()
                 .spec(spec)
-                .get(SERVER_AUTH_SETTINGS_ENDPOINT);
+                .get(SERVER_AUTH_SETTINGS_URL);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class UncheckedServerAuthSettings extends Request implements CrudInterfac
         return RestAssured.given()
                 .spec(spec)
                 .body(obj)
-                .put(SERVER_AUTH_SETTINGS_ENDPOINT);
+                .put(SERVER_AUTH_SETTINGS_URL);
     }
 
     @Override

@@ -32,7 +32,7 @@ public class BuildTypeTest extends BaseApiTest {
     @Test(description = "User should not be able to create two build types with the same id")
     public void userCreatesTwoBuildTypesWithSameIdTest() {
         var firstTestData = testData;
-        var secondTestData = testDataStorage.addTestData();
+        var secondTestData = TestDataGenerator.generate();
 
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
         checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
@@ -120,7 +120,7 @@ public class BuildTypeTest extends BaseApiTest {
     @Test(description = "Project admin should not be able to create build type for not their project")
     public void projectAdminCreatesBuildTypeForAnotherUserProjectTest() {
         var firstTestData = testData;
-        var secondTestData = testDataStorage.addTestData();
+        var secondTestData = TestDataGenerator.generate();
 
         checkedSuperUser.getRequest(PROJECTS).create(firstTestData.getProject());
         checkedSuperUser.getRequest(PROJECTS).create(secondTestData.getProject());

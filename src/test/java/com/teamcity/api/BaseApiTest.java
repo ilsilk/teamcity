@@ -37,7 +37,7 @@ public class BaseApiTest extends BaseTest {
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
         testDataStorage = TestDataStorage.getStorage();
-        testData = testDataStorage.addTestData();
+        testData = TestDataGenerator.generate();
     }
 
     @AfterMethod(alwaysRun = true)
