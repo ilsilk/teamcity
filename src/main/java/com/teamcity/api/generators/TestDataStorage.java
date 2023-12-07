@@ -31,7 +31,7 @@ public final class TestDataStorage {
     }
 
     public void deleteTestData() {
-        createdEntitiesMap.forEach((endpoint, models) -> models.stream().sorted().forEach(model ->
+        createdEntitiesMap.forEach((endpoint, models) -> models.forEach(model ->
                 new UncheckedRequest(Specifications.getSpec().superUserSpec(), endpoint).delete(model.getId())));
         createdEntitiesMap.clear();
     }
