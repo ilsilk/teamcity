@@ -19,7 +19,6 @@ public class BaseApiTest extends BaseTest {
     protected final UncheckedRequests uncheckedSuperUser = new UncheckedRequests(Specifications.getSpec().superUserSpec());
     private final CheckedServerAuthSettings checkedServerAuthSettings = new CheckedServerAuthSettings(Specifications.getSpec()
             .superUserSpec());
-    protected TestDataStorage testDataStorage;
     protected TestData testData;
     private boolean perProjectPermissions;
 
@@ -36,13 +35,12 @@ public class BaseApiTest extends BaseTest {
 
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
-        testDataStorage = TestDataStorage.getStorage();
         testData = TestDataGenerator.generate();
     }
 
     @AfterMethod(alwaysRun = true)
     public void cleanUp() {
-        testDataStorage.deleteTestData();
+        TestDataStorage.getStorage().deleteCreatedEntities();
     }
 
     @AfterSuite(alwaysRun = true)

@@ -28,7 +28,7 @@ public final class TestDataStorage {
         createdEntitiesMap.computeIfAbsent(endpoint, key -> new HashSet<>()).add(id);
     }
 
-    public void deleteTestData() {
+    public void deleteCreatedEntities() {
         createdEntitiesMap.forEach((endpoint, ids) -> ids.forEach(id ->
                 new UncheckedRequest(Specifications.getSpec().superUserSpec(), endpoint).delete(id)));
         createdEntitiesMap.clear();
