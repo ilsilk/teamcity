@@ -3,8 +3,8 @@ package com.teamcity.api;
 import com.teamcity.api.generators.RandomData;
 import com.teamcity.api.generators.TestDataGenerator;
 import com.teamcity.api.models.Project;
-import com.teamcity.api.requests.checked.CheckedRequest;
-import com.teamcity.api.requests.unchecked.UncheckedRequest;
+import com.teamcity.api.requests.checked.CheckedBase;
+import com.teamcity.api.requests.unchecked.UncheckedBase;
 import com.teamcity.api.spec.Specifications;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
@@ -21,7 +21,7 @@ public class ProjectTest extends BaseApiTest {
     public void userCreatesProjectTest() {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
 
-        var checkedProjectRequest = new CheckedRequest(Specifications.getSpec()
+        var checkedProjectRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.getUser()), PROJECTS);
         var project = (Project) checkedProjectRequest.create(testData.getProject());
 
@@ -35,13 +35,13 @@ public class ProjectTest extends BaseApiTest {
 
         checkedSuperUser.getRequest(USERS).create(firstTestData.getUser());
 
-        var checkedProjectRequest = new CheckedRequest(Specifications.getSpec()
+        var checkedProjectRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.getUser()), PROJECTS);
         checkedProjectRequest.create(firstTestData.getProject());
 
         secondTestData.getProject().setId(firstTestData.getProject().getId());
 
-        var uncheckedProjectRequest = new UncheckedRequest(Specifications.getSpec()
+        var uncheckedProjectRequest = new UncheckedBase(Specifications.getSpec()
                 .authSpec(testData.getUser()), PROJECTS);
         uncheckedProjectRequest.create(secondTestData.getProject())
                 .then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST);
@@ -53,21 +53,21 @@ public class ProjectTest extends BaseApiTest {
 
         testData.getProject().setId(RandomData.getString(PROJECT_ID_CHARACTERS_LIMIT + 1));
 
-        var uncheckedProjectRequest = new UncheckedRequest(Specifications.getSpec()
+        var uncheckedProjectRequest = new UncheckedBase(Specifications.getSpec()
                 .authSpec(testData.getUser()), PROJECTS);
         uncheckedProjectRequest.create(testData.getProject())
                 .then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 
         testData.getProject().setId(RandomData.getString(PROJECT_ID_CHARACTERS_LIMIT));
 
-        var checkedProjectRequest = new CheckedRequest(Specifications.getSpec()
+        var checkedProjectRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.getUser()), PROJECTS);
         checkedProjectRequest.create(testData.getProject());
     }
 
     @Test(description = "Unauthorized user should not be able to create project")
     public void unauthorizedUserCreatesProjectTest() {
-        var uncheckedProjectRequest = new UncheckedRequest(Specifications.getSpec()
+        var uncheckedProjectRequest = new UncheckedBase(Specifications.getSpec()
                 .unauthSpec(), PROJECTS);
         uncheckedProjectRequest.create(testData.getProject())
                 .then().assertThat().statusCode(HttpStatus.SC_UNAUTHORIZED)
@@ -83,12 +83,12 @@ public class ProjectTest extends BaseApiTest {
     public void userDeletesProjectTest() {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
 
-        var checkedProjectRequest = new CheckedRequest(Specifications.getSpec()
+        var checkedProjectRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.getUser()), PROJECTS);
         checkedProjectRequest.create(testData.getProject());
         checkedProjectRequest.delete(testData.getProject().getId());
 
-        var uncheckedProjectRequest = new UncheckedRequest(Specifications.getSpec()
+        var uncheckedProjectRequest = new UncheckedBase(Specifications.getSpec()
                 .authSpec(testData.getUser()), PROJECTS);
         uncheckedProjectRequest.read(testData.getProject().getId())
                 .then().assertThat().statusCode(HttpStatus.SC_NOT_FOUND)

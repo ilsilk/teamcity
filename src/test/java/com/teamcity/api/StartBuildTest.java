@@ -2,7 +2,7 @@ package com.teamcity.api;
 
 import com.teamcity.api.generators.TestDataGenerator;
 import com.teamcity.api.models.Build;
-import com.teamcity.api.requests.checked.CheckedRequest;
+import com.teamcity.api.requests.checked.CheckedBase;
 import com.teamcity.api.spec.Specifications;
 import org.testng.annotations.Test;
 
@@ -21,7 +21,7 @@ public class StartBuildTest extends BaseApiTest {
 
         checkedSuperUser.getRequest(BUILD_TYPES).create(testData.getBuildType());
 
-        var checkedBuildQueueRequest = new CheckedRequest(Specifications.getSpec()
+        var checkedBuildQueueRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.getUser()), BUILD_QUEUE);
         var build = (Build) checkedBuildQueueRequest.create(Build.builder()
                 .buildType(testData.getBuildType())
@@ -36,7 +36,7 @@ public class StartBuildTest extends BaseApiTest {
             throw new RuntimeException(e);
         }
 
-        var checkedBuildRequest = new CheckedRequest(Specifications.getSpec()
+        var checkedBuildRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.getUser()), BUILDS);
         build = (Build) checkedBuildRequest.read(build.getId());
 
