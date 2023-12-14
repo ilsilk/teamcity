@@ -4,8 +4,8 @@ import com.teamcity.api.enums.UserRole;
 import com.teamcity.api.generators.RandomData;
 import com.teamcity.api.generators.TestDataGenerator;
 import com.teamcity.api.models.BuildType;
-import com.teamcity.api.requests.checked.CheckedRequest;
-import com.teamcity.api.requests.unchecked.UncheckedRequest;
+import com.teamcity.api.requests.checked.CheckedBase;
+import com.teamcity.api.requests.unchecked.UncheckedBase;
 import com.teamcity.api.spec.Specifications;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
@@ -22,7 +22,7 @@ public class BuildTypeTest extends BaseApiTest {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
         checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
 
-        var checkedBuildTypeRequest = new CheckedRequest(Specifications.getSpec()
+        var checkedBuildTypeRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.getUser()), BUILD_TYPES);
         var buildType = (BuildType) checkedBuildTypeRequest.create(testData.getBuildType());
 
@@ -37,14 +37,14 @@ public class BuildTypeTest extends BaseApiTest {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
         checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
 
-        var checkedBuildTypeRequest = new CheckedRequest(Specifications.getSpec()
+        var checkedBuildTypeRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.getUser()), BUILD_TYPES);
         checkedBuildTypeRequest.create(firstTestData.getBuildType());
 
         secondTestData.getBuildType().setId(firstTestData.getBuildType().getId());
         secondTestData.getBuildType().setProject(firstTestData.getBuildType().getProject());
 
-        var uncheckedBuildTypeRequest = new UncheckedRequest(Specifications.getSpec()
+        var uncheckedBuildTypeRequest = new UncheckedBase(Specifications.getSpec()
                 .authSpec(firstTestData.getUser()), BUILD_TYPES);
         uncheckedBuildTypeRequest.create(secondTestData.getBuildType())
                 .then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST);
@@ -57,14 +57,14 @@ public class BuildTypeTest extends BaseApiTest {
 
         testData.getBuildType().setId(RandomData.getString(BUILD_TYPE_ID_CHARACTERS_LIMIT + 1));
 
-        var uncheckedBuildTypeRequest = new UncheckedRequest(Specifications.getSpec()
+        var uncheckedBuildTypeRequest = new UncheckedBase(Specifications.getSpec()
                 .authSpec(testData.getUser()), BUILD_TYPES);
         uncheckedBuildTypeRequest.create(testData.getBuildType())
                 .then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 
         testData.getBuildType().setId(RandomData.getString(BUILD_TYPE_ID_CHARACTERS_LIMIT));
 
-        var checkedBuildTypeRequest = new CheckedRequest(Specifications.getSpec()
+        var checkedBuildTypeRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.getUser()), BUILD_TYPES);
         checkedBuildTypeRequest.create(testData.getBuildType());
     }
@@ -73,7 +73,7 @@ public class BuildTypeTest extends BaseApiTest {
     public void unauthorizedUserCreatesBuildTypeTest() {
         checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
 
-        var uncheckedBuildTypeRequest = new UncheckedRequest(Specifications.getSpec()
+        var uncheckedBuildTypeRequest = new UncheckedBase(Specifications.getSpec()
                 .unauthSpec(), BUILD_TYPES);
         uncheckedBuildTypeRequest.create(testData.getBuildType())
                 .then().assertThat().statusCode(HttpStatus.SC_UNAUTHORIZED)
@@ -89,12 +89,12 @@ public class BuildTypeTest extends BaseApiTest {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
         checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
 
-        var checkedBuildTypeRequest = new CheckedRequest(Specifications.getSpec()
+        var checkedBuildTypeRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.getUser()), BUILD_TYPES);
         checkedBuildTypeRequest.create(testData.getBuildType());
         checkedBuildTypeRequest.delete(testData.getBuildType().getId());
 
-        var uncheckedBuildTypeRequest = new UncheckedRequest(Specifications.getSpec()
+        var uncheckedBuildTypeRequest = new UncheckedBase(Specifications.getSpec()
                 .authSpec(testData.getUser()), BUILD_TYPES);
         uncheckedBuildTypeRequest.read(testData.getBuildType().getId())
                 .then().assertThat().statusCode(HttpStatus.SC_NOT_FOUND)
@@ -110,7 +110,7 @@ public class BuildTypeTest extends BaseApiTest {
 
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
 
-        var checkedBuildTypeRequest = new CheckedRequest(Specifications.getSpec()
+        var checkedBuildTypeRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.getUser()), BUILD_TYPES);
         var buildType = (BuildType) checkedBuildTypeRequest.create(testData.getBuildType());
 
@@ -133,7 +133,7 @@ public class BuildTypeTest extends BaseApiTest {
         checkedSuperUser.getRequest(USERS).create(firstTestData.getUser());
         checkedSuperUser.getRequest(USERS).create(secondTestData.getUser());
 
-        var uncheckedBuildTypeRequest = new UncheckedRequest(Specifications.getSpec()
+        var uncheckedBuildTypeRequest = new UncheckedBase(Specifications.getSpec()
                 .authSpec(firstTestData.getUser()), BUILD_TYPES);
         uncheckedBuildTypeRequest.create(secondTestData.getBuildType())
                 .then().assertThat().statusCode(HttpStatus.SC_FORBIDDEN)

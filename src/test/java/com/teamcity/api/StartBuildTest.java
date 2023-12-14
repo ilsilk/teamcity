@@ -2,15 +2,17 @@ package com.teamcity.api;
 
 import com.teamcity.api.generators.TestDataGenerator;
 import com.teamcity.api.models.Build;
-import com.teamcity.api.requests.checked.CheckedRequest;
+import com.teamcity.api.requests.checked.CheckedBase;
 import com.teamcity.api.spec.Specifications;
+import org.awaitility.Awaitility;
 import org.testng.annotations.Test;
+
+import java.time.Duration;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static com.teamcity.api.enums.Endpoint.*;
 
 public class StartBuildTest extends BaseApiTest {
-
-    private static final int FIVE_SECONDS = 5000;
 
     @Test(description = "User should be able to start build")
     public void userStartsBuildTest() {
@@ -21,7 +23,7 @@ public class StartBuildTest extends BaseApiTest {
 
         checkedSuperUser.getRequest(BUILD_TYPES).create(testData.getBuildType());
 
-        var checkedBuildQueueRequest = new CheckedRequest(Specifications.getSpec()
+        var checkedBuildQueueRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.getUser()), BUILD_QUEUE);
         var build = (Build) checkedBuildQueueRequest.create(Build.builder()
                 .buildType(testData.getBuildType())
@@ -29,19 +31,21 @@ public class StartBuildTest extends BaseApiTest {
 
         softy.assertThat(build.getState()).isEqualTo("queued");
 
-        // TODO: Change to Awaitility
-        try {
-            Thread.sleep(FIVE_SECONDS);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        var checkedBuildRequest = new CheckedRequest(Specifications.getSpec()
-                .authSpec(testData.getUser()), BUILDS);
-        build = (Build) checkedBuildRequest.read(build.getId());
-
-        softy.assertThat(build.getState()).isEqualTo("finished");
+        build = waitUntilBuildIsFinished(new AtomicReference<>(build));
         softy.assertThat(build.getStatus()).isEqualTo("SUCCESS");
+    }
+
+    private Build waitUntilBuildIsFinished(AtomicReference<Build> build) {
+        var checkedBuildRequest = new CheckedBase(Specifications.getSpec()
+                .authSpec(testData.getUser()), BUILDS);
+        Awaitility.await()
+                .atMost(Duration.ofSeconds(10))
+                .pollInterval(Duration.ofSeconds(1))
+                .until(() -> {
+                    build.set((Build) checkedBuildRequest.read(build.get().getId()));
+                    return "finished".equals(build.get().getState());
+                });
+        return build.get();
     }
 
 }
