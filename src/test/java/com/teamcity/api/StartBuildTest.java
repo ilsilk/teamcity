@@ -31,21 +31,22 @@ public class StartBuildTest extends BaseApiTest {
 
         softy.assertThat(build.getState()).isEqualTo("queued");
 
-        build = waitUntilBuildIsFinished(new AtomicReference<>(build));
+        build = waitUntilBuildIsFinished(build);
         softy.assertThat(build.getStatus()).isEqualTo("SUCCESS");
     }
 
-    private Build waitUntilBuildIsFinished(AtomicReference<Build> build) {
+    private Build waitUntilBuildIsFinished(Build build) {
+        var atomicBuild = new AtomicReference<>(build);
         var checkedBuildRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.getUser()), BUILDS);
         Awaitility.await()
-                .atMost(Duration.ofSeconds(10))
+                .atMost(Duration.ofSeconds(5))
                 .pollInterval(Duration.ofSeconds(1))
                 .until(() -> {
-                    build.set((Build) checkedBuildRequest.read(build.get().getId()));
-                    return "finished".equals(build.get().getState());
+                    atomicBuild.set((Build) checkedBuildRequest.read(atomicBuild.get().getId()));
+                    return "finished".equals(atomicBuild.get().getState());
                 });
-        return build.get();
+        return atomicBuild.get();
     }
 
 }
