@@ -20,7 +20,7 @@ public class CreateProjectTest extends BaseUiTest {
         loginAs(testData.getUser());
 
         var createdBuildTypeId = CreateProjectPage.open(testData.getProject().getParentProject().getLocator())
-                .createProjectBy(url)
+                .createProjectFrom(url)
                 .setupProject(testData.getProject().getName(), testData.getBuildType().getName())
                 .getBuildTypeId();
         var checkedBuildTypeRequest = new CheckedBase(Specifications.getSpec()

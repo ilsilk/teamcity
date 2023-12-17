@@ -9,32 +9,30 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
 
-public class CreateProjectPage extends BasePage {
+public class CreateBuildTypePage extends BasePage {
 
-    private static final String CREATE_PROJECT_URL = "/admin/createObjectMenu.html?projectId=%s&showMode=createProjectMenu";
+    private static final String CREATE_BUILD_TYPE_URL = "/admin/createObjectMenu.html?projectId=%s&showMode=createBuildTypeMenu";
     private final SelenideElement urlInput = $("#url");
-    private final SelenideElement projectNameInput = $("#projectName");
     private final SelenideElement buildTypeNameInput = $("#buildTypeName");
     private final SelenideElement connectionSuccessfulMessage = $(".connectionSuccessful");
 
-    public CreateProjectPage() {
+    public CreateBuildTypePage() {
         submitButton.shouldBe(visible, BASE_WAITING);
     }
 
-    public static CreateProjectPage open(String projectId) {
-        Selenide.open(CREATE_PROJECT_URL.formatted(projectId));
-        return page(CreateProjectPage.class);
+    public static CreateBuildTypePage open(String projectId) {
+        Selenide.open(CREATE_BUILD_TYPE_URL.formatted(projectId));
+        return page(CreateBuildTypePage.class);
     }
 
-    public CreateProjectPage createProjectFrom(String url) {
+    public CreateBuildTypePage createBuildTypeFrom(String url) {
         urlInput.val(url);
         submitButton.click();
         connectionSuccessfulMessage.should(appear, BASE_WAITING);
         return this;
     }
 
-    public EditBuildTypePage setupProject(String projectName, String buildTypeName) {
-        projectNameInput.val(projectName);
+    public EditBuildTypePage setupBuildType(String buildTypeName) {
         buildTypeNameInput.val(buildTypeName);
         submitButton.click();
         return page(EditBuildTypePage.class);
