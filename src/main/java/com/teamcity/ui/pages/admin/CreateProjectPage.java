@@ -4,8 +4,6 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.teamcity.ui.pages.BasePage;
 
-import java.time.Duration;
-
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -20,7 +18,7 @@ public class CreateProjectPage extends BasePage {
     private final SelenideElement connectionSuccessfulMessage = $(".connectionSuccessful");
 
     public CreateProjectPage() {
-        submitButton.shouldBe(visible, Duration.ofSeconds(10));
+        submitButton.shouldBe(visible, baseWaiting);
     }
 
     public static CreateProjectPage open(String projectId) {
@@ -31,7 +29,7 @@ public class CreateProjectPage extends BasePage {
     public CreateProjectPage createProjectBy(String url) {
         urlInput.val(url);
         submitButton.click();
-        connectionSuccessfulMessage.should(appear, Duration.ofSeconds(10));
+        connectionSuccessfulMessage.should(appear, baseWaiting);
         return this;
     }
 

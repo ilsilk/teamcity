@@ -1,10 +1,12 @@
 package com.teamcity.ui;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.logevents.SelenideLogger;
 import com.teamcity.BaseTest;
 import com.teamcity.api.config.Config;
 import com.teamcity.api.models.User;
 import com.teamcity.ui.pages.LoginPage;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.testng.annotations.BeforeSuite;
 
 import java.util.Map;
@@ -24,6 +26,12 @@ public class BaseUiTest extends BaseTest {
         ));
         Configuration.downloadsFolder = "target/downloads";
         Configuration.reportsFolder = "target/reports/tests";
+
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
+                .screenshots(true)
+                .savePageSource(true)
+                .includeSelenideSteps(true));
+
     }
 
     protected void loginAs(User user) {

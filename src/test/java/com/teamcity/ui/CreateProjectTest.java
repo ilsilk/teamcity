@@ -1,8 +1,12 @@
 package com.teamcity.ui;
 
+import com.teamcity.api.generators.TestDataStorage;
 import com.teamcity.ui.pages.ProjectsPage;
 import com.teamcity.ui.pages.admin.CreateProjectPage;
 import org.testng.annotations.Test;
+
+import static com.teamcity.api.enums.Endpoint.BUILD_TYPES;
+import static com.teamcity.api.enums.Endpoint.PROJECTS;
 
 public class CreateProjectTest extends BaseUiTest {
 
@@ -11,11 +15,17 @@ public class CreateProjectTest extends BaseUiTest {
         var url = "https://github.com/selenide/selenide.git";
 
         loginAs(testData.getUser());
-        CreateProjectPage.open(testData.getProject().getParentProject().getLocator())
+
+        var createdBuildType = CreateProjectPage.open(testData.getProject().getParentProject().getLocator())
                 .createProjectBy(url)
                 .setupProject(testData.getProject().getName(), testData.getBuildType().getName())
-                .configureCommandLineBuildSteps("echo Hello World!");
-        ProjectsPage.open();
+                .getBuildTypeId();
+        TestDataStorage.getStorage().addCreatedEntity(BUILD_TYPES, createdBuildType);
+
+        var createdProject = ProjectsPage.open()
+                .verifyProjectAndBuild(testData.getProject().getName(), testData.getBuildType().getName())
+                .getProjectId();
+        TestDataStorage.getStorage().addCreatedEntity(PROJECTS, createdProject);
     }
 
 }
