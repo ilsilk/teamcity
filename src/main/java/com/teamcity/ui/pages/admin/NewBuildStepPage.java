@@ -14,7 +14,7 @@ public class NewBuildStepPage extends EditBuildPage {
 
     private static final String NEW_BUILD_STEP_URL = "/admin/editRunType.html?id=buildType:%s&runnerId=__NEW_RUNNER__";
     private static final String COMMAND_LINE_RUNNER_TYPE = "Command Line";
-    private static final String CUSTOM_SCRIPT_INPUT_SELECTOR = "[id='script.content']";
+    private static final String CUSTOM_SCRIPT_SELECTOR = "[id='script.content']";
     private final SelenideElement runnerItemFilterInput = $(byDataTest("runner-item-filter"));
     private final SelenideElement buildStepNameInput = $("#buildStepName");
     private final ElementsCollection runnerItems = $$(byDataTest("runner-item"));
@@ -31,7 +31,7 @@ public class NewBuildStepPage extends EditBuildPage {
     public EditBuildPage createCommandLineBuildStep(String customScript) {
         runnerItems.findBy(text(COMMAND_LINE_RUNNER_TYPE)).click();
         buildStepNameInput.shouldBe(visible, baseWaiting).val(RandomData.getString());
-        executeJavaScript("document.querySelector('%s').innerText = '%s'".formatted(CUSTOM_SCRIPT_INPUT_SELECTOR, customScript));
+        executeJavaScript("document.querySelector('%s').value = '%s'".formatted(CUSTOM_SCRIPT_SELECTOR, customScript));
         submitButton.click();
         return this;
     }

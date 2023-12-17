@@ -17,7 +17,7 @@ public class ProjectsPage extends BasePage {
     private static final String PROJECTS_URL = "/favorite/projects";
     private final SelenideElement editProjectLink = $(".EditEntity__link--en");
     private final SelenideElement runButton = $(byDataTest("run-build"));
-    private final SelenideElement build = $(".BuildTypeLine__link--os");
+    private final SelenideElement buildType = $(".BuildTypeLine__link--os");
     private final ElementsCollection projects = $$(byDataTestItemtype("project"));
 
     public ProjectsPage() {
@@ -29,17 +29,16 @@ public class ProjectsPage extends BasePage {
         return page(ProjectsPage.class);
     }
 
-    public ProjectsPage verifyProjectAndBuild(String projectName, String buildName) {
-        projects.findBy(exactText(projectName)).shouldBe(visible).click();
+    public ProjectsPage verifyProjectAndBuildType(String projectName, String buildName) {
+        projects.findBy(exactText(projectName)).should(visible).click();
         runButton.shouldBe(visible, baseWaiting);
-        build.shouldHave(exactText(buildName));
+        buildType.shouldHave(exactText(buildName));
         return this;
     }
 
     public String getProjectId() {
-        var href = editProjectLink.attr("href");
         var pattern = Pattern.compile("projectId=(.*?)(?:&|$)");
-        var matcher = pattern.matcher(href);
+        var matcher = pattern.matcher(editProjectLink.attr("href"));
         return matcher.find() ? matcher.group(1) : null;
     }
 

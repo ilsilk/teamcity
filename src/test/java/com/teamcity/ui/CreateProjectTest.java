@@ -13,7 +13,6 @@ public class CreateProjectTest extends BaseUiTest {
     @Test(description = "User should be able to create project")
     public void userCreatesProject() {
         var url = "https://github.com/selenide/selenide.git";
-
         loginAs(testData.getUser());
 
         var createdBuildType = CreateProjectPage.open(testData.getProject().getParentProject().getLocator())
@@ -23,7 +22,7 @@ public class CreateProjectTest extends BaseUiTest {
         TestDataStorage.getStorage().addCreatedEntity(BUILD_TYPES, createdBuildType);
 
         var createdProject = ProjectsPage.open()
-                .verifyProjectAndBuild(testData.getProject().getName(), testData.getBuildType().getName())
+                .verifyProjectAndBuildType(testData.getProject().getName(), testData.getBuildType().getName())
                 .getProjectId();
         TestDataStorage.getStorage().addCreatedEntity(PROJECTS, createdProject);
     }
