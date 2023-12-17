@@ -14,7 +14,7 @@ public class EditBuildPage extends BasePage {
     private final SelenideElement generalTab = $("#general_Tab");
 
     public EditBuildPage() {
-        generalTab.shouldBe(visible, baseWaiting);
+        generalTab.shouldBe(visible, BASE_WAITING);
     }
 
     public String getBuildTypeId() {

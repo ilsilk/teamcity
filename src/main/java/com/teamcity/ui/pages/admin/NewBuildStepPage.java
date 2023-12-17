@@ -20,7 +20,7 @@ public class NewBuildStepPage extends EditBuildPage {
     private final ElementsCollection runnerItems = $$(byDataTest("runner-item"));
 
     public NewBuildStepPage() {
-        runnerItemFilterInput.shouldBe(visible, baseWaiting);
+        runnerItemFilterInput.shouldBe(visible, BASE_WAITING);
     }
 
     public static NewBuildStepPage open(String buildTypeId) {
@@ -30,7 +30,7 @@ public class NewBuildStepPage extends EditBuildPage {
 
     public EditBuildPage createCommandLineBuildStep(String customScript) {
         runnerItems.findBy(text(COMMAND_LINE_RUNNER_TYPE)).click();
-        buildStepNameInput.shouldBe(visible, baseWaiting).val(RandomData.getString());
+        buildStepNameInput.shouldBe(visible, BASE_WAITING).val(RandomData.getString());
         executeJavaScript("document.querySelector('%s').value = '%s'".formatted(CUSTOM_SCRIPT_SELECTOR, customScript));
         submitButton.click();
         return this;

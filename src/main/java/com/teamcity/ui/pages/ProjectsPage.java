@@ -21,7 +21,7 @@ public class ProjectsPage extends BasePage {
     private final ElementsCollection projects = $$(byDataTestItemtype("project"));
 
     public ProjectsPage() {
-        heading.shouldBe(visible, baseWaiting);
+        heading.shouldBe(visible, BASE_WAITING);
     }
 
     public static ProjectsPage open() {
@@ -31,7 +31,7 @@ public class ProjectsPage extends BasePage {
 
     public ProjectsPage verifyProjectAndBuildType(String projectName, String buildName) {
         projects.findBy(exactText(projectName)).should(visible).click();
-        runButton.shouldBe(visible, baseWaiting);
+        runButton.shouldBe(visible, BASE_WAITING);
         buildType.shouldHave(exactText(buildName));
         return this;
     }

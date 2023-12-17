@@ -1,6 +1,10 @@
 package com.teamcity.ui;
 
 import com.teamcity.api.generators.TestDataStorage;
+import com.teamcity.api.models.BuildType;
+import com.teamcity.api.models.Project;
+import com.teamcity.api.requests.checked.CheckedBase;
+import com.teamcity.api.spec.Specifications;
 import com.teamcity.ui.pages.ProjectsPage;
 import com.teamcity.ui.pages.admin.CreateProjectPage;
 import org.testng.annotations.Test;
@@ -15,16 +19,24 @@ public class CreateProjectTest extends BaseUiTest {
         var url = "https://github.com/selenide/selenide.git";
         loginAs(testData.getUser());
 
-        var createdBuildType = CreateProjectPage.open(testData.getProject().getParentProject().getLocator())
+        var createdBuildTypeId = CreateProjectPage.open(testData.getProject().getParentProject().getLocator())
                 .createProjectBy(url)
                 .setupProject(testData.getProject().getName(), testData.getBuildType().getName())
                 .getBuildTypeId();
-        TestDataStorage.getStorage().addCreatedEntity(BUILD_TYPES, createdBuildType);
+        var checkedBuildTypeRequest = new CheckedBase(Specifications.getSpec()
+                .authSpec(testData.getUser()), BUILD_TYPES);
+        var buildType = (BuildType) checkedBuildTypeRequest.read(createdBuildTypeId);
+        softy.assertThat(buildType.getName()).isEqualTo(testData.getBuildType().getName());
+        TestDataStorage.getStorage().addCreatedEntity(BUILD_TYPES, createdBuildTypeId);
 
-        var createdProject = ProjectsPage.open()
+        var createdProjectId = ProjectsPage.open()
                 .verifyProjectAndBuildType(testData.getProject().getName(), testData.getBuildType().getName())
                 .getProjectId();
-        TestDataStorage.getStorage().addCreatedEntity(PROJECTS, createdProject);
+        var checkedProjectRequest = new CheckedBase(Specifications.getSpec()
+                .authSpec(testData.getUser()), PROJECTS);
+        var project = (Project) checkedProjectRequest.read(createdProjectId);
+        softy.assertThat(project.getName()).isEqualTo(testData.getProject().getName());
+        TestDataStorage.getStorage().addCreatedEntity(PROJECTS, createdProjectId);
     }
 
 }

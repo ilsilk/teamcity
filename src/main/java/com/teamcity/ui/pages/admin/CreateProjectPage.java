@@ -18,7 +18,7 @@ public class CreateProjectPage extends BasePage {
     private final SelenideElement connectionSuccessfulMessage = $(".connectionSuccessful");
 
     public CreateProjectPage() {
-        submitButton.shouldBe(visible, baseWaiting);
+        submitButton.shouldBe(visible, BASE_WAITING);
     }
 
     public static CreateProjectPage open(String projectId) {
@@ -29,7 +29,7 @@ public class CreateProjectPage extends BasePage {
     public CreateProjectPage createProjectBy(String url) {
         urlInput.val(url);
         submitButton.click();
-        connectionSuccessfulMessage.should(appear, baseWaiting);
+        connectionSuccessfulMessage.should(appear, BASE_WAITING);
         return this;
     }
 
