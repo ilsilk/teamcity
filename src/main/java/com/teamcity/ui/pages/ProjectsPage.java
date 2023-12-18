@@ -8,7 +8,8 @@ import java.util.regex.Pattern;
 
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static com.teamcity.ui.Selectors.byDataTest;
 import static com.teamcity.ui.Selectors.byDataTestItemtype;
 
@@ -25,8 +26,7 @@ public class ProjectsPage extends BasePage {
     }
 
     public static ProjectsPage open() {
-        Selenide.open(PROJECTS_URL);
-        return page(ProjectsPage.class);
+        return Selenide.open(PROJECTS_URL, ProjectsPage.class);
     }
 
     public ProjectsPage verifyProjectAndBuildType(String projectName, String buildName) {

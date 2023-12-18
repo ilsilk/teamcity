@@ -24,8 +24,7 @@ public class CreateBuildTypeStepPage extends EditBuildTypePage {
     }
 
     public static CreateBuildTypeStepPage open(String buildTypeId) {
-        Selenide.open(NEW_BUILD_STEP_URL.formatted(buildTypeId));
-        return page(CreateBuildTypeStepPage.class);
+        return Selenide.open(NEW_BUILD_STEP_URL.formatted(buildTypeId), CreateBuildTypeStepPage.class);
     }
 
     public void createCommandLineBuildStep(String customScript) {
