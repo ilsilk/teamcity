@@ -20,7 +20,7 @@ public class CreateBuildTypeTest extends BaseUiTest {
         loginAs(testData.getUser());
 
         CreateBuildTypePage.open(testData.getProject().getId())
-                .createBuildTypeFrom(GIT_URL)
+                .createFrom(GIT_URL)
                 .setupBuildType(testData.getBuildType().getName());
         var createdBuildTypeId = page(EditBuildTypePage.class).getBuildTypeId();
 
@@ -36,7 +36,7 @@ public class CreateBuildTypeTest extends BaseUiTest {
         loginAs(testData.getUser());
 
         CreateBuildTypePage.open(testData.getProject().getParentProject().getLocator())
-                .createBuildTypeFrom(GIT_URL)
+                .createFrom(GIT_URL)
                 .setupBuildType("")
                 .verifyBuildTypeNameError();
     }
