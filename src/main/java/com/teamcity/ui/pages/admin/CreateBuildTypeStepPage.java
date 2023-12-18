@@ -4,13 +4,14 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.teamcity.api.generators.RandomData;
+import com.teamcity.ui.pages.BasePage;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 import static com.teamcity.ui.Selectors.byDataTest;
 
-public class CreateBuildTypeStepPage extends EditBuildTypePage {
+public class CreateBuildTypeStepPage extends BasePage {
 
     private static final String NEW_BUILD_STEP_URL = "/admin/editRunType.html?id=buildType:%s&runnerId=__NEW_RUNNER__";
     private static final String COMMAND_LINE_RUNNER_TYPE = "Command Line";

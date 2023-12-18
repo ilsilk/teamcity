@@ -1,11 +1,13 @@
 package com.teamcity.ui;
 
+import com.teamcity.api.models.Build;
+import com.teamcity.api.requests.checked.CheckedBase;
+import com.teamcity.api.spec.Specifications;
 import com.teamcity.ui.pages.ProjectsPage;
 import com.teamcity.ui.pages.admin.CreateBuildTypeStepPage;
 import org.testng.annotations.Test;
 
-import static com.teamcity.api.enums.Endpoint.BUILD_TYPES;
-import static com.teamcity.api.enums.Endpoint.PROJECTS;
+import static com.teamcity.api.enums.Endpoint.*;
 
 public class StartBuildTest extends BaseUiTest {
 
@@ -18,9 +20,15 @@ public class StartBuildTest extends BaseUiTest {
         CreateBuildTypeStepPage.open(testData.getBuildType().getId())
                 .createCommandLineBuildStep("echo 'Hello World!'");
 
-        ProjectsPage.open()
+        var createdBuildId = ProjectsPage.open()
                 .verifyProjectAndBuildType(testData.getProject().getName(), testData.getBuildType().getName())
-                .runBuildAndWaitUntilItIsFinished();
+                .runBuildAndWaitUntilItIsFinished()
+                .getBuildId();
+        var checkedBuildRequest = new CheckedBase(Specifications.getSpec()
+                .authSpec(testData.getUser()), BUILDS);
+        var build = (Build) checkedBuildRequest.read(createdBuildId);
+        softy.assertThat(build.getState()).isEqualTo("finished");
+        softy.assertThat(build.getStatus()).isEqualTo("SUCCESS");
     }
 
 }

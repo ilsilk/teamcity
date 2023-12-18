@@ -23,7 +23,7 @@ public class ProjectsPage extends BasePage {
     private final SelenideElement buildType = $(".BuildTypeLine__link--os");
     private final SelenideElement buildTypeHeader = $(".BuildTypePageHeader__heading--De");
     private final SelenideElement buildDetailsButton = $(".BuildDetails__button--BC");
-    private final SelenideElement buildStatus = $(".Build__status--bG");
+    private final SelenideElement buildStatusLink = $(".Build__status--bG > a");
     private final ElementsCollection projects = $$(byDataTestItemtype("project"));
 
     public ProjectsPage() {
@@ -46,7 +46,7 @@ public class ProjectsPage extends BasePage {
         buildTypeHeader.should(appear, BASE_WAITING);
         runButton.click();
         buildDetailsButton.should(appear, BASE_WAITING);
-        buildStatus.shouldBe(exactText(SUCCESS_BUILD_STATUS), Duration.ofMinutes(3));
+        buildStatusLink.shouldBe(exactText(SUCCESS_BUILD_STATUS), Duration.ofMinutes(3));
         return this;
     }
 
@@ -54,6 +54,11 @@ public class ProjectsPage extends BasePage {
         var pattern = Pattern.compile("projectId=(.*?)(?:&|$)");
         var matcher = pattern.matcher(editProjectLink.attr("href"));
         return matcher.find() ? matcher.group(1) : null;
+    }
+
+    public String getBuildId() {
+        var href = buildStatusLink.attr("href");
+        return href != null ? href.substring(href.lastIndexOf("/") + 1) : null;
     }
 
 }

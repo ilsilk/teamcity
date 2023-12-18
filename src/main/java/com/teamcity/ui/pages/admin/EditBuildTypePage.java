@@ -12,11 +12,11 @@ import static com.codeborne.selenide.WebDriverRunner.url;
 public class EditBuildTypePage extends BasePage {
 
     private final SelenideElement generalTab = $("#general_Tab");
-    private final SelenideElement header = $("h2");
+    private final SelenideElement headerHelpIcon = $("h2 + div > span");
 
     public EditBuildTypePage() {
         generalTab.shouldBe(visible, BASE_WAITING);
-        header.shouldBe(visible, BASE_WAITING);
+        headerHelpIcon.shouldBe(visible, BASE_WAITING);
     }
 
     public String getBuildTypeId() {
