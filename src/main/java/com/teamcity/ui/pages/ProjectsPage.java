@@ -16,13 +16,14 @@ import static com.teamcity.ui.Selectors.byDataTestItemtype;
 public class ProjectsPage extends BasePage {
 
     private static final String PROJECTS_URL = "/favorite/projects";
+    private final SelenideElement header = $(".App__router--BP > div");
     private final SelenideElement editProjectLink = $(".EditEntity__link--en");
     private final SelenideElement runButton = $(byDataTest("run-build"));
     private final SelenideElement buildType = $(".BuildTypeLine__link--os");
     private final ElementsCollection projects = $$(byDataTestItemtype("project"));
 
     public ProjectsPage() {
-        heading.shouldBe(visible, BASE_WAITING);
+        header.shouldBe(visible, BASE_WAITING);
     }
 
     public static ProjectsPage open() {

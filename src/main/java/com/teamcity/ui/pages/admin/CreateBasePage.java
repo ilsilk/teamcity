@@ -30,12 +30,12 @@ public abstract class CreateBasePage extends BasePage {
     }
 
     public CreateBasePage verifyProjectNameError() {
-        projectNameError.shouldBe(visible);
+        projectNameError.shouldBe(visible, BASE_WAITING);
         return this;
     }
 
     public CreateBasePage verifyBuildTypeNameError() {
-        buildTypeNameError.shouldBe(visible);
+        buildTypeNameError.shouldBe(visible, BASE_WAITING);
         return this;
     }
 

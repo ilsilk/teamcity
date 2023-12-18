@@ -5,6 +5,7 @@ import com.codeborne.selenide.SelenideElement;
 import com.teamcity.api.models.User;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.page;
 
 public class LoginPage extends BasePage {
 
@@ -17,10 +18,11 @@ public class LoginPage extends BasePage {
         return Selenide.open(LOGIN_URL, LoginPage.class);
     }
 
-    public void login(User user) {
+    public ProjectsPage login(User user) {
         usernameInput.val(user.getUsername());
         passwordInput.val(user.getPassword());
         loginButton.click();
+        return page(ProjectsPage.class);
     }
 
 }
