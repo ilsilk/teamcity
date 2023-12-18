@@ -28,12 +28,11 @@ public class CreateBuildTypeStepPage extends EditBuildTypePage {
         return page(CreateBuildTypeStepPage.class);
     }
 
-    public EditBuildTypePage createCommandLineBuildStep(String customScript) {
+    public void createCommandLineBuildStep(String customScript) {
         runnerItems.findBy(text(COMMAND_LINE_RUNNER_TYPE)).click();
         buildStepNameInput.shouldBe(visible, BASE_WAITING).val(RandomData.getString());
         executeJavaScript("document.querySelector('%s').value = '%s'".formatted(CUSTOM_SCRIPT_SELECTOR, customScript));
         submitButton.click();
-        return this;
     }
 
 }

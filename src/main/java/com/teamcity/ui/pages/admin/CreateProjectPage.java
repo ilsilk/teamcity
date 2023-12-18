@@ -16,6 +16,7 @@ public class CreateProjectPage extends BasePage {
     private final SelenideElement projectNameInput = $("#projectName");
     private final SelenideElement buildTypeNameInput = $("#buildTypeName");
     private final SelenideElement connectionSuccessfulMessage = $(".connectionSuccessful");
+    private final SelenideElement projectNameError = $("#error_projectName");
 
     public CreateProjectPage() {
         submitButton.shouldBe(visible, BASE_WAITING);
@@ -33,11 +34,16 @@ public class CreateProjectPage extends BasePage {
         return this;
     }
 
-    public EditBuildTypePage setupProject(String projectName, String buildTypeName) {
+    public CreateProjectPage setupProject(String projectName, String buildTypeName) {
         projectNameInput.val(projectName);
         buildTypeNameInput.val(buildTypeName);
         submitButton.click();
-        return page(EditBuildTypePage.class);
+        return this;
+    }
+
+    public CreateProjectPage verifyProjectNameError() {
+        projectNameError.shouldBe(visible);
+        return this;
     }
 
 }

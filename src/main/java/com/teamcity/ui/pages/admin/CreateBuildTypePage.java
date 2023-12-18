@@ -15,6 +15,7 @@ public class CreateBuildTypePage extends BasePage {
     private final SelenideElement urlInput = $("#url");
     private final SelenideElement buildTypeNameInput = $("#buildTypeName");
     private final SelenideElement connectionSuccessfulMessage = $(".connectionSuccessful");
+    private final SelenideElement buildTypeNameError = $("#error_buildTypeName");
 
     public CreateBuildTypePage() {
         submitButton.shouldBe(visible, BASE_WAITING);
@@ -32,10 +33,15 @@ public class CreateBuildTypePage extends BasePage {
         return this;
     }
 
-    public EditBuildTypePage setupBuildType(String buildTypeName) {
+    public CreateBuildTypePage setupBuildType(String buildTypeName) {
         buildTypeNameInput.val(buildTypeName);
         submitButton.click();
-        return page(EditBuildTypePage.class);
+        return this;
+    }
+
+    public CreateBuildTypePage verifyBuildTypeNameError() {
+        buildTypeNameError.shouldBe(visible);
+        return this;
     }
 
 }
