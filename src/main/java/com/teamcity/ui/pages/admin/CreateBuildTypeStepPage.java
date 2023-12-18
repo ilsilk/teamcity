@@ -7,8 +7,7 @@ import com.teamcity.api.generators.RandomData;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.*;
 import static com.teamcity.ui.Selectors.byDataTest;
 
 public class CreateBuildTypeStepPage extends EditBuildTypePage {
@@ -29,12 +28,13 @@ public class CreateBuildTypeStepPage extends EditBuildTypePage {
         return Selenide.open(NEW_BUILD_STEP_URL.formatted(buildTypeId), CreateBuildTypeStepPage.class);
     }
 
-    public void createCommandLineBuildStep(String customScript) {
+    public EditBuildTypePage createCommandLineBuildStep(String customScript) {
         runnerItems.findBy(text(COMMAND_LINE_RUNNER_TYPE)).click();
         buildStepNameInput.shouldBe(visible, BASE_WAITING).val(RandomData.getString());
         customScriptLine.click();
         customScriptInput.sendKeys(customScript);
         submitButton.click();
+        return page(EditBuildTypePage.class);
     }
 
 }
