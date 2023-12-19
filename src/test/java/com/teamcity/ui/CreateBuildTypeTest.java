@@ -33,9 +33,10 @@ public class CreateBuildTypeTest extends BaseUiTest {
 
     @Test(description = "User should not be able to create build type without name")
     public void userCreatesBuildTypeWithoutName() {
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
         loginAs(testData.getUser());
 
-        CreateBuildTypePage.open(testData.getProject().getParentProject().getLocator())
+        CreateBuildTypePage.open(testData.getProject().getId())
                 .createFrom(GIT_URL)
                 .setupBuildType("")
                 .verifyBuildTypeNameError();
