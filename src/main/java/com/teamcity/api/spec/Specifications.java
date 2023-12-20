@@ -45,6 +45,7 @@ public final class Specifications {
 
     private RequestSpecBuilder reqBuilder() {
         return new RequestSpecBuilder()
+                // Фильтр для отображения реквестов и респонсов в Allure репорте
                 .addFilters(List.of(new RequestLoggingFilter(), new ResponseLoggingFilter(), new AllureRestAssured()))
                 .setContentType(ContentType.JSON)
                 .setAccept(ContentType.JSON);

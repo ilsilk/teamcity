@@ -24,9 +24,11 @@ public class BaseApiTest extends BaseTest {
 
     @BeforeSuite(alwaysRun = true)
     public void setUpSettings() {
+        // Получаем текущее значение настройки perProjectPermissions
         perProjectPermissions = checkedServerAuthSettings.read(null)
                 .getPerProjectPermissions();
 
+        // Обновляем значение настройки perProjectPermissions на true (для тестирования ролей)
         checkedServerAuthSettings.update(null, ServerAuthSettings.builder()
                 .perProjectPermissions(true)
                 .modules(TestDataGenerator.generateAuthModules())
@@ -35,6 +37,7 @@ public class BaseApiTest extends BaseTest {
 
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
+        // Генерируем одну testData перед каждым тестом (так как она всегда нужна), без добавления ее в какое-то хранилище
         testData = TestDataGenerator.generate();
     }
 
@@ -45,6 +48,7 @@ public class BaseApiTest extends BaseTest {
 
     @AfterSuite(alwaysRun = true)
     public void cleanUpSettings() {
+        // Возвращаем настройке perProjectPermissions исходное значение, которые было перед запуском тестов
         checkedServerAuthSettings.update(null, ServerAuthSettings.builder()
                 .perProjectPermissions(perProjectPermissions)
                 .modules(TestDataGenerator.generateAuthModules())
