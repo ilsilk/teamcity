@@ -7,6 +7,7 @@ import com.teamcity.api.requests.unchecked.UncheckedServerAuthSettings;
 import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
 
+// Данный реквест имеет отличителиную реализацию CRUD методов, поэтому находится в отдельном классе
 public class CheckedServerAuthSettings extends Request implements CrudInterface {
 
     public CheckedServerAuthSettings(RequestSpecification spec) {

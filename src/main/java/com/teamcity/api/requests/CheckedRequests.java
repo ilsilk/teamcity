@@ -13,6 +13,7 @@ public class CheckedRequests {
     private final EnumMap<Endpoint, CheckedBase> checkedRequests = new EnumMap<>(Endpoint.class);
 
     public CheckedRequests(RequestSpecification spec) {
+        // Создаем все виды реквестов (указанные в Endpoint) для юзера, переданного в spec
         for (var endpoint : Endpoint.values()) {
             checkedRequests.put(endpoint, new CheckedBase(spec, endpoint));
         }

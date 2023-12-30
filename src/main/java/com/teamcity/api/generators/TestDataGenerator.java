@@ -51,6 +51,7 @@ public final class TestDataGenerator {
                 .build();
     }
 
+    // Генерация дефолтных степов для запуска command line скрипта, в параметр метода передается исполняемая команда
     public static Steps generateSimpleRunnerSteps(String propertyValue) {
         return Steps.builder()
                 .step(List.of(Step.builder()
@@ -69,6 +70,8 @@ public final class TestDataGenerator {
                 .build();
     }
 
+    // Необходимый модуль в запросах на изменение прав (для тестов роли project admin)
+    // https://www.jetbrains.com/help/teamcity/authentication-modules.html
     public static AuthModules generateAuthModules() {
         return AuthModules.builder()
                 .module(List.of(AuthModule.builder()

@@ -11,6 +11,7 @@ import org.apache.http.HttpStatus;
 
 public class CheckedBase extends Request implements CrudInterface {
 
+    // Все реквесты, имеющие одинаковую реализацию CRUD методов, можно создать через общий конструктор
     public CheckedBase(RequestSpecification spec, Endpoint endpoint) {
         super(spec, endpoint);
     }
@@ -21,6 +22,7 @@ public class CheckedBase extends Request implements CrudInterface {
                 .create(obj)
                 .then().assertThat().statusCode(HttpStatus.SC_OK)
                 .extract().as(endpoint.getModelClass());
+        // После создания сущности ее айди добавляется в список созданных сущностей (для их удаления в конце)
         TestDataStorage.getStorage().addCreatedEntity(endpoint, model.getId());
         return model;
     }
