@@ -5,7 +5,7 @@ import io.restassured.specification.RequestSpecification;
 
 public class Request {
 
-    // Придерживаемся паттерна, что все переменные по умолчанию final, если реализация целенаправлено не требует обратного
+    // Придерживаемся паттерна, что все переменные по умолчанию final, если реализация целенаправленно не требует обратного
     // То же самое с модификаторами доступа: по умолчанию private, при необходимости расширяем доступ в минимально достаточной мере
     protected final RequestSpecification spec;
     protected final Endpoint endpoint;

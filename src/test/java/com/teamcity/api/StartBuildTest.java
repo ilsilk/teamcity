@@ -36,7 +36,7 @@ public class StartBuildTest extends BaseApiTest {
     }
 
     private Build waitUntilBuildIsFinished(Build build) {
-        // Необходимо использовать AtomicReference, так как переменная в лямда выражении должна быть final или effectively final
+        // Необходимо использовать AtomicReference, так как переменная в лямбда выражении должна быть final или effectively final
         var atomicBuild = new AtomicReference<>(build);
         var checkedBuildRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.getUser()), BUILDS);

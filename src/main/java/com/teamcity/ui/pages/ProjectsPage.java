@@ -17,6 +17,8 @@ public class ProjectsPage extends BasePage {
 
     private static final String PROJECTS_URL = "/favorite/projects";
     private static final String SUCCESS_BUILD_STATUS = "Success";
+    // Везде стараемся использовать достаточно простые css селекторы.
+    // Понятно, что в идеале нужно иметь атрибуты test-data на этих элементах, но здесь мы не можем на это повлиять.
     private final SelenideElement header = $(".App__router--BP > div");
     private final SelenideElement editProjectLink = $(".EditEntity__link--en");
     private final SelenideElement runButton = $(byDataTest("run-build"));
@@ -24,17 +26,23 @@ public class ProjectsPage extends BasePage {
     private final SelenideElement buildTypeHeader = $(".BuildTypePageHeader__heading--De");
     private final SelenideElement buildDetailsButton = $(".BuildDetails__button--BC");
     private final SelenideElement buildStatusLink = $(".Build__status--bG > a");
+    /* Метод Selenide.elements вызывает внутри себя этот метод $$. Официальная документация рекомендует использовать его
+    для гораздо более компактной записи. */
     private final ElementsCollection projects = $$(byDataTestItemtype("project"));
 
     public ProjectsPage() {
         header.shouldBe(visible, BASE_WAITING);
     }
 
+    /* Реализация у каждой Page статического метода open, который внутри себя вызывает конструктор класса и возвращает его.
+    В конструкторе класса по умолчанию находятся ассерты, проверяющие, что страница полностью загрузилась, по этой причине
+    метод open не может быть не статическим, так как мы не можем создать экземпляр класса до вызова этого метода. */
     public static ProjectsPage open() {
         return Selenide.open(PROJECTS_URL, ProjectsPage.class);
     }
 
     public ProjectsPage verifyProjectAndBuildType(String projectName, String buildName) {
+        // Найти в списке проектов элемент с нужным названием и кликнуть по нему: реализация через методы Selenide
         projects.findBy(exactText(projectName)).should(visible).click();
         runButton.shouldBe(visible, BASE_WAITING);
         buildType.shouldHave(exactText(buildName));
@@ -50,12 +58,14 @@ public class ProjectsPage extends BasePage {
         return this;
     }
 
+    // Получаем через UI айди созданного проекта
     public String getProjectId() {
         var pattern = Pattern.compile("projectId=(.*?)(?:&|$)");
         var matcher = pattern.matcher(editProjectLink.attr("href"));
         return matcher.find() ? matcher.group(1) : null;
     }
 
+    // Получаем через UI айди созданного билда
     public String getBuildId() {
         var href = buildStatusLink.attr("href");
         return href != null ? href.substring(href.lastIndexOf("/") + 1) : null;

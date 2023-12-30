@@ -32,6 +32,7 @@ public class CreateBuildTypeStepPage extends BasePage {
     public EditBuildTypePage createCommandLineBuildStep(String customScript) {
         runnerItems.findBy(text(COMMAND_LINE_RUNNER_TYPE)).click();
         buildStepNameInput.shouldBe(visible, BASE_WAITING).val(RandomData.getString());
+        // Сложный элемент на UI для вставки кастомного крипта, поэтому пришлось таким трудным путем его заполнять
         customScriptLine.click();
         customScriptInput.sendKeys(customScript);
         submitButton.click();

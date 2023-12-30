@@ -20,6 +20,7 @@ public class BaseTest {
     @BeforeMethod(alwaysRun = true)
     public void baseBeforeMethod() {
         softy = new SoftAssertions();
+        // Генерируем одну testData перед каждым тестом (так как она всегда нужна), без добавления ее в какое-то хранилище
         testData = TestDataGenerator.generate();
     }
 

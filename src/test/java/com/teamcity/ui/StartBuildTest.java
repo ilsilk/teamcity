@@ -20,12 +20,14 @@ public class StartBuildTest extends BaseUiTest {
         CreateBuildTypeStepPage.open(testData.getBuildType().getId())
                 .createCommandLineBuildStep("echo 'Hello World!'");
 
+        // Тесты реализованы по паттерну fluent page object, поэтому эта запись выглядит как билдер, в одну строчку
         var createdBuildId = ProjectsPage.open()
                 .verifyProjectAndBuildType(testData.getProject().getName(), testData.getBuildType().getName())
                 .runBuildAndWaitUntilItIsFinished()
                 .getBuildId();
         var checkedBuildRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.getUser()), BUILDS);
+        // Каждое действие на UI всегда проверяется через API
         var build = (Build) checkedBuildRequest.read(createdBuildId);
         softy.assertThat(build.getState()).isEqualTo("finished");
         softy.assertThat(build.getStatus()).isEqualTo("SUCCESS");

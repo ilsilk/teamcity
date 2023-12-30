@@ -8,7 +8,7 @@ import lombok.extern.jackson.Jacksonized;
 
 @Data
 @Builder
-// Чтобы избмежать ворнинга "Generating equals/hashCode implementation but without a call to superclass."
+// Чтобы избежать ворнинга "Generating equals/hashCode implementation but without a call to superclass."
 @EqualsAndHashCode(callSuper = false)
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)

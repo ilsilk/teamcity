@@ -31,8 +31,8 @@ public final class TestDataStorage {
     }
 
     /* В Map добавляется только id созданной сущности, этого достаточно для удаления
-    Условие .computeIfAbsent() создает пустое множество, если данному эндпоинту еще не соотвесвует ни одно.
-    Далее в созданное или в ранее существовашее множество добавляется новый id */
+    Условие .computeIfAbsent() создает пустое множество, если данному эндпоинту еще не соответствует ни одно.
+    Далее в созданное или в ранее существовавшее множество добавляется новый id */
     public void addCreatedEntity(Endpoint endpoint, String id) {
         createdEntitiesMap.computeIfAbsent(endpoint, key -> new HashSet<>()).add(id);
     }

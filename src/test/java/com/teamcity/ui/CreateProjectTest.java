@@ -29,6 +29,7 @@ public class CreateProjectTest extends BaseUiTest {
                 .authSpec(testData.getUser()), BUILD_TYPES);
         var buildType = (BuildType) checkedBuildTypeRequest.read(createdBuildTypeId);
         softy.assertThat(buildType.getName()).isEqualTo(testData.getBuildType().getName());
+        // Добавляем созданную сущность в сторедж, чтобы автоматически удалить ее в конце теста логикой, реализованной в API части
         TestDataStorage.getStorage().addCreatedEntity(BUILD_TYPES, createdBuildTypeId);
 
         var createdProjectId = ProjectsPage.open()

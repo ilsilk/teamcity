@@ -21,9 +21,11 @@ public class BaseUiTest extends BaseTest {
 
     @BeforeSuite(alwaysRun = true)
     public void setupUiTests() {
+        // Нет никакой необходимости писать класс-конфигуратор браузера, так как Selenide последних версий делает это из коробки
         Configuration.browser = Config.getProperty("browser");
         Configuration.baseUrl = "http://" + Config.getProperty("host");
         Configuration.remote = Config.getProperty("remote");
+        // Проводим тестирование на фиксированном разрешении экрана
         Configuration.browserSize = "1920x1080";
         Configuration.browserCapabilities.setCapability("selenoid:options", Map.of(
                 "enableVNC", true,
@@ -32,6 +34,7 @@ public class BaseUiTest extends BaseTest {
         Configuration.downloadsFolder = "target/downloads";
         Configuration.reportsFolder = "target/reports/tests";
 
+        // Подключаем степы и скриншоты в Allure репорте
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
                 .screenshots(true)
                 .savePageSource(true)
@@ -41,6 +44,7 @@ public class BaseUiTest extends BaseTest {
 
     @AfterMethod(alwaysRun = true)
     public void closeWebDriver() {
+        // Перезапускаем браузер после каждого теста
         Selenide.closeWebDriver();
     }
 

@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 public enum Endpoint {
 
-    // Описываем соотвествие между эндпоинтом и моделью, которую он возвращает
+    // Описываем соответствие между эндпоинтом и моделью, которую он возвращает
     BUILD_QUEUE("/app/rest/buildQueue", Build.class),
     BUILDS("/app/rest/builds", Build.class),
     BUILD_TYPES("/app/rest/buildTypes", BuildType.class),
