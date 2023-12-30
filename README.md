@@ -5,13 +5,13 @@
 Чтобы **запустить тесты**, используйте следующую команду:
 
 ```
-mvn clean test
+./mvnw clean test
 ```
 
 Чтобы **сгенерировать Allure репорт**, используйте следующую команду после завершения предыдущей:
 
 ```
-mvn allure:report
+./mvnw allure:report
 ```
 
 Allure репорт будет находиться в *target/site/allure-maven-plugin/**index.html***.
