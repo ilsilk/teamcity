@@ -42,7 +42,9 @@ public class ProjectsPage extends BasePage {
     }
 
     public ProjectsPage verifyProjectAndBuildType(String projectName, String buildName) {
-        // Найти в списке проектов элемент с нужным названием и кликнуть по нему: реализация через методы Selenide
+        /* Найти в списке проектов элемент с нужным названием и кликнуть по нему: реализация через методы Selenide.
+        Используем соответствующие Condition / CollectionCondition и should / shouldBe / shouldHave / и тд,
+        чтобы код читался как красивое текстовое предложение */
         projects.findBy(exactText(projectName)).should(visible).click();
         runButton.shouldBe(visible, BASE_WAITING);
         buildType.shouldHave(exactText(buildName));
@@ -61,6 +63,7 @@ public class ProjectsPage extends BasePage {
     // Получаем через UI айди созданного проекта
     public String getProjectId() {
         var pattern = Pattern.compile("projectId=(.*?)(?:&|$)");
+        // Метод attr(text) - получить у элемента значение атрибута text
         var matcher = pattern.matcher(editProjectLink.attr("href"));
         return matcher.find() ? matcher.group(1) : null;
     }

@@ -6,8 +6,8 @@ import com.codeborne.selenide.SelenideElement;
 import com.teamcity.api.generators.RandomData;
 import com.teamcity.ui.pages.BasePage;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static com.teamcity.ui.Selectors.byDataTest;
 
@@ -32,7 +32,8 @@ public class CreateBuildTypeStepPage extends BasePage {
     public EditBuildTypePage createCommandLineBuildStep(String customScript) {
         runnerItems.findBy(text(COMMAND_LINE_RUNNER_TYPE)).click();
         buildStepNameInput.shouldBe(visible, BASE_WAITING).val(RandomData.getString());
-        // Сложный элемент на UI для вставки кастомного крипта, поэтому пришлось таким трудным путем его заполнять
+        // Сложный элемент на UI для вставки кастомного скрипта, поэтому пришлось таким трудным путем его заполнять:
+        // кликать сначала на один элемент, потом передавать sendKeys (не val) в другой элемент
         customScriptLine.click();
         customScriptInput.sendKeys(customScript);
         submitButton.click();
