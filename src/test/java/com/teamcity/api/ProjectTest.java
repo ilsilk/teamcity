@@ -6,6 +6,7 @@ import com.teamcity.api.models.Project;
 import com.teamcity.api.requests.checked.CheckedBase;
 import com.teamcity.api.requests.unchecked.UncheckedBase;
 import com.teamcity.api.spec.Specifications;
+import io.qameta.allure.Feature;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
@@ -13,6 +14,7 @@ import org.testng.annotations.Test;
 import static com.teamcity.api.enums.Endpoint.PROJECTS;
 import static com.teamcity.api.enums.Endpoint.USERS;
 
+@Feature("Project")
 public class ProjectTest extends BaseApiTest {
 
     private static final int PROJECT_ID_CHARACTERS_LIMIT = 225;
@@ -25,7 +27,7 @@ public class ProjectTest extends BaseApiTest {
                 .authSpec(testData.getUser()), PROJECTS);
         var project = (Project) checkedProjectRequest.create(testData.getProject());
 
-        softy.assertThat(project.getId()).isEqualTo(testData.getProject().getId());
+        softy.assertThat(project.getId()).as("projectId").isEqualTo(testData.getProject().getId());
     }
 
     @Test(description = "User should not be able to create two projects with the same id")

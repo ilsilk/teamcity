@@ -4,6 +4,8 @@ import com.teamcity.api.generators.TestDataGenerator;
 import com.teamcity.api.models.Build;
 import com.teamcity.api.requests.checked.CheckedBase;
 import com.teamcity.api.spec.Specifications;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Step;
 import org.awaitility.Awaitility;
 import org.testng.annotations.Test;
 
@@ -12,6 +14,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static com.teamcity.api.enums.Endpoint.*;
 
+@Feature("Start build")
 public class StartBuildTest extends BaseApiTest {
 
     @Test(description = "User should be able to start build")
@@ -29,12 +32,13 @@ public class StartBuildTest extends BaseApiTest {
                 .buildType(testData.getBuildType())
                 .build());
 
-        softy.assertThat(build.getState()).isEqualTo("queued");
+        softy.assertThat(build.getState()).as("buildState").isEqualTo("queued");
 
         build = waitUntilBuildIsFinished(build);
-        softy.assertThat(build.getStatus()).isEqualTo("SUCCESS");
+        softy.assertThat(build.getStatus()).as("buildStatus").isEqualTo("SUCCESS");
     }
 
+    @Step("Wait until build is finished")
     private Build waitUntilBuildIsFinished(Build build) {
         // Необходимо использовать AtomicReference, так как переменная в лямбда выражении должна быть final или effectively final
         var atomicBuild = new AtomicReference<>(build);

@@ -5,10 +5,12 @@ import com.teamcity.api.requests.checked.CheckedBase;
 import com.teamcity.api.spec.Specifications;
 import com.teamcity.ui.pages.ProjectsPage;
 import com.teamcity.ui.pages.admin.CreateBuildTypeStepPage;
+import io.qameta.allure.Feature;
 import org.testng.annotations.Test;
 
 import static com.teamcity.api.enums.Endpoint.*;
 
+@Feature("Start build")
 public class StartBuildTest extends BaseUiTest {
 
     @Test(description = "User should be able to create build type step and start build")
@@ -29,8 +31,8 @@ public class StartBuildTest extends BaseUiTest {
                 .authSpec(testData.getUser()), BUILDS);
         // Каждое действие на UI всегда проверяется через API
         var build = (Build) checkedBuildRequest.read(createdBuildId);
-        softy.assertThat(build.getState()).isEqualTo("finished");
-        softy.assertThat(build.getStatus()).isEqualTo("SUCCESS");
+        softy.assertThat(build.getState()).as("buildState").isEqualTo("finished");
+        softy.assertThat(build.getStatus()).as("buildStatus").isEqualTo("SUCCESS");
     }
 
 }

@@ -2,6 +2,7 @@ package com.teamcity.ui.pages.admin;
 
 import com.codeborne.selenide.SelenideElement;
 import com.teamcity.ui.pages.BasePage;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.visible;
@@ -30,11 +31,13 @@ public abstract class CreateBasePage extends BasePage {
         connectionSuccessfulMessage.should(appear, BASE_WAITING);
     }
 
+    @Step("Verify project name error")
     public CreateBasePage verifyProjectNameError() {
         projectNameError.shouldBe(visible, BASE_WAITING);
         return this;
     }
 
+    @Step("Verify build type name error")
     public CreateBasePage verifyBuildTypeNameError() {
         buildTypeNameError.shouldBe(visible, BASE_WAITING);
         return this;

@@ -8,12 +8,13 @@ import com.teamcity.api.spec.Specifications;
 import com.teamcity.ui.pages.ProjectsPage;
 import com.teamcity.ui.pages.admin.CreateProjectPage;
 import com.teamcity.ui.pages.admin.EditBuildTypePage;
+import io.qameta.allure.Feature;
 import org.testng.annotations.Test;
 
-import static com.codeborne.selenide.Selenide.page;
 import static com.teamcity.api.enums.Endpoint.BUILD_TYPES;
 import static com.teamcity.api.enums.Endpoint.PROJECTS;
 
+@Feature("Project")
 public class CreateProjectTest extends BaseUiTest {
 
     @Test(description = "User should be able to create project")
@@ -23,12 +24,12 @@ public class CreateProjectTest extends BaseUiTest {
         CreateProjectPage.open(testData.getProject().getParentProject().getLocator())
                 .createFrom(GIT_URL)
                 .setupProject(testData.getProject().getName(), testData.getBuildType().getName());
-        var createdBuildTypeId = page(EditBuildTypePage.class).getBuildTypeId();
+        var createdBuildTypeId = EditBuildTypePage.open().getBuildTypeId();
 
         var checkedBuildTypeRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.getUser()), BUILD_TYPES);
         var buildType = (BuildType) checkedBuildTypeRequest.read(createdBuildTypeId);
-        softy.assertThat(buildType.getName()).isEqualTo(testData.getBuildType().getName());
+        softy.assertThat(buildType.getName()).as("buildTypeName").isEqualTo(testData.getBuildType().getName());
         // Добавляем созданную сущность в сторедж, чтобы автоматически удалить ее в конце теста логикой, реализованной в API части
         TestDataStorage.getStorage().addCreatedEntity(BUILD_TYPES, createdBuildTypeId);
 
@@ -38,7 +39,7 @@ public class CreateProjectTest extends BaseUiTest {
         var checkedProjectRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.getUser()), PROJECTS);
         var project = (Project) checkedProjectRequest.read(createdProjectId);
-        softy.assertThat(project.getName()).isEqualTo(testData.getProject().getName());
+        softy.assertThat(project.getName()).as("projectName").isEqualTo(testData.getProject().getName());
         TestDataStorage.getStorage().addCreatedEntity(PROJECTS, createdProjectId);
     }
 

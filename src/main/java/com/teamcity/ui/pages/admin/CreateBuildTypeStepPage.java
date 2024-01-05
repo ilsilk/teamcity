@@ -5,6 +5,7 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.teamcity.api.generators.RandomData;
 import com.teamcity.ui.pages.BasePage;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -25,10 +26,12 @@ public class CreateBuildTypeStepPage extends BasePage {
         runnerItemFilterInput.shouldBe(visible, BASE_WAITING);
     }
 
+    @Step("Open build type step creation page")
     public static CreateBuildTypeStepPage open(String buildTypeId) {
         return Selenide.open(NEW_BUILD_STEP_URL.formatted(buildTypeId), CreateBuildTypeStepPage.class);
     }
 
+    @Step("Create command line build step")
     public EditBuildTypePage createCommandLineBuildStep(String customScript) {
         runnerItems.findBy(text(COMMAND_LINE_RUNNER_TYPE)).click();
         buildStepNameInput.shouldBe(visible, BASE_WAITING).val(RandomData.getString());

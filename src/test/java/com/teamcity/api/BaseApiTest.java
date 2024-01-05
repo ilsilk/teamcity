@@ -15,7 +15,7 @@ public class BaseApiTest extends BaseTest {
     private boolean perProjectPermissions;
 
     @BeforeSuite(alwaysRun = true)
-    public void setUpSettings() {
+    public void setUpServerAuthSettings() {
         // Получаем текущее значение настройки perProjectPermissions
         perProjectPermissions = checkedServerAuthSettings.read(null)
                 .getPerProjectPermissions();
@@ -28,7 +28,7 @@ public class BaseApiTest extends BaseTest {
     }
 
     @AfterSuite(alwaysRun = true)
-    public void cleanUpSettings() {
+    public void cleanUpServerAuthSettings() {
         // Возвращаем настройке perProjectPermissions исходное значение, которые было перед запуском тестов
         checkedServerAuthSettings.update(null, ServerAuthSettings.builder()
                 .perProjectPermissions(perProjectPermissions)

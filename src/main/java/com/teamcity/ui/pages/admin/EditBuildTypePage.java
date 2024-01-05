@@ -2,12 +2,15 @@ package com.teamcity.ui.pages.admin;
 
 import com.codeborne.selenide.SelenideElement;
 import com.teamcity.ui.pages.BasePage;
+import io.qameta.allure.Step;
 
 import java.util.regex.Pattern;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.page;
 import static com.codeborne.selenide.WebDriverRunner.url;
+import static io.qameta.allure.Allure.step;
 
 public class EditBuildTypePage extends BasePage {
 
@@ -25,11 +28,19 @@ public class EditBuildTypePage extends BasePage {
         headerHelpIcon.shouldBe(visible, BASE_WAITING);
     }
 
+    @Step("Open build type edit page")
+    public static EditBuildTypePage open() {
+        return page(EditBuildTypePage.class);
+    }
+
+    @Step("Get build type id")
     // Получаем через UI айди созданной билд конфигурации
     public String getBuildTypeId() {
         var pattern = Pattern.compile("buildType:(.*?)(?:&|$)");
         var matcher = pattern.matcher(url());
-        return matcher.find() ? matcher.group(1) : null;
+        var buildTypeId = matcher.find() ? matcher.group(1) : null;
+        step("buildTypeId=" + buildTypeId);
+        return buildTypeId;
     }
 
 }
