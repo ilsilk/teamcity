@@ -6,6 +6,7 @@ import org.testng.annotations.ITestAnnotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
+// Листенер добавлен в pom.xml, чтобы работал механизм ретрая упавших тестов
 public class RetryListener implements IAnnotationTransformer {
 
     @Override
