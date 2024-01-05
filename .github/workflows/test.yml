@@ -6,13 +6,14 @@ jobs:
   run_teamcity_server:
     runs-on: ubuntu-latest
     steps:
-      - name: run teamcity server
+      - name: prepare environment
         run: |
           echo "Current IP address is $(curl -s ifconfig.me)"
           mkdir teamcity_server
           sudo chown -R 1000:1000 teamcity_server
           cd teamcity_server
-          docker run --name teamcity-server-instance \
-          -v $(pwd):/data/teamcity_server/datadir \
-          -v $(pwd):/opt/teamcity/logs \
+      - name: run teamcity server
+        run: docker run --name teamcity-server-instance \
+          -v $(pwd)/datadir:/data/teamcity_server/datadir \
+          -v $(pwd)/logs:/opt/teamcity/logs \
           -p 8111:8111 jetbrains/teamcity-server
