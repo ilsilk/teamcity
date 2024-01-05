@@ -1,18 +1,16 @@
-name: Java CI with Maven
+name: TeamCity tests
 
 on: push
 
 jobs:
-  build:
+  run_teamcity_server:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-      - name: Build with Maven
-        run: ./mvnw clean test
-      - name: Generate Allure report
-        run: ./mvnw allure:report
+      - name: run teamcity server
+        run: |
+          mkdir teamcity_server
+          cd teamcity_server
+          docker run --name teamcity-server-instance \
+          -v $(pwd):/data/teamcity_server/datadir \
+          -v $(pwd):/opt/teamcity/logs \
+          -p 8111:8111 jetbrains/teamcity-server
