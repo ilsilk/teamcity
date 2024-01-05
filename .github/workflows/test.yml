@@ -8,6 +8,7 @@ jobs:
     steps:
       - name: run teamcity server
         run: |
+          echo "Current IP address is $(curl -s ifconfig.me)"
           mkdir teamcity_server
           sudo chown -R 1000:1000 teamcity_server
           cd teamcity_server
