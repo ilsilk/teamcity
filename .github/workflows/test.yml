@@ -9,7 +9,7 @@ jobs:
       - name: run teamcity server
         run: |
           mkdir teamcity_server
-          chown -R 1000:1000 teamcity_server
+          sudo chown -R 1000:1000 teamcity_server
           cd teamcity_server
           docker run --name teamcity-server-instance \
           -v $(pwd):/data/teamcity_server/datadir \
