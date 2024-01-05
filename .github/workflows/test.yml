@@ -15,6 +15,6 @@ jobs:
       - name: run teamcity server
         run:  |
           docker run --name teamcity-server-instance \
-          -v $(pwd)/datadir:/data/teamcity_server/datadir \
-          -v $(pwd)/logs:/opt/teamcity/logs \
+          -v $(pwd):/data/teamcity_server/datadir \
+          -v $(pwd):/opt/teamcity/logs \
           -p 8111:8111 jetbrains/teamcity-server
