@@ -22,7 +22,7 @@ jobs:
           -v /var/run/docker.sock:/var/run/docker.sock \
           -v $(pwd)/config/:/etc/selenoid/:ro \
           -p 4444:4444 \
-          aerokube/selenoid:latest-release
+          aerokube/selenoid
 
       - name: Run Selenoid UI
         run: |
@@ -37,7 +37,7 @@ jobs:
           -v $(pwd)/tmp/teamcity_server/datadir:/data/teamcity_server/datadir \
           -v $(pwd)/tmp/teamcity_server/logs:/opt/teamcity/logs \
           -p 8111:8111 \
-          jetbrains/teamcity-server
+          jetbrains/teamcity-server:2023.11.1
 
       - name: Set up host environment variable
         run: echo "HOST=$(docker inspect teamcity-server -f {{.NetworkSettings.Gateway}}):8111" >> $GITHUB_ENV
@@ -56,13 +56,13 @@ jobs:
         run: |
           docker run -e SERVER_URL=http://$HOST -d --name teamcity-agent \
           -v $(pwd)/tmp/teamcity_agent/conf:/data/teamcity_agent/conf \
-          jetbrains/teamcity-agent
+          jetbrains/teamcity-agent:2023.11.1
 
       - name: Set up TeamCity agent
         run: ./mvnw clean test -Dtest=SetupFirstStartTest#setupTeamCityAgentTest
 
       - name: Run tests
-        run: ./mvnw clean test
+        run: ./mvnw clean test -Dexcludegroups="Setup"
 
       - name: Generate Allure report
         run: ./mvnw allure:report

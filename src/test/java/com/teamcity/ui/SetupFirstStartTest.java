@@ -6,12 +6,12 @@ import org.testng.annotations.Test;
 
 public class SetupFirstStartTest extends BaseUiTest {
 
-    @Test
+    @Test(groups = {"Setup"})
     public void setupTeamCityServerTest() {
         FirstStartPage.open().setupFirstStart();
     }
 
-    @Test
+    @Test(groups = {"Setup"})
     public void setupTeamCityAgentTest() {
         loginAs(testData.getUser());
         UnauthorizedAgentsPage.open().authorizeAgent();
