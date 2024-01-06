@@ -32,19 +32,19 @@ public final class Specifications {
 
     public RequestSpecification unauthSpec() {
         return reqBuilder()
-                .setBaseUri("http://" + Config.getProperty("host"))
+                .setBaseUri("http://" + System.getenv("HOST"))
                 .build();
     }
 
     public RequestSpecification authSpec(User user) {
         return reqBuilder()
-                .setBaseUri("http://%s:%s@%s".formatted(user.getUsername(), user.getPassword(), Config.getProperty("host")))
+                .setBaseUri("http://%s:%s@%s".formatted(user.getUsername(), user.getPassword(), System.getenv("HOST")))
                 .build();
     }
 
     public RequestSpecification superUserSpec() {
         return reqBuilder()
-                .setBaseUri("http://:%s@%s".formatted(System.getenv("SUPER_USER_TOKEN"), Config.getProperty("host")))
+                .setBaseUri("http://:%s@%s".formatted(System.getenv("SUPER_USER_TOKEN"), System.getenv("HOST")))
                 .build();
     }
 

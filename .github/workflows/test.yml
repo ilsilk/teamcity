@@ -11,9 +11,9 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'oracle'
+          distribution: 'zulu'
 
-      - name: Run selenoid
+      - name: Run Selenoid
         run: |
           docker pull selenoid/vnc_chrome:119.0
           docker pull selenoid/vnc_firefox:120.0
@@ -24,14 +24,14 @@ jobs:
           -p 4444:4444 \
           aerokube/selenoid:latest-release
 
-      - name: Run selenoid ui
+      - name: Run Selenoid UI
         run: |
           docker run -d --name selenoid-ui \
           -p 8080:8080 \
           aerokube/selenoid-ui \
           --selenoid-uri http://$(docker inspect selenoid -f {{.NetworkSettings.Gateway}}):4444
 
-      - name: Run teamcity server
+      - name: Run TeamCity server
         run: |
           docker run -d --name teamcity-server \
           -v $(pwd)/tmp/teamcity_server/datadir:/data/teamcity_server/datadir \
@@ -39,7 +39,7 @@ jobs:
           -p 8111:8111 \
           jetbrains/teamcity-server
 
-      - name: Set up teamcity server
+      - name: Set up TeamCity server
         run: ./mvnw clean test -Dtest=SetupFirstStartTest#setupTeamCityServerTest
 
       - name: Set up environment variables
@@ -47,16 +47,11 @@ jobs:
           echo "HOST=$(docker inspect teamcity-server -f {{.NetworkSettings.Gateway}}):8111" >> $GITHUB_ENV
           echo "SUPER_USER_TOKEN=$(docker logs teamcity-server | grep 'Super user authentication token' | tail -n 1 | awk '{print $6}')" >> $GITHUB_ENV
 
-      - name: Run teamcity agent
+      - name: Run TeamCity agent
         run: |
           docker run -e SERVER_URL=http://$HOST -d --name teamcity-agent \
           -v $(pwd)/tmp/teamcity_agent/conf:/data/teamcity_agent/conf \
           jetbrains/teamcity-agent
 
-      - name: Set up teamcity agent
+      - name: Set up TeamCity agent
         run: ./mvnw clean test -Dtest=SetupFirstStartTest#setupTeamCityAgentTest
-
-      - name: Pause
-        run: |
-          echo Pause
-          sleep 1000

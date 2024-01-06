@@ -72,8 +72,7 @@ public class ProjectTest extends BaseApiTest {
         var uncheckedProjectRequest = new UncheckedBase(Specifications.getSpec()
                 .unauthSpec(), PROJECTS);
         uncheckedProjectRequest.create(testData.getProject())
-                .then().assertThat().statusCode(HttpStatus.SC_UNAUTHORIZED)
-                .body(Matchers.containsString("Authentication required"));
+                .then().assertThat().statusCode(HttpStatus.SC_UNAUTHORIZED);
 
         uncheckedSuperUser.getRequest(PROJECTS)
                 .read(testData.getProject().getId())

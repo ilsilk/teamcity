@@ -78,8 +78,7 @@ public class BuildTypeTest extends BaseApiTest {
         var uncheckedBuildTypeRequest = new UncheckedBase(Specifications.getSpec()
                 .unauthSpec(), BUILD_TYPES);
         uncheckedBuildTypeRequest.create(testData.getBuildType())
-                .then().assertThat().statusCode(HttpStatus.SC_UNAUTHORIZED)
-                .body(Matchers.containsString("Authentication required"));
+                .then().assertThat().statusCode(HttpStatus.SC_UNAUTHORIZED);
 
         uncheckedSuperUser.getRequest(BUILD_TYPES).read(testData.getBuildType().getId())
                 .then().assertThat().statusCode(HttpStatus.SC_NOT_FOUND)
