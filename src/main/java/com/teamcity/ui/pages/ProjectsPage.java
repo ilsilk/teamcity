@@ -24,7 +24,7 @@ public class ProjectsPage extends BasePage {
     private final SelenideElement header = $(".MainPanel__router--gF > div");
     private final SelenideElement editProjectLink = $(".EditEntity__link--en");
     private final SelenideElement runButton = $(byDataTest("run-build"));
-    private final SelenideElement buildType = $(".BuildTypeLine__link--os");
+    private final SelenideElement buildType = $(".BuildTypeLine__link--MF");
     private final SelenideElement buildTypeHeader = $(".BuildTypePageHeader__heading--De");
     private final SelenideElement buildDetailsButton = $(".BuildDetails__button--BC");
     private final SelenideElement buildStatusLink = $(".Build__status--bG > a");

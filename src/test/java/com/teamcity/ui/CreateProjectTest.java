@@ -17,7 +17,7 @@ import static com.teamcity.api.enums.Endpoint.PROJECTS;
 @Feature("Project")
 public class CreateProjectTest extends BaseUiTest {
 
-    @Test(description = "User should be able to create project")
+    @Test(description = "User should be able to create project", groups = {"Regression"})
     public void userCreatesProject() {
         loginAs(testData.getUser());
 
@@ -43,7 +43,7 @@ public class CreateProjectTest extends BaseUiTest {
         TestDataStorage.getStorage().addCreatedEntity(PROJECTS, createdProjectId);
     }
 
-    @Test(description = "User should not be able to create project without name")
+    @Test(description = "User should not be able to create project without name", groups = {"Regression"})
     public void userCreatesProjectWithoutName() {
         loginAs(testData.getUser());
 

@@ -19,7 +19,7 @@ public class ProjectTest extends BaseApiTest {
 
     private static final int PROJECT_ID_CHARACTERS_LIMIT = 225;
 
-    @Test(description = "User should be able to create project")
+    @Test(description = "User should be able to create project", groups = {"Regression"})
     public void userCreatesProjectTest() {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
 
@@ -30,7 +30,7 @@ public class ProjectTest extends BaseApiTest {
         softy.assertThat(project.getId()).as("projectId").isEqualTo(testData.getProject().getId());
     }
 
-    @Test(description = "User should not be able to create two projects with the same id")
+    @Test(description = "User should not be able to create two projects with the same id", groups = {"Regression"})
     public void userCreatesTwoProjectsWithSameIdTest() {
         var firstTestData = testData;
         var secondTestData = TestDataGenerator.generate();
@@ -49,7 +49,7 @@ public class ProjectTest extends BaseApiTest {
                 .then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
-    @Test(description = "User should not be able to create project with id exceeding the limit")
+    @Test(description = "User should not be able to create project with id exceeding the limit", groups = {"Regression"})
     public void userCreatesProjectWithIdExceedingLimitTest() {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
 
@@ -67,7 +67,7 @@ public class ProjectTest extends BaseApiTest {
         checkedProjectRequest.create(testData.getProject());
     }
 
-    @Test(description = "Unauthorized user should not be able to create project")
+    @Test(description = "Unauthorized user should not be able to create project", groups = {"Regression"})
     public void unauthorizedUserCreatesProjectTest() {
         var uncheckedProjectRequest = new UncheckedBase(Specifications.getSpec()
                 .unauthSpec(), PROJECTS);
@@ -80,7 +80,7 @@ public class ProjectTest extends BaseApiTest {
                 .body(Matchers.containsString("Could not find the entity requested"));
     }
 
-    @Test(description = "User should be able to delete project")
+    @Test(description = "User should be able to delete project", groups = {"Regression"})
     public void userDeletesProjectTest() {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
 

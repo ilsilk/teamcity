@@ -17,7 +17,7 @@ import static com.teamcity.api.enums.Endpoint.*;
 @Feature("Start build")
 public class StartBuildTest extends BaseApiTest {
 
-    @Test(description = "User should be able to start build")
+    @Test(description = "User should be able to start build", groups = {"Regression"})
     public void userStartsBuildTest() {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
         checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());

@@ -62,7 +62,7 @@ jobs:
         run: ./mvnw clean test -Dtest=SetupFirstStartTest#setupTeamCityAgentTest
 
       - name: Run tests
-        run: ./mvnw clean test -Dexcludegroups="Setup"
+        run: ./mvnw clean test -Dgroups=Regression
 
       - name: Generate Allure report
         run: ./mvnw allure:report

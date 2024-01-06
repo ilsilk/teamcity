@@ -19,7 +19,7 @@ public class BuildTypeTest extends BaseApiTest {
 
     private static final int BUILD_TYPE_ID_CHARACTERS_LIMIT = 225;
 
-    @Test(description = "User should be able to create build type")
+    @Test(description = "User should be able to create build type", groups = {"Regression"})
     public void userCreatesBuildTypeTest() {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
         checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
@@ -31,7 +31,7 @@ public class BuildTypeTest extends BaseApiTest {
         softy.assertThat(buildType.getId()).as("buildTypeId").isEqualTo(testData.getBuildType().getId());
     }
 
-    @Test(description = "User should not be able to create two build types with the same id")
+    @Test(description = "User should not be able to create two build types with the same id", groups = {"Regression"})
     public void userCreatesTwoBuildTypesWithSameIdTest() {
         var firstTestData = testData;
         var secondTestData = TestDataGenerator.generate();
@@ -52,7 +52,7 @@ public class BuildTypeTest extends BaseApiTest {
                 .then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
-    @Test(description = "User should not be able to create build type with id exceeding the limit")
+    @Test(description = "User should not be able to create build type with id exceeding the limit", groups = {"Regression"})
     public void userCreatesBuildTypeWithIdExceedingLimitTest() {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
         checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
@@ -71,7 +71,7 @@ public class BuildTypeTest extends BaseApiTest {
         checkedBuildTypeRequest.create(testData.getBuildType());
     }
 
-    @Test(description = "Unauthorized user should not be able to create build type")
+    @Test(description = "Unauthorized user should not be able to create build type", groups = {"Regression"})
     public void unauthorizedUserCreatesBuildTypeTest() {
         checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
 
@@ -85,7 +85,7 @@ public class BuildTypeTest extends BaseApiTest {
                 .body(Matchers.containsString("Could not find the entity requested"));
     }
 
-    @Test(description = "User should be able to delete build type")
+    @Test(description = "User should be able to delete build type", groups = {"Regression"})
     public void userDeletesBuildTypeTest() {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
         checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
@@ -102,7 +102,7 @@ public class BuildTypeTest extends BaseApiTest {
                 .body(Matchers.containsString("Could not find the entity requested"));
     }
 
-    @Test(description = "Project admin should be able to create build type for their project")
+    @Test(description = "Project admin should be able to create build type for their project", groups = {"Regression"})
     public void projectAdminCreatesBuildTypeTest() {
         checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
 
@@ -118,7 +118,7 @@ public class BuildTypeTest extends BaseApiTest {
         softy.assertThat(buildType.getId()).as("buildTypeId").isEqualTo(testData.getBuildType().getId());
     }
 
-    @Test(description = "Project admin should not be able to create build type for not their project")
+    @Test(description = "Project admin should not be able to create build type for not their project", groups = {"Regression"})
     public void projectAdminCreatesBuildTypeForAnotherUserProjectTest() {
         var firstTestData = testData;
         var secondTestData = TestDataGenerator.generate();
