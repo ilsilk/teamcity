@@ -3,23 +3,57 @@ name: TeamCity tests
 on: push
 
 jobs:
-  run_teamcity_server:
+  run_teamcity_tests:
     runs-on: ubuntu-latest
     steps:
-      - name: prepare environment
-        run: |
-          echo "Current IP address is $(curl -s ifconfig.me)"
-          mkdir teamcity_server
-          sudo chown -R 1000:1000 teamcity_server
-          echo $(pwd)
-          ls
-          cd ..
-          echo $(pwd)
-          ls
-          cd /
-          echo $(pwd)
-          ls
-          cd /tmp
-          echo $(pwd)
-          ls
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'oracle'
 
+      - name: Run selenoid
+        run: |
+          docker run -d --name selenoid \
+          -v /var/run/docker.sock:/var/run/docker.sock \
+          -v $(pwd)/config/:/etc/selenoid/:ro \
+          -p 4444:4444 \
+          aerokube/selenoid:latest-release
+
+      - name: Run selenoid ui
+        run: |
+          docker run -d --name selenoid-ui \
+          -p 8080:8080 \
+          aerokube/selenoid-ui \
+          --selenoid-uri http://$(docker inspect selenoid -f {{.NetworkSettings.Gateway}}):4444
+
+      - name: Run teamcity server
+        run: |
+          docker run -d --name teamcity-server \
+          -v $(pwd)/tmp/teamcity_server/datadir:/data/teamcity_server/datadir \
+          -v $(pwd)/tmp/teamcity_server/logs:/opt/teamcity/logs \
+          -p 8111:8111 \
+          jetbrains/teamcity-server
+
+      - name: Set up teamcity server
+        run: ./mvnw clean test -Dtest=SetupFirstStartTest#setupTeamCityServerTest
+
+      - name: Set up environment variables
+        run: |
+          echo "HOST=$(docker inspect teamcity-server -f {{.NetworkSettings.Gateway}}):8111" >> $GITHUB_ENV
+          echo "SUPER_USER_TOKEN=$(docker logs teamcity-server | grep 'Super user authentication token' | tail -n 1 | awk '{print $6}')" >> $GITHUB_ENV
+
+      - name: Run teamcity agent
+        run: |
+          docker run -e SERVER_URL=http://$HOST -d --name teamcity-agent \
+          -v $(pwd)/tmp/teamcity_agent/conf:/data/teamcity_agent/conf \
+          jetbrains/teamcity-agent
+
+      - name: Set up teamcity agent
+        run: ./mvnw clean test -Dtest=SetupFirstStartTest#setupTeamCityAgentTest
+
+      - name: Pause
+        run: |
+          echo Pause
+          sleep 1000

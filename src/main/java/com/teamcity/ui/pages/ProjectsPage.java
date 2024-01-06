@@ -21,7 +21,7 @@ public class ProjectsPage extends BasePage {
     private static final String SUCCESS_BUILD_STATUS = "Success";
     // Везде стараемся использовать достаточно простые css селекторы.
     // Понятно, что в идеале нужно иметь атрибуты test-data на этих элементах, но здесь мы не можем на это повлиять.
-    private final SelenideElement header = $(".App__router--BP > div");
+    private final SelenideElement header = $(".MainPanel__router--gF > div");
     private final SelenideElement editProjectLink = $(".EditEntity__link--en");
     private final SelenideElement runButton = $(byDataTest("run-build"));
     private final SelenideElement buildType = $(".BuildTypeLine__link--os");
