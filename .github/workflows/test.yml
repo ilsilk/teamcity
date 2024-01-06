@@ -39,6 +39,8 @@ jobs:
           -p 8111:8111 \
           jetbrains/teamcity-server
 
+      - name: Sleep
+        run: sleep 10
       - name: Set up host environment variable
         run: echo "HOST=$(docker inspect teamcity-server -f {{.NetworkSettings.Gateway}}):8111" >> $GITHUB_ENV
       - name: Set up host config property
