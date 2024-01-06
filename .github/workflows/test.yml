@@ -38,16 +38,14 @@ jobs:
           -v $(pwd)/tmp/teamcity_server/logs:/opt/teamcity/logs \
           -p 8111:8111 \
           jetbrains/teamcity-server
-
-      - name: Set up TeamCity server
-        run: ./mvnw clean test -Dtest=SetupFirstStartTest#setupTeamCityServerTest
-
-      - name: Set up variables
-        run: |
           echo "HOST=$(docker inspect teamcity-server -f {{.NetworkSettings.Gateway}}):8111" >> $GITHUB_ENV
           echo "host=$HOST" >> $(pwd)/src/main/resources/config.properties
+
+      - name: Set up TeamCity server
+        run: |
+          ./mvnw clean test -Dtest=SetupFirstStartTest#setupTeamCityServerTest
           echo "SUPER_USER_TOKEN=$(docker logs teamcity-server | grep 'Super user authentication token' | tail -n 1 | awk '{print $6}')" >> $GITHUB_ENV
-          echo "superUserToken=SUPER_USER_TOKEN" >> $(pwd)/src/main/resources/config.properties
+          echo "superUserToken=$SUPER_USER_TOKEN" >> $(pwd)/src/main/resources/config.properties
 
       - name: Run TeamCity agent
         run: |
