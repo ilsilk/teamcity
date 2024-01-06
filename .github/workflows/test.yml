@@ -13,11 +13,11 @@ jobs:
           java-version: '17'
           distribution: 'zulu'
 
+      - name: Pull Selenoid Chrome
+        run: docker pull selenoid/vnc_chrome:119.0
+
       - name: Run Selenoid
         run: |
-          docker pull selenoid/vnc_chrome:119.0
-          docker pull selenoid/vnc_firefox:120.0
-          docker pull selenoid/vnc_opera:105.0
           docker run -d --name selenoid \
           -v /var/run/docker.sock:/var/run/docker.sock \
           -v $(pwd)/config/:/etc/selenoid/:ro \
@@ -39,11 +39,18 @@ jobs:
           -p 8111:8111 \
           jetbrains/teamcity-server
 
+      - name: Set up host environment variable
+        run: echo "HOST=$(docker inspect teamcity-server -f {{.NetworkSettings.Gateway}}):8111" >> $GITHUB_ENV
+      - name: Set up host config property
+        run: echo "host=$HOST" >> $(pwd)/src/main/resources/config.properties
+
       - name: Set up TeamCity server
-        run: |
-          echo "HOST=$(docker inspect teamcity-server -f {{.NetworkSettings.Gateway}}):8111" >> $GITHUB_ENV
-          echo "host=$HOST" >> $(pwd)/src/main/resources/config.properties
-          ./mvnw clean test -Dtest=SetupFirstStartTest#setupTeamCityServerTest
+        run: ./mvnw clean test -Dtest=SetupFirstStartTest#setupTeamCityServerTest
+
+      - name: Set up superUserToken environment variable
+        run: echo "SUPER_USER_TOKEN=$(docker logs teamcity-server | grep 'Super user authentication token' | tail -n 1 | awk '{print $6}')" >> $GITHUB_ENV
+      - name: Set up superUserToken config property
+        run: echo "superUserToken=$SUPER_USER_TOKEN" >> $(pwd)/src/main/resources/config.properties
 
       - name: Run TeamCity agent
         run: |
@@ -52,7 +59,4 @@ jobs:
           jetbrains/teamcity-agent
 
       - name: Set up TeamCity agent
-        run: |
-          echo "SUPER_USER_TOKEN=$(docker logs teamcity-server | grep 'Super user authentication token' | tail -n 1 | awk '{print $6}')" >> $GITHUB_ENV
-          echo "superUserToken=$SUPER_USER_TOKEN" >> $(pwd)/src/main/resources/config.properties
-          ./mvnw clean test -Dtest=SetupFirstStartTest#setupTeamCityAgentTest
+        run: ./mvnw clean test -Dtest=SetupFirstStartTest#setupTeamCityAgentTest
