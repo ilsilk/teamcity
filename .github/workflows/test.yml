@@ -19,3 +19,7 @@ jobs:
           cd /
           echo $(pwd)
           ls
+          cd /tmp
+          echo $(pwd)
+          ls
+
