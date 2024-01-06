@@ -11,10 +11,6 @@ jobs:
           echo "Current IP address is $(curl -s ifconfig.me)"
           mkdir teamcity_server
           sudo chown -R 1000:1000 teamcity_server
-          cd teamcity_server
-      - name: run teamcity server
-        run:  |
-          docker run --name teamcity-server-instance \
-          -v $(pwd):/data/teamcity_server/datadir \
-          -v $(pwd):/opt/teamcity/logs \
-          -p 8111:8111 jetbrains/teamcity-server
+          echo $(pwd)
+          cd /
+          echo $(pwd)
