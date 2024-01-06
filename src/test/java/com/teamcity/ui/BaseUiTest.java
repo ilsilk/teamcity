@@ -23,7 +23,7 @@ public class BaseUiTest extends BaseTest {
     public void setupUiTests() {
         // Нет никакой необходимости писать класс-конфигуратор браузера, так как Selenide последних версий делает это из коробки
         Configuration.browser = Config.getProperty("browser");
-        Configuration.baseUrl = "http://" + System.getenv("HOST");
+        Configuration.baseUrl = "http://" + Config.getProperty("host");
         Configuration.remote = Config.getProperty("remote");
         // Проводим тестирование на фиксированном разрешении экрана
         Configuration.browserSize = "1920x1080";
