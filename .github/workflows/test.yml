@@ -29,7 +29,7 @@ jobs:
           docker run -d --name selenoid-ui \
           -p 8080:8080 \
           aerokube/selenoid-ui \
-          --selenoid-uri http://$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' "selenoid"):4444
+          --selenoid-uri http://$(docker inspect selenoid -f {{.NetworkSettings.Gateway}}):4444
 
       - name: Run TeamCity server
         run: |
@@ -40,7 +40,7 @@ jobs:
           jetbrains/teamcity-server
 
       - name: Set up host environment variable
-        run: echo "HOST=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' "teamcity-server"):8111" >> $GITHUB_ENV
+        run: echo "HOST=$(docker inspect teamcity-server -f {{.NetworkSettings.Gateway}}):8111" >> $GITHUB_ENV
       - name: Set up host config property
         run: echo "host=$HOST" >> $(pwd)/src/main/resources/config.properties
 
@@ -60,3 +60,9 @@ jobs:
 
       - name: Set up TeamCity agent
         run: ./mvnw clean test -Dtest=SetupFirstStartTest#setupTeamCityAgentTest
+
+      - name: Run tests
+        run: ./mvnw clean test
+
+      - name: Generate Allure report
+        run: ./mvnw allure:report
