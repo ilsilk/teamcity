@@ -15,6 +15,9 @@ jobs:
 
       - name: Run selenoid
         run: |
+          docker pull selenoid/vnc_chrome:119.0
+          docker pull selenoid/vnc_firefox:120.0
+          docker pull selenoid/vnc_opera:105.0
           docker run -d --name selenoid \
           -v /var/run/docker.sock:/var/run/docker.sock \
           -v $(pwd)/config/:/etc/selenoid/:ro \
