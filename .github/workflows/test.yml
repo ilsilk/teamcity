@@ -27,7 +27,7 @@ jobs:
 
       - name: Run Selenoid
         run: |
-          docker run --name selenoid \
+          docker run -d --name selenoid \
           -v /var/run/docker.sock:/var/run/docker.sock \
           -v $(pwd)/config/:/etc/selenoid/:ro \
           -p 4444:4444 \
@@ -35,7 +35,7 @@ jobs:
 
       - name: Run Selenoid UI
         run: |
-          docker run -d --name selenoid-ui \
+          docker run --name selenoid-ui \
           -p 8080:8080 \
           aerokube/selenoid-ui \
           --selenoid-uri http://$HOST:4444
