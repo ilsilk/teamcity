@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up JDK 17
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           java-version: '17'
@@ -33,6 +33,7 @@ jobs:
           -p 4444:4444 \
           aerokube/selenoid
 
+      # В этом степе нет смысла, тк через GitHub Actions нет доступа к Selenoid UI. Но зато это полезно при локальном запуске через act, для отладки
       - name: Run Selenoid UI
         run: |
           docker run -d --name selenoid-ui \
@@ -63,9 +64,10 @@ jobs:
           jetbrains/teamcity-agent:2023.11.1
 
       - name: Set up TeamCity agent
+        # Не указываем clean, чтобы потом сгенерировать репорт для обоих сетап тестов
         run: ./mvnw test -Dtest=SetupFirstStartTest#setupTeamCityAgentTest
 
-      - name: Generate setup Allure report
+      - name: Generate setup report
         run: ./mvnw allure:report
 
       - name: Save setup artifacts
@@ -78,16 +80,29 @@ jobs:
             target/site/allure-maven-plugin/
 
       - name: Run tests
+        # Указываем группу, чтобы еще раз не запустить тесты, которые использовались для сетапа сервера и агента
         run: ./mvnw clean test -Dgroups=Regression
 
-      - name: Generate tests Allure report
-        run: ./mvnw allure:report
-
-      - name: Save tests artifacts
-        uses: actions/upload-artifact@v4
+      - name: Load tests report history
+        uses: actions/checkout@v4
+        if: always()
+        continue-on-error: true
         with:
-          name: tests-artifacts
-          path: |
-            target/allure-results/
-            target/reports/tests/
-            target/site/allure-maven-plugin/
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Build tests report
+        uses: simple-elf/allure-report-action@v1.7
+        if: always()
+        with:
+          gh_pages: gh-pages
+          allure_history: allure-history
+          allure_results: target/allure-results
+
+      - name: Publish tests report
+        uses: peaceiris/actions-gh-pages@v3
+        if: always()
+        with:
+          github_token: $
+          publish_branch: gh-pages
+          publish_dir: allure-history

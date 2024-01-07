@@ -33,7 +33,7 @@ public class ProjectsPage extends BasePage {
     private final ElementsCollection projects = $$(byDataTestItemtype("project"));
 
     public ProjectsPage() {
-        header.shouldBe(visible, LONG_WAITING);
+        header.shouldBe(visible, BASE_WAITING);
     }
 
     @Step("Open projects page")
