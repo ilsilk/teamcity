@@ -12,7 +12,6 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class FirstStartPage extends BasePage {
 
-    private static final Duration LONG_WAITING = Duration.ofMinutes(3);
     private final SelenideElement restoreButton = $("#restoreButton");
     private final SelenideElement proceedButton = $("#proceedButton");
     private final SelenideElement dbTypeSelect = $("#dbType");

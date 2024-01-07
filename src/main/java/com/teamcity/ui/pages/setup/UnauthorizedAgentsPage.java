@@ -11,7 +11,6 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class UnauthorizedAgentsPage extends BasePage {
 
-    private static final Duration LONG_WAITING = Duration.ofMinutes(3);
     private final SelenideElement authorizeAgentButton = $(".AuthorizeAgent__authorizeAgent--Xr > button");
     private final SelenideElement authorizeAgentModalWindowButton = $(".CommonForm__button--Nb");
 

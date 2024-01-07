@@ -33,7 +33,7 @@ public class ProjectsPage extends BasePage {
     private final ElementsCollection projects = $$(byDataTestItemtype("project"));
 
     public ProjectsPage() {
-        header.shouldBe(visible, BASE_WAITING);
+        header.shouldBe(visible, LONG_WAITING);
     }
 
     @Step("Open projects page")
@@ -61,7 +61,7 @@ public class ProjectsPage extends BasePage {
         buildTypeHeader.should(appear, BASE_WAITING);
         runButton.click();
         buildDetailsButton.should(appear, BASE_WAITING);
-        buildStatusLink.shouldBe(exactText(SUCCESS_BUILD_STATUS), Duration.ofMinutes(3));
+        buildStatusLink.shouldBe(exactText(SUCCESS_BUILD_STATUS), LONG_WAITING);
         return this;
     }
 
