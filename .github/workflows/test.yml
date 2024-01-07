@@ -71,7 +71,7 @@ jobs:
         # Указываем группу, чтобы еще раз не запустить тесты, которые использовались для сетапа сервера и агента
         run: ./mvnw test -Dgroups=Regression
 
-      - name: Load tests report history
+      - name: Load test report history
         uses: actions/checkout@v4
         if: always()
         continue-on-error: true
@@ -79,7 +79,7 @@ jobs:
           ref: gh-pages
           path: gh-pages
 
-      - name: Build tests report
+      - name: Build test report
         uses: simple-elf/allure-report-action@v1.7
         if: always()
         with:
@@ -87,10 +87,18 @@ jobs:
           allure_history: allure-history
           allure_results: target/allure-results
 
-      - name: Publish tests report
+      - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3
         if: always()
         with:
           github_token: $
           publish_branch: gh-pages
           publish_dir: allure-history
+
+      - name: Install Swagger coverage
+        if: always()
+        run: wget https://github.com/viclovsky/swagger-coverage/releases/download/1.5.0/swagger-coverage-1.5.0.zip && unzip swagger-coverage-1.5.0.zip
+
+      - name: Run Swagger coverage
+        if: always()
+        run: swagger-coverage-commandline-1.5.0/bin/swagger-coverage-commandline -s http://$HOST:8111/app/rest/swagger.json -i target/swagger-coverage-output
