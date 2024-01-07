@@ -5,7 +5,6 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 
-import java.time.Duration;
 import java.util.regex.Pattern;
 
 import static com.codeborne.selenide.Condition.*;

@@ -3,8 +3,7 @@ package com.teamcity.ui.pages.setup;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.teamcity.ui.pages.BasePage;
-
-import java.time.Duration;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.visible;
@@ -22,10 +21,12 @@ public class FirstStartPage extends BasePage {
         restoreButton.shouldBe(visible, LONG_WAITING);
     }
 
+    @Step("Open first start page")
     public static FirstStartPage open() {
         return Selenide.open("/", FirstStartPage.class);
     }
 
+    @Step("Setup server on first start")
     public FirstStartPage setupFirstStart() {
         proceedButton.click();
         dbTypeSelect.shouldBe(visible, LONG_WAITING);
