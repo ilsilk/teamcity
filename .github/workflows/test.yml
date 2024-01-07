@@ -13,9 +13,6 @@ jobs:
           java-version: '17'
           distribution: 'zulu'
 
-      - name: Create tmp directory
-        run: mkdir $(pwd)/tmp && sudo chown -R 1000:1000 $(pwd)/tmp && sudo chmod g+s $(pwd)/tmp
-
       - name: Install ifconfig
         run: sudo apt-get update && sudo apt-get install -y net-tools
 
@@ -45,7 +42,7 @@ jobs:
 
       - name: Run TeamCity server
         run: |
-          docker run --name teamcity-server \
+          docker run -u 0 --name teamcity-server \
           -v $(pwd)/tmp/teamcity_server/datadir:/data/teamcity_server/datadir \
           -v $(pwd)/tmp/teamcity_server/logs:/opt/teamcity/logs \
           -p 8111:8111 \
