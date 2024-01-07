@@ -67,21 +67,9 @@ jobs:
         # Не указываем clean, чтобы потом сгенерировать репорт для обоих сетап тестов
         run: ./mvnw test -Dtest=SetupFirstStartTest#setupTeamCityAgentTest
 
-      - name: Generate setup report
-        run: ./mvnw allure:report
-
-      - name: Save setup artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: setup-artifacts
-          path: |
-            target/allure-results/
-            target/reports/tests/
-            target/site/allure-maven-plugin/
-
       - name: Run tests
         # Указываем группу, чтобы еще раз не запустить тесты, которые использовались для сетапа сервера и агента
-        run: ./mvnw clean test -Dgroups=Regression
+        run: ./mvnw test -Dgroups=Regression
 
       - name: Load tests report history
         uses: actions/checkout@v4
