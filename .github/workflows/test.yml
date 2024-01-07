@@ -70,3 +70,10 @@ jobs:
 
       - name: Generate Allure report
         run: ./mvnw allure:report
+
+      - name: Save artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          path: |
+            target/reports/tests/
+            target/site/allure-maven-plugin/
