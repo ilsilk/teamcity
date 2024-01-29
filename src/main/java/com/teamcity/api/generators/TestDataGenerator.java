@@ -7,8 +7,12 @@ import com.teamcity.api.models.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.List;
+
+import static java.util.Comparator.reverseOrder;
 
 public final class TestDataGenerator {
 
@@ -17,21 +21,25 @@ public final class TestDataGenerator {
     private TestDataGenerator() {
     }
 
-    public static BaseModel generate(Class<? extends BaseModel> generatorClass) {
+    public static BaseModel generate(Class<? extends BaseModel> generatorClass, Collection<BaseModel> generatedModels) {
         try {
             var instance = generatorClass.getDeclaredConstructor().newInstance();
             for (var field : generatorClass.getDeclaredFields()) {
                 field.setAccessible(true);
                 if (field.get(instance) == null) {
+                    var generatedClass = generatedModels.stream().filter(m
+                            -> m.getClass().equals(field.getType())).findFirst();
                     if (field.getAnnotation(Random.class) != null && String.class.equals(field.getType())) {
                         field.set(instance, RandomData.getString());
                     } else if (BaseModel.class.isAssignableFrom(field.getType())) {
-                        field.set(instance, generate(field.getType().asSubclass(BaseModel.class)));
+                        field.set(instance, generatedClass.orElseGet(()
+                                -> generate(field.getType().asSubclass(BaseModel.class), generatedModels)));
                     } else if (List.class.isAssignableFrom(field.getType())) {
                         if (field.getGenericType() instanceof ParameterizedType pt) {
                             var typeClass = (Class<?>) pt.getActualTypeArguments()[0];
                             if (BaseModel.class.isAssignableFrom(typeClass)) {
-                                field.set(instance, List.of(generate(typeClass.asSubclass(BaseModel.class))));
+                                field.set(instance, generatedClass.map(List::of).orElseGet(()
+                                        -> List.of(generate(typeClass.asSubclass(BaseModel.class), generatedModels))));
                             }
                         }
                     }
@@ -45,15 +53,15 @@ public final class TestDataGenerator {
         }
     }
 
+    public static BaseModel generate(Class<? extends BaseModel> generatorClass) {
+        return generate(generatorClass, null);
+    }
+
     public static EnumMap<Endpoint, BaseModel> generate() {
-        var testData = new EnumMap<Endpoint, BaseModel>(Endpoint.class);
-        for (var endpoint : Endpoint.values()) {
-            var generatorClass = endpoint.getGeneratorClass();
-            if (generatorClass != null) {
-                testData.put(endpoint, generate(endpoint.getGeneratorClass()));
-            }
-        }
-        return testData;
+        var generatedTestData = new EnumMap<Endpoint, BaseModel>(Endpoint.class);
+        Arrays.stream(Endpoint.values()).filter(e -> e.getGeneratorClass() != null).sorted(reverseOrder())
+                .forEach(endpoint -> generatedTestData.put(endpoint, generate(endpoint.getGeneratorClass(), generatedTestData.values())));
+        return generatedTestData;
         /*var project = NewProjectDescription.builder()
                 .id(RandomData.getString())
                 .name(RandomData.getString())
