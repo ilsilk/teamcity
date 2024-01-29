@@ -2,6 +2,7 @@ package com.teamcity.api;
 
 import com.teamcity.BaseTest;
 import com.teamcity.api.generators.TestDataGenerator;
+import com.teamcity.api.models.AuthModules;
 import com.teamcity.api.models.ServerAuthSettings;
 import com.teamcity.api.requests.checked.CheckedServerAuthSettings;
 import com.teamcity.api.spec.Specifications;
@@ -23,7 +24,7 @@ public class BaseApiTest extends BaseTest {
         // Обновляем значение настройки perProjectPermissions на true (для тестирования ролей)
         checkedServerAuthSettings.update(null, ServerAuthSettings.builder()
                 .perProjectPermissions(true)
-                .modules(TestDataGenerator.generateAuthModules())
+                .modules((AuthModules) TestDataGenerator.generate(AuthModules.class))
                 .build());
     }
 
@@ -32,7 +33,7 @@ public class BaseApiTest extends BaseTest {
         // Возвращаем настройке perProjectPermissions исходное значение, которые было перед запуском тестов
         checkedServerAuthSettings.update(null, ServerAuthSettings.builder()
                 .perProjectPermissions(perProjectPermissions)
-                .modules(TestDataGenerator.generateAuthModules())
+                .modules((AuthModules) TestDataGenerator.generate(AuthModules.class))
                 .build());
     }
 

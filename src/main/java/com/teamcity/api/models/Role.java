@@ -1,6 +1,7 @@
 package com.teamcity.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.teamcity.api.annotations.Parameterizable;
 import com.teamcity.api.enums.UserRole;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
@@ -15,8 +16,10 @@ import lombok.extern.jackson.Jacksonized;
 public class Role extends BaseModel {
 
     @Builder.Default
-    private String roleId = UserRole.SYSTEM_ADMIN.toString();
+    @Parameterizable
+    private UserRole roleId = UserRole.SYSTEM_ADMIN;
     @Builder.Default
+    @Parameterizable
     private String scope = "g";
 
 }

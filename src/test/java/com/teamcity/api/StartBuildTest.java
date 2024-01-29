@@ -3,6 +3,8 @@ package com.teamcity.api;
 import com.teamcity.api.generators.TestDataGenerator;
 import com.teamcity.api.models.Build;
 import com.teamcity.api.models.BuildType;
+import com.teamcity.api.models.Property;
+import com.teamcity.api.models.Steps;
 import com.teamcity.api.requests.checked.CheckedBase;
 import com.teamcity.api.spec.Specifications;
 import io.qameta.allure.Feature;
@@ -11,6 +13,7 @@ import org.awaitility.Awaitility;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static com.teamcity.api.enums.Endpoint.*;
@@ -23,7 +26,9 @@ public class StartBuildTest extends BaseApiTest {
         checkedSuperUser.getRequest(USERS).create(testData.get(USERS));
         checkedSuperUser.getRequest(PROJECTS).create(testData.get(PROJECTS));
 
-        ((BuildType) testData.get(BUILD_TYPES)).setSteps(TestDataGenerator.generateSimpleRunnerSteps("echo 'Hello World!'"));
+        ((BuildType) testData.get(BUILD_TYPES)).setSteps((Steps) TestDataGenerator.generate(Steps.class,
+                List.of(TestDataGenerator.generate(Property.class, "script.content", "echo 'Hello World!'"),
+                        TestDataGenerator.generate(Property.class, "use.custom.script", "true"))));
 
         checkedSuperUser.getRequest(BUILD_TYPES).create(testData.get(BUILD_TYPES));
 

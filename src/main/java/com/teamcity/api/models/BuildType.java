@@ -1,6 +1,7 @@
 package com.teamcity.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.teamcity.api.annotations.Optional;
 import com.teamcity.api.annotations.Random;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
@@ -19,6 +20,7 @@ public class BuildType extends BaseModel {
     @Random
     private String name;
     private NewProjectDescription project;
+    @Optional
     private Steps steps;
 
 }

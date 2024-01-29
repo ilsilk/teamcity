@@ -5,6 +5,7 @@ import com.teamcity.api.generators.RandomData;
 import com.teamcity.api.generators.TestDataGenerator;
 import com.teamcity.api.models.BuildType;
 import com.teamcity.api.models.NewProjectDescription;
+import com.teamcity.api.models.Roles;
 import com.teamcity.api.models.User;
 import com.teamcity.api.requests.checked.CheckedBase;
 import com.teamcity.api.requests.unchecked.UncheckedBase;
@@ -108,7 +109,7 @@ public class BuildTypeTest extends BaseApiTest {
     public void projectAdminCreatesBuildTypeTest() {
         checkedSuperUser.getRequest(PROJECTS).create(testData.get(PROJECTS));
 
-        ((User) testData.get(USERS)).setRoles(TestDataGenerator.generateRoles(
+        ((User) testData.get(USERS)).setRoles((Roles) TestDataGenerator.generate(Roles.class,
                 UserRole.PROJECT_ADMIN, "p:" + ((NewProjectDescription) testData.get(PROJECTS)).getId()));
 
         checkedSuperUser.getRequest(USERS).create(testData.get(USERS));
@@ -128,9 +129,9 @@ public class BuildTypeTest extends BaseApiTest {
         checkedSuperUser.getRequest(PROJECTS).create(firstTestData.get(PROJECTS));
         checkedSuperUser.getRequest(PROJECTS).create(secondTestData.get(PROJECTS));
 
-        ((User) firstTestData.get(USERS)).setRoles(TestDataGenerator.generateRoles(
+        ((User) firstTestData.get(USERS)).setRoles((Roles) TestDataGenerator.generate(Roles.class,
                 UserRole.PROJECT_ADMIN, "p:" + ((NewProjectDescription) firstTestData.get(PROJECTS)).getId()));
-        ((User) secondTestData.get(USERS)).setRoles(TestDataGenerator.generateRoles(
+        ((User) secondTestData.get(USERS)).setRoles((Roles) TestDataGenerator.generate(Roles.class,
                 UserRole.PROJECT_ADMIN, "p:" + ((NewProjectDescription) secondTestData.get(PROJECTS)).getId()));
 
         checkedSuperUser.getRequest(USERS).create(firstTestData.get(USERS));
