@@ -1,12 +1,13 @@
 package com.teamcity.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.teamcity.api.annotations.Random;
+import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @EqualsAndHashCode(callSuper = false)
 @Jacksonized
@@ -14,8 +15,11 @@ import lombok.extern.jackson.Jacksonized;
 public class User extends BaseModel {
 
     private String id;
+    @Random
     private String username;
+    @Random
     private String email;
+    @Random
     private String password;
     private Roles roles;
 
