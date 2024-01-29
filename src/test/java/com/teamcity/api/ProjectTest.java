@@ -3,6 +3,7 @@ package com.teamcity.api;
 import com.teamcity.api.generators.RandomData;
 import com.teamcity.api.generators.TestDataGenerator;
 import com.teamcity.api.models.NewProjectDescription;
+import com.teamcity.api.models.Project;
 import com.teamcity.api.requests.checked.CheckedBase;
 import com.teamcity.api.requests.unchecked.UncheckedBase;
 import com.teamcity.api.spec.Specifications;
@@ -25,7 +26,7 @@ public class ProjectTest extends BaseApiTest {
 
         var checkedProjectRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.get(USERS)), PROJECTS);
-        var project = (NewProjectDescription) checkedProjectRequest.create(testData.get(PROJECTS));
+        var project = (Project) checkedProjectRequest.create(testData.get(PROJECTS));
 
         softy.assertThat(project.getId()).as("projectId").isEqualTo(((NewProjectDescription) testData.get(PROJECTS)).getId());
     }

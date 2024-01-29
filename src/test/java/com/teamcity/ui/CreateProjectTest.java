@@ -3,6 +3,7 @@ package com.teamcity.ui;
 import com.teamcity.api.generators.TestDataStorage;
 import com.teamcity.api.models.BuildType;
 import com.teamcity.api.models.NewProjectDescription;
+import com.teamcity.api.models.Project;
 import com.teamcity.api.requests.checked.CheckedBase;
 import com.teamcity.api.spec.Specifications;
 import com.teamcity.ui.pages.ProjectsPage;
@@ -37,7 +38,7 @@ public class CreateProjectTest extends BaseUiTest {
                 .getProjectId();
         var checkedProjectRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.get(USERS)), PROJECTS);
-        var project = (NewProjectDescription) checkedProjectRequest.read(createdProjectId);
+        var project = (Project) checkedProjectRequest.read(createdProjectId);
         softy.assertThat(project.getName()).as("projectName").isEqualTo(((NewProjectDescription) testData.get(PROJECTS)).getName());
         TestDataStorage.getStorage().addCreatedEntity(PROJECTS, createdProjectId);
     }

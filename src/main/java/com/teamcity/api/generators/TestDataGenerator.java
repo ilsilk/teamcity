@@ -17,10 +17,6 @@ public final class TestDataGenerator {
     private TestDataGenerator() {
     }
 
-    public static void main(String[] args) {
-        System.out.println(generate(BuildType.class));
-    }
-
     public static BaseModel generate(Class<? extends BaseModel> generatorClass) {
         try {
             var instance = generatorClass.getDeclaredConstructor().newInstance();
@@ -40,15 +36,16 @@ public final class TestDataGenerator {
                         }
                     }
                 }
+                field.setAccessible(false);
             }
             return instance;
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException
                  | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException("Cannot generate test data", e);
         }
     }
 
-    public static  EnumMap<Endpoint, BaseModel> generate() {
+    public static EnumMap<Endpoint, BaseModel> generate() {
         var testData = new EnumMap<Endpoint, BaseModel>(Endpoint.class);
         for (var endpoint : Endpoint.values()) {
             var generatorClass = endpoint.getGeneratorClass();
