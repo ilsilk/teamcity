@@ -1,7 +1,6 @@
 package com.teamcity;
 
 import com.teamcity.api.enums.Endpoint;
-import com.teamcity.api.generators.TestDataGenerator;
 import com.teamcity.api.generators.TestDataStorage;
 import com.teamcity.api.models.BaseModel;
 import com.teamcity.api.requests.CheckedRequests;
@@ -12,6 +11,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 import java.util.EnumMap;
+
+import static com.teamcity.api.generators.TestDataGenerator.generate;
 
 public class BaseTest {
 
@@ -24,7 +25,7 @@ public class BaseTest {
     public void generateBaseTestData() {
         softy = new SoftAssertions();
         // Генерируем одну testData перед каждым тестом (так как она всегда нужна), без добавления ее в какое-то хранилище
-        testData = TestDataGenerator.generate();
+        testData = generate();
     }
 
     @AfterMethod(alwaysRun = true)

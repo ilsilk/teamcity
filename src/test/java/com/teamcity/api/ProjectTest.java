@@ -1,7 +1,6 @@
 package com.teamcity.api;
 
 import com.teamcity.api.generators.RandomData;
-import com.teamcity.api.generators.TestDataGenerator;
 import com.teamcity.api.models.NewProjectDescription;
 import com.teamcity.api.models.Project;
 import com.teamcity.api.requests.checked.CheckedBase;
@@ -14,6 +13,7 @@ import org.testng.annotations.Test;
 
 import static com.teamcity.api.enums.Endpoint.PROJECTS;
 import static com.teamcity.api.enums.Endpoint.USERS;
+import static com.teamcity.api.generators.TestDataGenerator.generate;
 
 @Feature("Project")
 public class ProjectTest extends BaseApiTest {
@@ -33,16 +33,16 @@ public class ProjectTest extends BaseApiTest {
 
     @Test(description = "User should not be able to create two projects with the same id", groups = {"Regression"})
     public void userCreatesTwoProjectsWithSameIdTest() {
-        var firstTestData = testData;
-        var secondTestData = TestDataGenerator.generate();
-
-        checkedSuperUser.getRequest(USERS).create(firstTestData.get(USERS));
+        checkedSuperUser.getRequest(USERS).create(testData.get(USERS));
 
         var checkedProjectRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.get(USERS)), PROJECTS);
-        checkedProjectRequest.create(firstTestData.get(PROJECTS));
+        checkedProjectRequest.create(testData.get(PROJECTS));
 
-        ((NewProjectDescription) secondTestData.get(PROJECTS)).setId(((NewProjectDescription) firstTestData.get(PROJECTS)).getId());
+        var secondTestData = generate();
+        var projectTestData = (NewProjectDescription) testData.get(PROJECTS);
+        var secondProjectTestData = (NewProjectDescription) secondTestData.get(PROJECTS);
+        secondProjectTestData.setId(projectTestData.getId());
 
         var uncheckedProjectRequest = new UncheckedBase(Specifications.getSpec()
                 .authSpec(testData.get(USERS)), PROJECTS);
@@ -54,14 +54,15 @@ public class ProjectTest extends BaseApiTest {
     public void userCreatesProjectWithIdExceedingLimitTest() {
         checkedSuperUser.getRequest(USERS).create(testData.get(USERS));
 
-        ((NewProjectDescription) testData.get(PROJECTS)).setId(RandomData.getString(PROJECT_ID_CHARACTERS_LIMIT + 1));
+        var projectTestData = (NewProjectDescription) testData.get(PROJECTS);
+        projectTestData.setId(RandomData.getString(PROJECT_ID_CHARACTERS_LIMIT + 1));
 
         var uncheckedProjectRequest = new UncheckedBase(Specifications.getSpec()
                 .authSpec(testData.get(USERS)), PROJECTS);
         uncheckedProjectRequest.create(testData.get(PROJECTS))
                 .then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 
-        ((NewProjectDescription) testData.get(PROJECTS)).setId(RandomData.getString(PROJECT_ID_CHARACTERS_LIMIT));
+        projectTestData.setId(RandomData.getString(PROJECT_ID_CHARACTERS_LIMIT));
 
         var checkedProjectRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.get(USERS)), PROJECTS);

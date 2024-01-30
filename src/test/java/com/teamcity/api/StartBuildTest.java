@@ -1,6 +1,5 @@
 package com.teamcity.api;
 
-import com.teamcity.api.generators.TestDataGenerator;
 import com.teamcity.api.models.Build;
 import com.teamcity.api.models.BuildType;
 import com.teamcity.api.models.Property;
@@ -17,6 +16,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static com.teamcity.api.enums.Endpoint.*;
+import static com.teamcity.api.generators.TestDataGenerator.generate;
 
 @Feature("Start build")
 public class StartBuildTest extends BaseApiTest {
@@ -26,9 +26,10 @@ public class StartBuildTest extends BaseApiTest {
         checkedSuperUser.getRequest(USERS).create(testData.get(USERS));
         checkedSuperUser.getRequest(PROJECTS).create(testData.get(PROJECTS));
 
-        ((BuildType) testData.get(BUILD_TYPES)).setSteps((Steps) TestDataGenerator.generate(Steps.class,
-                List.of(TestDataGenerator.generate(Property.class, "script.content", "echo 'Hello World!'"),
-                        TestDataGenerator.generate(Property.class, "use.custom.script", "true"))));
+        var buildTypeTestData = (BuildType) testData.get(BUILD_TYPES);
+        buildTypeTestData.setSteps((Steps) generate(Steps.class, List.of(
+                generate(Property.class, "script.content", "echo 'Hello World!'"),
+                generate(Property.class, "use.custom.script", "true"))));
 
         checkedSuperUser.getRequest(BUILD_TYPES).create(testData.get(BUILD_TYPES));
 

@@ -49,10 +49,9 @@ public class BaseUiTest extends BaseTest {
         Selenide.closeWebDriver();
     }
 
-    protected void loginAs(BaseModel model) {
-        var user = (User) model;
+    protected void loginAs(BaseModel user) {
         checkedSuperUser.getRequest(USERS).create(user);
-        LoginPage.open().login(user);
+        LoginPage.open().login((User) user);
     }
 
 }

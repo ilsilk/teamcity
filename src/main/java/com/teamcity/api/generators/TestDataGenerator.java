@@ -10,8 +10,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
-import static java.util.Comparator.reverseOrder;
-
 public final class TestDataGenerator {
 
     private TestDataGenerator() {
@@ -22,25 +20,25 @@ public final class TestDataGenerator {
             var instance = generatorClass.getDeclaredConstructor().newInstance();
             for (var field : generatorClass.getDeclaredFields()) {
                 field.setAccessible(true);
-                if (field.getAnnotation(Optional.class) == null) {
+                if (field.isAnnotationPresent(Optional.class)) {
                     var generatedClass = generatedModels.stream().filter(m
                             -> m.getClass().equals(field.getType())).findFirst();
-                    if (field.getAnnotation(Parameterizable.class) != null && parameters.length > 0) {
+                    if (field.isAnnotationPresent(Parameterizable.class) && parameters.length > 0) {
                         field.set(instance, parameters[0]);
                         parameters = Arrays.copyOfRange(parameters, 1, parameters.length);
-                    } else if (field.getAnnotation(Random.class) != null && String.class.equals(field.getType())) {
+                    } else if (field.isAnnotationPresent(Random.class) && String.class.equals(field.getType())) {
                         field.set(instance, RandomData.getString());
                     } else if (BaseModel.class.isAssignableFrom(field.getType())) {
                         var finalParameters = parameters;
-                        field.set(instance, generatedClass.orElseGet(()
-                                -> generate(generatedModels, field.getType().asSubclass(BaseModel.class), finalParameters)));
+                        field.set(instance, generatedClass.orElseGet(() -> generate(
+                                generatedModels, field.getType().asSubclass(BaseModel.class), finalParameters)));
                     } else if (List.class.isAssignableFrom(field.getType())) {
                         if (field.getGenericType() instanceof ParameterizedType pt) {
                             var typeClass = (Class<?>) pt.getActualTypeArguments()[0];
                             if (BaseModel.class.isAssignableFrom(typeClass)) {
                                 var finalParameters = parameters;
-                                field.set(instance, generatedClass.map(List::of).orElseGet(()
-                                        -> List.of(generate(generatedModels, typeClass.asSubclass(BaseModel.class), finalParameters))));
+                                field.set(instance, generatedClass.map(List::of).orElseGet(() -> List.of(generate(
+                                        generatedModels, typeClass.asSubclass(BaseModel.class), finalParameters))));
                             }
                         }
                     }
@@ -60,7 +58,7 @@ public final class TestDataGenerator {
 
     public static EnumMap<Endpoint, BaseModel> generate() {
         var generatedTestData = new EnumMap<Endpoint, BaseModel>(Endpoint.class);
-        Arrays.stream(Endpoint.values()).filter(e -> e.getGeneratorClass() != null).sorted(reverseOrder())
+        Arrays.stream(Endpoint.values()).filter(e -> e.getGeneratorClass() != null).sorted(Comparator.reverseOrder())
                 .forEach(endpoint -> generatedTestData.put(endpoint, generate(generatedTestData.values(), endpoint.getGeneratorClass())));
         return generatedTestData;
     }

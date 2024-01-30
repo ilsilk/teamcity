@@ -2,7 +2,6 @@ package com.teamcity.api;
 
 import com.teamcity.api.enums.UserRole;
 import com.teamcity.api.generators.RandomData;
-import com.teamcity.api.generators.TestDataGenerator;
 import com.teamcity.api.models.BuildType;
 import com.teamcity.api.models.NewProjectDescription;
 import com.teamcity.api.models.Roles;
@@ -16,6 +15,7 @@ import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
 
 import static com.teamcity.api.enums.Endpoint.*;
+import static com.teamcity.api.generators.TestDataGenerator.generate;
 
 @Feature("Build type")
 public class BuildTypeTest extends BaseApiTest {
@@ -36,21 +36,21 @@ public class BuildTypeTest extends BaseApiTest {
 
     @Test(description = "User should not be able to create two build types with the same id", groups = {"Regression"})
     public void userCreatesTwoBuildTypesWithSameIdTest() {
-        var firstTestData = testData;
-        var secondTestData = TestDataGenerator.generate();
-
         checkedSuperUser.getRequest(USERS).create(testData.get(USERS));
         checkedSuperUser.getRequest(PROJECTS).create(testData.get(PROJECTS));
 
         var checkedBuildTypeRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.get(USERS)), BUILD_TYPES);
-        checkedBuildTypeRequest.create(firstTestData.get(BUILD_TYPES));
+        checkedBuildTypeRequest.create(testData.get(BUILD_TYPES));
 
-        ((BuildType) secondTestData.get(BUILD_TYPES)).setId(((BuildType) firstTestData.get(BUILD_TYPES)).getId());
-        ((BuildType) secondTestData.get(BUILD_TYPES)).setProject(((BuildType) firstTestData.get(BUILD_TYPES)).getProject());
+        var secondTestData = generate();
+        var buildTypeTestData = (BuildType) testData.get(BUILD_TYPES);
+        var secondBuildTypeTestData = (BuildType) secondTestData.get(BUILD_TYPES);
+        secondBuildTypeTestData.setId(buildTypeTestData.getId());
+        secondBuildTypeTestData.setProject(buildTypeTestData.getProject());
 
         var uncheckedBuildTypeRequest = new UncheckedBase(Specifications.getSpec()
-                .authSpec(firstTestData.get(USERS)), BUILD_TYPES);
+                .authSpec(testData.get(USERS)), BUILD_TYPES);
         uncheckedBuildTypeRequest.create(secondTestData.get(BUILD_TYPES))
                 .then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST);
     }
@@ -60,14 +60,15 @@ public class BuildTypeTest extends BaseApiTest {
         checkedSuperUser.getRequest(USERS).create(testData.get(USERS));
         checkedSuperUser.getRequest(PROJECTS).create(testData.get(PROJECTS));
 
-        ((BuildType) testData.get(BUILD_TYPES)).setId(RandomData.getString(BUILD_TYPE_ID_CHARACTERS_LIMIT + 1));
+        var buildTypeTestData = (BuildType) testData.get(BUILD_TYPES);
+        buildTypeTestData.setId(RandomData.getString(BUILD_TYPE_ID_CHARACTERS_LIMIT + 1));
 
         var uncheckedBuildTypeRequest = new UncheckedBase(Specifications.getSpec()
                 .authSpec(testData.get(USERS)), BUILD_TYPES);
         uncheckedBuildTypeRequest.create(testData.get(BUILD_TYPES))
                 .then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 
-        ((BuildType) testData.get(BUILD_TYPES)).setId(RandomData.getString(BUILD_TYPE_ID_CHARACTERS_LIMIT));
+        buildTypeTestData.setId(RandomData.getString(BUILD_TYPE_ID_CHARACTERS_LIMIT));
 
         var checkedBuildTypeRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.get(USERS)), BUILD_TYPES);
@@ -109,8 +110,9 @@ public class BuildTypeTest extends BaseApiTest {
     public void projectAdminCreatesBuildTypeTest() {
         checkedSuperUser.getRequest(PROJECTS).create(testData.get(PROJECTS));
 
-        ((User) testData.get(USERS)).setRoles((Roles) TestDataGenerator.generate(Roles.class,
-                UserRole.PROJECT_ADMIN, "p:" + ((NewProjectDescription) testData.get(PROJECTS)).getId()));
+        var userTestData = (User) testData.get(USERS);
+        var projectTestData = (NewProjectDescription) testData.get(PROJECTS);
+        userTestData.setRoles((Roles) generate(Roles.class, UserRole.PROJECT_ADMIN, "p:" + projectTestData.getId()));
 
         checkedSuperUser.getRequest(USERS).create(testData.get(USERS));
 
@@ -123,22 +125,22 @@ public class BuildTypeTest extends BaseApiTest {
 
     @Test(description = "Project admin should not be able to create build type for not their project", groups = {"Regression"})
     public void projectAdminCreatesBuildTypeForAnotherUserProjectTest() {
-        var firstTestData = testData;
-        var secondTestData = TestDataGenerator.generate();
-
-        checkedSuperUser.getRequest(PROJECTS).create(firstTestData.get(PROJECTS));
+        var secondTestData = generate();
+        checkedSuperUser.getRequest(PROJECTS).create(testData.get(PROJECTS));
         checkedSuperUser.getRequest(PROJECTS).create(secondTestData.get(PROJECTS));
 
-        ((User) firstTestData.get(USERS)).setRoles((Roles) TestDataGenerator.generate(Roles.class,
-                UserRole.PROJECT_ADMIN, "p:" + ((NewProjectDescription) firstTestData.get(PROJECTS)).getId()));
-        ((User) secondTestData.get(USERS)).setRoles((Roles) TestDataGenerator.generate(Roles.class,
-                UserRole.PROJECT_ADMIN, "p:" + ((NewProjectDescription) secondTestData.get(PROJECTS)).getId()));
+        var userTestData = (User) testData.get(USERS);
+        var secondUserTestData = (User) secondTestData.get(USERS);
+        var projectTestData = (NewProjectDescription) testData.get(PROJECTS);
+        var secondProjectTestData = (NewProjectDescription) secondTestData.get(PROJECTS);
+        userTestData.setRoles((Roles) generate(Roles.class, UserRole.PROJECT_ADMIN, "p:" + projectTestData.getId()));
+        secondUserTestData.setRoles((Roles) generate(Roles.class, UserRole.PROJECT_ADMIN, "p:" + secondProjectTestData.getId()));
 
-        checkedSuperUser.getRequest(USERS).create(firstTestData.get(USERS));
+        checkedSuperUser.getRequest(USERS).create(testData.get(USERS));
         checkedSuperUser.getRequest(USERS).create(secondTestData.get(USERS));
 
         var uncheckedBuildTypeRequest = new UncheckedBase(Specifications.getSpec()
-                .authSpec(firstTestData.get(USERS)), BUILD_TYPES);
+                .authSpec(testData.get(USERS)), BUILD_TYPES);
         uncheckedBuildTypeRequest.create(secondTestData.get(BUILD_TYPES))
                 .then().assertThat().statusCode(HttpStatus.SC_FORBIDDEN)
                 .body(Matchers.containsString("Access denied"));
