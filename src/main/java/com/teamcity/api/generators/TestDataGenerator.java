@@ -20,7 +20,7 @@ public final class TestDataGenerator {
             var instance = generatorClass.getDeclaredConstructor().newInstance();
             for (var field : generatorClass.getDeclaredFields()) {
                 field.setAccessible(true);
-                if (field.isAnnotationPresent(Optional.class)) {
+                if (!field.isAnnotationPresent(Optional.class)) {
                     var generatedClass = generatedModels.stream().filter(m
                             -> m.getClass().equals(field.getType())).findFirst();
                     if (field.isAnnotationPresent(Parameterizable.class) && parameters.length > 0) {
