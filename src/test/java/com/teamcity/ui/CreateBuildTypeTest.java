@@ -1,6 +1,5 @@
 package com.teamcity.ui;
 
-import com.teamcity.api.generators.TestDataStorage;
 import com.teamcity.api.models.BuildType;
 import com.teamcity.api.models.NewProjectDescription;
 import com.teamcity.api.requests.checked.CheckedBase;
@@ -29,7 +28,6 @@ public class CreateBuildTypeTest extends BaseUiTest {
                 .authSpec(testData.get(USERS)), BUILD_TYPES);
         var buildType = (BuildType) checkedBuildTypeRequest.read(createdBuildTypeId);
         softy.assertThat(buildType.getName()).as("buildTypeName").isEqualTo(((BuildType) testData.get(BUILD_TYPES)).getName());
-        TestDataStorage.getStorage().addCreatedEntity(BUILD_TYPES, createdBuildTypeId);
     }
 
     @Test(description = "User should not be able to create build type without name", groups = {"Regression"})

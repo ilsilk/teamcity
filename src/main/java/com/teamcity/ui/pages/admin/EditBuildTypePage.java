@@ -1,6 +1,7 @@
 package com.teamcity.ui.pages.admin;
 
 import com.codeborne.selenide.SelenideElement;
+import com.teamcity.api.generators.TestDataStorage;
 import com.teamcity.ui.pages.BasePage;
 import io.qameta.allure.Step;
 
@@ -10,6 +11,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
 import static com.codeborne.selenide.WebDriverRunner.url;
+import static com.teamcity.api.enums.Endpoint.BUILD_TYPES;
 import static io.qameta.allure.Allure.step;
 
 public class EditBuildTypePage extends BasePage {
@@ -40,6 +42,7 @@ public class EditBuildTypePage extends BasePage {
         var matcher = pattern.matcher(url());
         var buildTypeId = matcher.find() ? matcher.group(1) : null;
         step("buildTypeId=" + buildTypeId);
+        TestDataStorage.getStorage().addCreatedEntity(BUILD_TYPES, buildTypeId);
         return buildTypeId;
     }
 

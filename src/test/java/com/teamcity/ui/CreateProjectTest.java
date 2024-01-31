@@ -1,6 +1,5 @@
 package com.teamcity.ui;
 
-import com.teamcity.api.generators.TestDataStorage;
 import com.teamcity.api.models.BuildType;
 import com.teamcity.api.models.NewProjectDescription;
 import com.teamcity.api.models.Project;
@@ -29,9 +28,9 @@ public class CreateProjectTest extends BaseUiTest {
         var checkedBuildTypeRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.get(USERS)), BUILD_TYPES);
         var buildType = (BuildType) checkedBuildTypeRequest.read(createdBuildTypeId);
+        softy.assertThat(buildType.getProject().getName()).as("projectName").isEqualTo(((NewProjectDescription) testData.get(PROJECTS)).getName());
         softy.assertThat(buildType.getName()).as("buildTypeName").isEqualTo(((BuildType) testData.get(BUILD_TYPES)).getName());
         // Добавляем созданную сущность в сторедж, чтобы автоматически удалить ее в конце теста логикой, реализованной в API части
-        TestDataStorage.getStorage().addCreatedEntity(BUILD_TYPES, createdBuildTypeId);
 
         var createdProjectId = ProjectsPage.open()
                 .verifyProjectAndBuildType(((NewProjectDescription) testData.get(PROJECTS)).getName(), ((BuildType) testData.get(BUILD_TYPES)).getName())
@@ -40,7 +39,6 @@ public class CreateProjectTest extends BaseUiTest {
                 .authSpec(testData.get(USERS)), PROJECTS);
         var project = (Project) checkedProjectRequest.read(createdProjectId);
         softy.assertThat(project.getName()).as("projectName").isEqualTo(((NewProjectDescription) testData.get(PROJECTS)).getName());
-        TestDataStorage.getStorage().addCreatedEntity(PROJECTS, createdProjectId);
     }
 
     @Test(description = "User should not be able to create project without name", groups = {"Regression"})
