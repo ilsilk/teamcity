@@ -38,7 +38,7 @@ public class CreateBuildTypeTest extends BaseUiTest {
         CreateBuildTypePage.open(((NewProjectDescription) testData.get(PROJECTS)).getId())
                 .createFrom(GIT_URL)
                 .setupBuildType("")
-                .verifyBuildTypeNameError();
+                .verifyBuildTypeNameError("Build configuration name must not be empty");
     }
 
 }

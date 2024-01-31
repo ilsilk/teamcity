@@ -48,7 +48,7 @@ public class CreateProjectTest extends BaseUiTest {
         CreateProjectPage.open(((NewProjectDescription) testData.get(PROJECTS)).getParentProject().getLocator())
                 .createFrom(GIT_URL)
                 .setupProject("", ((BuildType) testData.get(BUILD_TYPES)).getName())
-                .verifyProjectNameError();
+                .verifyProjectNameError("Project name must not be empty");
     }
 
 }
