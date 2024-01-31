@@ -8,5 +8,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target(FIELD)
 @Retention(RUNTIME)
+// Поля с этой аннотацией будут заполняться рандомными данными (реализовано только для строк)
 public @interface Random {
 }

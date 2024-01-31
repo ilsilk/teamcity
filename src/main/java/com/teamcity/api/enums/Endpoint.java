@@ -9,6 +9,7 @@ import lombok.Getter;
 public enum Endpoint {
 
     // Описываем соответствие между эндпоинтом и моделью, которую он возвращает
+    // Третий параметр описывает класс, который используется при генерации
     BUILD_QUEUE("/app/rest/buildQueue", Build.class, null),
     BUILDS("/app/rest/builds", Build.class, null),
     BUILD_TYPES("/app/rest/buildTypes", BuildType.class, BuildType.class),

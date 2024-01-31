@@ -50,6 +50,7 @@ public final class TestDataStorage {
         createdEntitiesMap.clear();
     }
 
+    // Так как не все классы, наследующие BaseModel, имеют поле id, то получаем его с помощью рефлексии
     private String getEntityId(BaseModel model) {
         try {
             var idField = model.getClass().getDeclaredField("id");

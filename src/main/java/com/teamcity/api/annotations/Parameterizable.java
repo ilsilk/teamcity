@@ -8,5 +8,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target(FIELD)
 @Retention(RUNTIME)
+// Поля с этой аннотацией будут параметризироваться при генерации, если параметры были переданы
+// Например, как в api.BuildTypeTest.projectAdminCreatesBuildTypeForAnotherUserProjectTest
 public @interface Parameterizable {
 }
