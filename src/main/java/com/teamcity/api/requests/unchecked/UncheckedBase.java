@@ -34,10 +34,10 @@ public class UncheckedBase extends Request implements CrudInterface {
 
     @Override
     @Step("Update {id}")
-    public Response update(String id, Object obj) {
+    public Response update(String id, BaseModel model) {
         return RestAssured.given()
                 .spec(spec)
-                .body(obj)
+                .body(model)
                 .put(endpoint.getUrl() + "/id:" + id);
     }
 

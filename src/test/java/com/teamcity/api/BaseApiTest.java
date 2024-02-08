@@ -12,7 +12,7 @@ import static com.teamcity.api.generators.TestDataGenerator.generate;
 
 public class BaseApiTest extends BaseTest {
 
-    private final CheckedServerAuthSettings checkedServerAuthSettings = new CheckedServerAuthSettings(
+    private final CheckedServerAuthSettings checkedServerAuthSettingsRequest = new CheckedServerAuthSettings(
             Specifications.getSpec().superUserSpec());
     private AuthModules authModules;
     private boolean perProjectPermissions;
@@ -20,12 +20,12 @@ public class BaseApiTest extends BaseTest {
     @BeforeSuite(alwaysRun = true)
     public void setUpServerAuthSettings() {
         // Получаем текущее значение настройки perProjectPermissions
-        perProjectPermissions = checkedServerAuthSettings.read(null)
+        perProjectPermissions = checkedServerAuthSettingsRequest.read(null)
                 .getPerProjectPermissions();
 
         authModules = (AuthModules) generate(AuthModules.class);
         // Обновляем значение настройки perProjectPermissions на true (для тестирования ролей)
-        checkedServerAuthSettings.update(null, ServerAuthSettings.builder()
+        checkedServerAuthSettingsRequest.update(null, ServerAuthSettings.builder()
                 .perProjectPermissions(true)
                 .modules(authModules)
                 .build());
@@ -34,7 +34,7 @@ public class BaseApiTest extends BaseTest {
     @AfterSuite(alwaysRun = true)
     public void cleanUpServerAuthSettings() {
         // Возвращаем настройке perProjectPermissions исходное значение, которые было перед запуском тестов
-        checkedServerAuthSettings.update(null, ServerAuthSettings.builder()
+        checkedServerAuthSettingsRequest.update(null, ServerAuthSettings.builder()
                 .perProjectPermissions(perProjectPermissions)
                 .modules(authModules)
                 .build());

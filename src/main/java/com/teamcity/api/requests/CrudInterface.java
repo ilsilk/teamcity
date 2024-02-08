@@ -4,11 +4,11 @@ import com.teamcity.api.models.BaseModel;
 
 public interface CrudInterface {
 
-    Object create(BaseModel modelClass);
+    Object create(BaseModel model);
 
     Object read(String id);
 
-    Object update(String id, Object obj);
+    Object update(String id, BaseModel model);
 
     Object delete(String id);
 

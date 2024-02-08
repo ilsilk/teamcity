@@ -8,11 +8,11 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
-public class UncheckedServerAuthSettings extends Request implements CrudInterface {
+public class UncheckedAgents extends Request implements CrudInterface {
 
-    private static final String SERVER_AUTH_SETTINGS_URL = "/app/rest/server/authSettings";
+    private static final String AGENTS_URL = "/app/rest/agents";
 
-    public UncheckedServerAuthSettings(RequestSpecification spec) {
+    public UncheckedAgents(RequestSpecification spec) {
         super(spec, null);
     }
 
@@ -22,20 +22,20 @@ public class UncheckedServerAuthSettings extends Request implements CrudInterfac
     }
 
     @Override
-    @Step("Read ServerAuthSettings")
-    public Response read(String id) {
+    @Step("Read Agents")
+    public Response read(String locator) {
         return RestAssured.given()
                 .spec(spec)
-                .get(SERVER_AUTH_SETTINGS_URL);
+                .get(AGENTS_URL + "?locator=" + locator);
     }
 
     @Override
-    @Step("Update ServerAuthSettings")
+    @Step("Update Agent")
     public Response update(String id, BaseModel model) {
         return RestAssured.given()
                 .spec(spec)
                 .body(model)
-                .put(SERVER_AUTH_SETTINGS_URL);
+                .put(AGENTS_URL + "/id:" + id);
     }
 
     @Override

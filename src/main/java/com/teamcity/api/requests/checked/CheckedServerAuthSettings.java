@@ -29,9 +29,9 @@ public class CheckedServerAuthSettings extends Request implements CrudInterface 
     }
 
     @Override
-    public ServerAuthSettings update(String id, Object obj) {
+    public ServerAuthSettings update(String id, BaseModel model) {
         return new UncheckedServerAuthSettings(spec)
-                .update(id, obj)
+                .update(id, model)
                 .then().assertThat().statusCode(HttpStatus.SC_OK)
                 .extract().as(ServerAuthSettings.class);
     }

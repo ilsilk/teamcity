@@ -38,9 +38,9 @@ public class CheckedBase extends Request implements CrudInterface {
     }
 
     @Override
-    public BaseModel update(String id, Object obj) {
+    public BaseModel update(String id, BaseModel model) {
         return new UncheckedBase(spec, endpoint)
-                .update(id, obj)
+                .update(id, model)
                 .then().assertThat().statusCode(HttpStatus.SC_OK)
                 .extract().as(endpoint.getModelClass());
     }
