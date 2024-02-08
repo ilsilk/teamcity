@@ -87,11 +87,10 @@ jobs:
 
       - name: Run API tests
         # Указываем группу, чтобы еще раз не запустить тесты, которые использовались для сетапа сервера и агента
-        run: ./mvnw test -Dtest=com.teamcity.api.* -Dgroups=Regression
+        run: ./mvnw test -Dtest='com.teamcity.api.**' -Dgroups=Regression
 
       - name: Run UI tests
-        # Указываем группу, чтобы еще раз не запустить тесты, которые использовались для сетапа сервера и агента
-        run: ./mvnw test -Dtest=com.teamcity.ui.* -Dgroups=Regression
+        run: ./mvnw test -Dtest='com.teamcity.ui.**' -Dgroups=Regression
 
       # Следующие 3 степа на сохранение Allure репортов с историей и публикацию их в GitHub Pages.
       # Необходимо ознакомиться с документацией: https://allurereport.org/docs/integrations-github/,
