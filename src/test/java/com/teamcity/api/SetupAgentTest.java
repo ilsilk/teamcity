@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import static com.teamcity.api.generators.TestDataGenerator.generate;
 
 @Feature("Setup")
-public class SetupFirstStartTest extends BaseApiTest {
+public class SetupAgentTest extends BaseApiTest {
 
     @Test(groups = {"Setup"})
     public void setupTeamCityAgentTest() {

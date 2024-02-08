@@ -65,7 +65,7 @@ jobs:
 
       - name: Set up TeamCity server
         # Настройка сервера при первом запуске (принятие лицензии, выбор базы данных и т.д.), реализованная в виде теста
-        run: ./mvnw clean test -Dtest=SetupFirstStartTest#setupTeamCityServerTest
+        run: ./mvnw clean test -Dtest=SetupServerTest#setupTeamCityServerTest
 
       - name: Set up superUserToken environment variable
         # Берем из лога контейнера строку с последним упоминанием токена, из нее 6-е слово, что соответствует токену
@@ -83,7 +83,7 @@ jobs:
       - name: Set up TeamCity agent
         # Авторизация агента при первом запуске, реализованная в виде теста
         # Не указываем clean, чтобы потом в итоговом репорте были и setup тесты
-        run: ./mvnw test -Dtest=SetupFirstStartTest#setupTeamCityAgentTest
+        run: ./mvnw test -Dtest=SetupAgentTest#setupTeamCityAgentTest
 
       - name: Run API tests
         # Указываем группу, чтобы еще раз не запустить тесты, которые использовались для сетапа сервера и агента

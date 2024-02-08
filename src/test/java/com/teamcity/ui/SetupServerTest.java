@@ -5,7 +5,7 @@ import io.qameta.allure.Feature;
 import org.testng.annotations.Test;
 
 @Feature("Setup")
-public class SetupFirstStartTest extends BaseUiTest {
+public class SetupServerTest extends BaseUiTest {
 
     @Test(groups = {"Setup"})
     public void setupTeamCityServerTest() {
