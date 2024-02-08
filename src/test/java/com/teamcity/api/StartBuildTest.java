@@ -52,7 +52,7 @@ public class StartBuildTest extends BaseApiTest {
         var checkedBuildRequest = new CheckedBase(Specifications.getSpec()
                 .authSpec(testData.get(USERS)), BUILDS);
         Awaitility.await()
-                .atMost(Duration.ofSeconds(15))
+                .atMost(Duration.ofSeconds(30))
                 .pollInterval(Duration.ofSeconds(3))
                 .until(() -> {
                     atomicBuild.set((Build) checkedBuildRequest.read(atomicBuild.get().getId()));

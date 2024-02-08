@@ -30,6 +30,8 @@ public class CheckedAgents extends Request implements CrudInterface {
     @Override
     public BaseModel update(String id, BaseModel model) {
         var operation = model.getClass().getSimpleName();
+        // Превращаем переданную модель в операцию (так как данный эндпоинт поддерживает несколько видов операций)
+        // Если model принадлежит классу AuthorizedInfo, то после айди допишется операция /authorizedInfo
         operation = "/" + Character.toLowerCase(operation.charAt(0)) + operation.substring(1);
         return new UncheckedAgents(spec)
                 .update(id + operation, model)
