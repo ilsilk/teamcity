@@ -27,6 +27,7 @@ jobs:
         run: echo "host=$HOST:8111" >> src/main/resources/config.properties
 
       - name: Pull Selenoid browsers
+        # Парсим browsers.json и достаем из него все браузеры
         run: |
           for browser in $(awk -F'"' '/"image": "/{print $4}' "config/browsers.json"); do
             docker pull $browser
