@@ -28,7 +28,7 @@ jobs:
 
       - name: Pull Selenoid browsers
         run: |
-          for browser in $(awk -F'"' '/"image": "/{print $4}' "$(pwd)/config/browsers.json"); do
+          for browser in $(awk -F'"' '/"image": "/{print $4}' "config/browsers.json"); do
             docker pull $browser
           done
 
@@ -40,14 +40,14 @@ jobs:
           -v /var/run/docker.sock:/var/run/docker.sock \
           -v $(pwd)/config/:/etc/selenoid/:ro \
           -p 4444:4444 \
-          aerokube/selenoid
+          aerokube/selenoid:latest-release
 
       # В этом степе нет смысла, так как через GitHub Actions нет доступа к Selenoid UI. Но зато это полезно при локальном запуске через act, для отладки
       - name: Run Selenoid UI
         run: |
           docker run -d --name selenoid-ui \
           -p 8080:8080 \
-          aerokube/selenoid-ui \
+          aerokube/selenoid-ui:latest-release \
           --selenoid-uri http://$HOST:4444
 
       - name: Run TeamCity server
@@ -85,9 +85,13 @@ jobs:
         # Не указываем clean, чтобы потом в итоговом репорте были и setup тесты
         run: ./mvnw test -Dtest=SetupFirstStartTest#setupTeamCityAgentTest
 
-      - name: Run tests
+      - name: Run API tests
         # Указываем группу, чтобы еще раз не запустить тесты, которые использовались для сетапа сервера и агента
-        run: ./mvnw test -Dgroups=Regression
+        run: ./mvnw test -Dtest=com.teamcity.api.* -Dgroups=Regression
+
+      - name: Run UI tests
+        # Указываем группу, чтобы еще раз не запустить тесты, которые использовались для сетапа сервера и агента
+        run: ./mvnw test -Dtest=com.teamcity.ui.* -Dgroups=Regression
 
       # Следующие 3 степа на сохранение Allure репортов с историей и публикацию их в GitHub Pages.
       # Необходимо ознакомиться с документацией: https://allurereport.org/docs/integrations-github/,
