@@ -1,8 +1,10 @@
 package com.teamcity.api.requests;
 
+import com.teamcity.api.models.BaseModel;
+
 public interface CrudInterface {
 
-    Object create(Object obj);
+    Object create(BaseModel modelClass);
 
     Object read(String id);
 

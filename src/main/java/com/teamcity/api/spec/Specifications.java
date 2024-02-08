@@ -3,6 +3,7 @@ package com.teamcity.api.spec;
 import com.github.viclovsky.swagger.coverage.FileSystemOutputWriter;
 import com.github.viclovsky.swagger.coverage.SwaggerCoverageRestAssured;
 import com.teamcity.api.config.Config;
+import com.teamcity.api.models.BaseModel;
 import com.teamcity.api.models.User;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -36,7 +37,8 @@ public final class Specifications {
                 .build();
     }
 
-    public RequestSpecification authSpec(User user) {
+    public RequestSpecification authSpec(BaseModel model) {
+        var user = (User) model;
         return reqBuilder()
                 .setBaseUri("http://%s:%s@%s".formatted(user.getUsername(), user.getPassword(), Config.getProperty("host")))
                 .build();

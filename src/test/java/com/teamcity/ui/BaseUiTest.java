@@ -5,6 +5,7 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import com.teamcity.BaseTest;
 import com.teamcity.api.config.Config;
+import com.teamcity.api.models.BaseModel;
 import com.teamcity.api.models.User;
 import com.teamcity.ui.pages.LoginPage;
 import io.qameta.allure.selenide.AllureSelenide;
@@ -48,7 +49,8 @@ public class BaseUiTest extends BaseTest {
         Selenide.closeWebDriver();
     }
 
-    protected void loginAs(User user) {
+    protected void loginAs(BaseModel model) {
+        var user = (User) model;
         checkedSuperUser.getRequest(USERS).create(user);
         LoginPage.open().login(user);
     }

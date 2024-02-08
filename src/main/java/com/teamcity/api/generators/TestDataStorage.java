@@ -1,6 +1,7 @@
 package com.teamcity.api.generators;
 
 import com.teamcity.api.enums.Endpoint;
+import com.teamcity.api.models.BaseModel;
 import com.teamcity.api.requests.unchecked.UncheckedBase;
 import com.teamcity.api.spec.Specifications;
 
@@ -37,12 +38,29 @@ public final class TestDataStorage {
         createdEntitiesMap.computeIfAbsent(endpoint, key -> new HashSet<>()).add(id);
     }
 
+    public void addCreatedEntity(Endpoint endpoint, BaseModel model) {
+        addCreatedEntity(endpoint, getEntityId(model));
+    }
+
     public void deleteCreatedEntities() {
         createdEntitiesMap.forEach((endpoint, ids) -> ids.forEach(id ->
                 new UncheckedBase(Specifications.getSpec().superUserSpec(), endpoint).delete(id)));
         // Очистка Map необходима, так как если этого не делать и запускать более 1-ого теста, то со второго
         // будут попытки удалить уже удаленные сущности
         createdEntitiesMap.clear();
+    }
+
+    // Так как не все классы, наследующие BaseModel, имеют поле id, то получаем его с помощью рефлексии
+    private String getEntityId(BaseModel model) {
+        try {
+            var idField = model.getClass().getDeclaredField("id");
+            idField.setAccessible(true);
+            var idFieldValue = String.valueOf(idField.get(model));
+            idField.setAccessible(false);
+            return idFieldValue;
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new IllegalStateException("Cannot get entity id", e);
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 package com.teamcity.api.requests.unchecked;
 
 import com.teamcity.api.enums.Endpoint;
+import com.teamcity.api.models.BaseModel;
 import com.teamcity.api.requests.CrudInterface;
 import com.teamcity.api.requests.Request;
 import io.qameta.allure.Step;
@@ -15,11 +16,11 @@ public class UncheckedBase extends Request implements CrudInterface {
     }
 
     @Override
-    @Step("Create {obj}")
-    public Response create(Object obj) {
+    @Step("Create {model}")
+    public Response create(BaseModel model) {
         return RestAssured.given()
                 .spec(spec)
-                .body(obj)
+                .body(model)
                 .post(endpoint.getUrl());
     }
 

@@ -1,5 +1,6 @@
 package com.teamcity.api.requests.unchecked;
 
+import com.teamcity.api.models.BaseModel;
 import com.teamcity.api.requests.CrudInterface;
 import com.teamcity.api.requests.Request;
 import io.qameta.allure.Step;
@@ -16,7 +17,7 @@ public class UncheckedServerAuthSettings extends Request implements CrudInterfac
     }
 
     @Override
-    public Object create(Object obj) {
+    public Object create(BaseModel model) {
         return null;
     }
 

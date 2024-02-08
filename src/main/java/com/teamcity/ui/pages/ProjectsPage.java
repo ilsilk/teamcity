@@ -3,6 +3,7 @@ package com.teamcity.ui.pages;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import com.teamcity.api.generators.TestDataStorage;
 import io.qameta.allure.Step;
 
 import java.util.regex.Pattern;
@@ -10,6 +11,7 @@ import java.util.regex.Pattern;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static com.teamcity.api.enums.Endpoint.PROJECTS;
 import static com.teamcity.ui.Selectors.byDataTest;
 import static com.teamcity.ui.Selectors.byDataTestItemtype;
 import static io.qameta.allure.Allure.step;
@@ -72,6 +74,7 @@ public class ProjectsPage extends BasePage {
         var matcher = pattern.matcher(editProjectLink.attr("href"));
         var projectId = matcher.find() ? matcher.group(1) : null;
         step("projectId=" + projectId);
+        TestDataStorage.getStorage().addCreatedEntity(PROJECTS, projectId);
         return projectId;
     }
 
