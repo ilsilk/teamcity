@@ -16,15 +16,17 @@ public class CheckedBase extends Request implements CrudInterface {
         super(spec, endpoint);
     }
 
+
+
     @Override
-    public BaseModel create(Object obj) {
-        var model = new UncheckedBase(spec, endpoint)
-                .create(obj)
+    public BaseModel create(BaseModel model) {
+        var createdModel = new UncheckedBase(spec, endpoint)
+                .create(model)
                 .then().assertThat().statusCode(HttpStatus.SC_OK)
                 .extract().as(endpoint.getModelClass());
         // После создания сущности ее айди добавляется в список созданных сущностей (для их удаления в конце)
-        TestDataStorage.getStorage().addCreatedEntity(endpoint, model.getId());
-        return model;
+        TestDataStorage.getStorage().addCreatedEntity(endpoint, createdModel);
+        return createdModel;
     }
 
     @Override
@@ -36,9 +38,9 @@ public class CheckedBase extends Request implements CrudInterface {
     }
 
     @Override
-    public BaseModel update(String id, Object obj) {
+    public BaseModel update(String id, BaseModel model) {
         return new UncheckedBase(spec, endpoint)
-                .update(id, obj)
+                .update(id, model)
                 .then().assertThat().statusCode(HttpStatus.SC_OK)
                 .extract().as(endpoint.getModelClass());
     }

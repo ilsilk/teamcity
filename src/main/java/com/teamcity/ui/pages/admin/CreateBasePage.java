@@ -2,9 +2,9 @@ package com.teamcity.ui.pages.admin;
 
 import com.codeborne.selenide.SelenideElement;
 import com.teamcity.ui.pages.BasePage;
+import io.qameta.allure.Step;
 
-import static com.codeborne.selenide.Condition.appear;
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 
 // Создали родительский класс для страниц создания проекта и билд конфигурации, так как они имеют схожий шаблон
@@ -30,13 +30,17 @@ public abstract class CreateBasePage extends BasePage {
         connectionSuccessfulMessage.should(appear, BASE_WAITING);
     }
 
-    public CreateBasePage verifyProjectNameError() {
+    @Step("Verify project name error")
+    public CreateBasePage verifyProjectNameError(String error) {
         projectNameError.shouldBe(visible, BASE_WAITING);
+        projectNameError.shouldHave(exactText(error));
         return this;
     }
 
-    public CreateBasePage verifyBuildTypeNameError() {
+    @Step("Verify build type name error")
+    public CreateBasePage verifyBuildTypeNameError(String error) {
         buildTypeNameError.shouldBe(visible, BASE_WAITING);
+        buildTypeNameError.shouldHave(exactText(error));
         return this;
     }
 

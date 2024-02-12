@@ -1,12 +1,12 @@
 package com.teamcity.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 // Чтобы избежать ворнинга "Generating equals/hashCode implementation but without a call to superclass."
 @EqualsAndHashCode(callSuper = false)

@@ -1,5 +1,6 @@
 package com.teamcity.api.requests.checked;
 
+import com.teamcity.api.models.BaseModel;
 import com.teamcity.api.models.ServerAuthSettings;
 import com.teamcity.api.requests.CrudInterface;
 import com.teamcity.api.requests.Request;
@@ -15,7 +16,7 @@ public class CheckedServerAuthSettings extends Request implements CrudInterface 
     }
 
     @Override
-    public Object create(Object obj) {
+    public Object create(BaseModel model) {
         return null;
     }
 
@@ -28,9 +29,9 @@ public class CheckedServerAuthSettings extends Request implements CrudInterface 
     }
 
     @Override
-    public ServerAuthSettings update(String id, Object obj) {
+    public ServerAuthSettings update(String id, BaseModel model) {
         return new UncheckedServerAuthSettings(spec)
-                .update(id, obj)
+                .update(id, model)
                 .then().assertThat().statusCode(HttpStatus.SC_OK)
                 .extract().as(ServerAuthSettings.class);
     }

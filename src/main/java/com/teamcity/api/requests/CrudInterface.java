@@ -1,12 +1,14 @@
 package com.teamcity.api.requests;
 
+import com.teamcity.api.models.BaseModel;
+
 public interface CrudInterface {
 
-    Object create(Object obj);
+    Object create(BaseModel model);
 
     Object read(String id);
 
-    Object update(String id, Object obj);
+    Object update(String id, BaseModel model);
 
     Object delete(String id);
 

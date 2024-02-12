@@ -1,6 +1,9 @@
 package com.teamcity.api.spec;
 
+import com.github.viclovsky.swagger.coverage.FileSystemOutputWriter;
+import com.github.viclovsky.swagger.coverage.SwaggerCoverageRestAssured;
 import com.teamcity.api.config.Config;
+import com.teamcity.api.models.BaseModel;
 import com.teamcity.api.models.User;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -9,7 +12,10 @@ import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 
+import java.nio.file.Paths;
 import java.util.List;
+
+import static com.github.viclovsky.swagger.coverage.SwaggerCoverageConstants.OUTPUT_DIRECTORY;
 
 public final class Specifications {
 
@@ -31,7 +37,8 @@ public final class Specifications {
                 .build();
     }
 
-    public RequestSpecification authSpec(User user) {
+    public RequestSpecification authSpec(BaseModel model) {
+        var user = (User) model;
         return reqBuilder()
                 .setBaseUri("http://%s:%s@%s".formatted(user.getUsername(), user.getPassword(), Config.getProperty("host")))
                 .build();
@@ -45,8 +52,9 @@ public final class Specifications {
 
     private RequestSpecBuilder reqBuilder() {
         return new RequestSpecBuilder()
-                // Фильтр для отображения реквестов и респонсов в Allure репорте
-                .addFilters(List.of(new RequestLoggingFilter(), new ResponseLoggingFilter(), new AllureRestAssured()))
+                // Фильтры для отображения реквестов и респонсов в Allure репорте и для генерации Swagger Coverage репорта
+                .addFilters(List.of(new RequestLoggingFilter(), new ResponseLoggingFilter(), new AllureRestAssured(),
+                        new SwaggerCoverageRestAssured(new FileSystemOutputWriter(Paths.get("target/" + OUTPUT_DIRECTORY)))))
                 .setContentType(ContentType.JSON)
                 .setAccept(ContentType.JSON);
     }

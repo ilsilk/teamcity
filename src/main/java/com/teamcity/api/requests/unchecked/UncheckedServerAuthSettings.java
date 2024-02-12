@@ -1,7 +1,9 @@
 package com.teamcity.api.requests.unchecked;
 
+import com.teamcity.api.models.BaseModel;
 import com.teamcity.api.requests.CrudInterface;
 import com.teamcity.api.requests.Request;
+import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -15,11 +17,12 @@ public class UncheckedServerAuthSettings extends Request implements CrudInterfac
     }
 
     @Override
-    public Object create(Object obj) {
+    public Object create(BaseModel model) {
         return null;
     }
 
     @Override
+    @Step("Read ServerAuthSettings")
     public Response read(String id) {
         return RestAssured.given()
                 .spec(spec)
@@ -27,10 +30,11 @@ public class UncheckedServerAuthSettings extends Request implements CrudInterfac
     }
 
     @Override
-    public Response update(String id, Object obj) {
+    @Step("Update ServerAuthSettings")
+    public Response update(String id, BaseModel model) {
         return RestAssured.given()
                 .spec(spec)
-                .body(obj)
+                .body(model)
                 .put(SERVER_AUTH_SETTINGS_URL);
     }
 

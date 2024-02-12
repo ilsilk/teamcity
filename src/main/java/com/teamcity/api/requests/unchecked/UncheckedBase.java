@@ -1,8 +1,10 @@
 package com.teamcity.api.requests.unchecked;
 
 import com.teamcity.api.enums.Endpoint;
+import com.teamcity.api.models.BaseModel;
 import com.teamcity.api.requests.CrudInterface;
 import com.teamcity.api.requests.Request;
+import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -14,14 +16,16 @@ public class UncheckedBase extends Request implements CrudInterface {
     }
 
     @Override
-    public Response create(Object obj) {
+    @Step("Create {model}")
+    public Response create(BaseModel model) {
         return RestAssured.given()
                 .spec(spec)
-                .body(obj)
+                .body(model)
                 .post(endpoint.getUrl());
     }
 
     @Override
+    @Step("Read {id}")
     public Response read(String id) {
         return RestAssured.given()
                 .spec(spec)
@@ -29,14 +33,16 @@ public class UncheckedBase extends Request implements CrudInterface {
     }
 
     @Override
-    public Response update(String id, Object obj) {
+    @Step("Update {id}")
+    public Response update(String id, BaseModel model) {
         return RestAssured.given()
                 .spec(spec)
-                .body(obj)
+                .body(model)
                 .put(endpoint.getUrl() + "/id:" + id);
     }
 
     @Override
+    @Step("Delete {id}")
     public Response delete(String id) {
         return RestAssured.given()
                 .spec(spec)
