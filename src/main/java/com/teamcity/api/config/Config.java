@@ -6,7 +6,7 @@ import java.util.Properties;
 public final class Config {
 
     private static final String CONFIG_PROPERTIES = "config.properties";
-    public static Config config;
+    private static Config config;
     private final Properties properties;
 
     private Config() {

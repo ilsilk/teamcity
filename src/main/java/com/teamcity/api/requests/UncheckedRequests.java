@@ -8,7 +8,7 @@ import lombok.Getter;
 import java.util.EnumMap;
 
 @Getter
-public class UncheckedRequests {
+public final class UncheckedRequests {
 
     private final EnumMap<Endpoint, UncheckedBase> uncheckedRequests = new EnumMap<>(Endpoint.class);
 

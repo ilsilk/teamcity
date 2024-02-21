@@ -4,7 +4,9 @@ import com.codeborne.selenide.SelenideElement;
 import com.teamcity.ui.pages.BasePage;
 import io.qameta.allure.Step;
 
-import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Condition.appear;
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 // Создали родительский класс для страниц создания проекта и билд конфигурации, так как они имеют схожий шаблон

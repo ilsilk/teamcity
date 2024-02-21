@@ -8,7 +8,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
-public class UncheckedAgents extends Request implements CrudInterface {
+public final class UncheckedAgents extends Request implements CrudInterface {
 
     private static final String AGENTS_URL = "/app/rest/agents";
 

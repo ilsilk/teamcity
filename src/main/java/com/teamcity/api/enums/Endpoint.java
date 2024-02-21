@@ -1,6 +1,11 @@
 package com.teamcity.api.enums;
 
-import com.teamcity.api.models.*;
+import com.teamcity.api.models.BaseModel;
+import com.teamcity.api.models.Build;
+import com.teamcity.api.models.BuildType;
+import com.teamcity.api.models.NewProjectDescription;
+import com.teamcity.api.models.Project;
+import com.teamcity.api.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
