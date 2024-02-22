@@ -26,7 +26,7 @@ public abstract class CreateBasePage extends BasePage {
 
     protected abstract CreateBasePage createFrom(String url);
 
-    protected void baseCreateFrom(String url) {
+    protected final void baseCreateFrom(String url) {
         urlInput.val(url);
         submitButton.click();
         connectionSuccessfulMessage.should(appear, BASE_WAITING);
