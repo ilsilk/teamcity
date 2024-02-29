@@ -8,7 +8,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
-public class UncheckedServerAuthSettings extends Request implements CrudInterface {
+public final class UncheckedServerAuthSettings extends Request implements CrudInterface {
 
     private static final String SERVER_AUTH_SETTINGS_URL = "/app/rest/server/authSettings";
 

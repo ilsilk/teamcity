@@ -40,7 +40,8 @@ public final class Specifications {
     public RequestSpecification authSpec(BaseModel model) {
         var user = (User) model;
         return reqBuilder()
-                .setBaseUri("http://%s:%s@%s".formatted(user.getUsername(), user.getPassword(), Config.getProperty("host")))
+                .setBaseUri("http://%s:%s@%s".formatted(user.getUsername(), user.getPassword(),
+                        Config.getProperty("host")))
                 .build();
     }
 
@@ -52,9 +53,10 @@ public final class Specifications {
 
     private RequestSpecBuilder reqBuilder() {
         return new RequestSpecBuilder()
-                // Фильтры для отображения реквестов и респонсов в Allure репорте и для генерации Swagger Coverage репорта
+                // Фильтры для отображения реквестов и респонсов в Allure репорте и генерации Swagger Coverage репорта
                 .addFilters(List.of(new RequestLoggingFilter(), new ResponseLoggingFilter(), new AllureRestAssured(),
-                        new SwaggerCoverageRestAssured(new FileSystemOutputWriter(Paths.get("target/" + OUTPUT_DIRECTORY)))))
+                        new SwaggerCoverageRestAssured(new FileSystemOutputWriter(
+                                Paths.get("target/" + OUTPUT_DIRECTORY)))))
                 .setContentType(ContentType.JSON)
                 .setAccept(ContentType.JSON);
     }

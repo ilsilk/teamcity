@@ -9,7 +9,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
-public class UncheckedBase extends Request implements CrudInterface {
+public final class UncheckedBase extends Request implements CrudInterface {
 
     public UncheckedBase(RequestSpecification spec, Endpoint endpoint) {
         super(spec, endpoint);

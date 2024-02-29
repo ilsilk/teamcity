@@ -8,7 +8,9 @@ import io.qameta.allure.Step;
 
 import java.util.regex.Pattern;
 
-import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Condition.appear;
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.teamcity.api.enums.Endpoint.PROJECTS;
@@ -38,9 +40,9 @@ public class ProjectsPage extends BasePage {
     }
 
     @Step("Open projects page")
-    /* Реализация у каждой Page статического метода open, который внутри себя вызывает конструктор класса и возвращает его.
-    В конструкторе класса по умолчанию находятся ассерты, проверяющие, что страница полностью загрузилась, по этой причине
-    метод open не может быть не статическим, так как мы не можем создать экземпляр класса до вызова этого метода. */
+    /* Реализация у каждой Page статического метода open, который внутри себя вызывает конструктор класса и возвращает
+    его. В конструкторе класса по умолчанию находятся ассерты, проверяющие, что страница полностью загрузилась, по этой
+    причине метод open не может быть не статическим, так как невозможно создать экземпляр класса до его вызова. */
     public static ProjectsPage open() {
         return Selenide.open(PROJECTS_URL, ProjectsPage.class);
     }
@@ -71,8 +73,9 @@ public class ProjectsPage extends BasePage {
     public String getProjectId() {
         var pattern = Pattern.compile("projectId=(.*?)(?:&|$)");
         // Метод attr(text) - получить у элемента значение атрибута text
-        var matcher = pattern.matcher(editProjectLink.attr("href"));
-        var projectId = matcher.find() ? matcher.group(1) : null;
+        var href = editProjectLink.attr("href");
+        var matcher = href != null ? pattern.matcher(href) : null;
+        var projectId = matcher != null && matcher.find() ? matcher.group(1) : null;
         step("projectId=" + projectId);
         TestDataStorage.getStorage().addCreatedEntity(PROJECTS, projectId);
         return projectId;

@@ -8,7 +8,7 @@ import com.teamcity.api.requests.unchecked.UncheckedAgents;
 import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
 
-public class CheckedAgents extends Request implements CrudInterface {
+public final class CheckedAgents extends Request implements CrudInterface {
 
     public CheckedAgents(RequestSpecification spec) {
         super(spec, null);

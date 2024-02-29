@@ -9,7 +9,7 @@ import com.teamcity.api.requests.unchecked.UncheckedBase;
 import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
 
-public class CheckedBase extends Request implements CrudInterface {
+public final class CheckedBase extends Request implements CrudInterface {
 
     // Все реквесты, имеющие одинаковую реализацию CRUD методов, можно создать через общий конструктор
     public CheckedBase(RequestSpecification spec, Endpoint endpoint) {

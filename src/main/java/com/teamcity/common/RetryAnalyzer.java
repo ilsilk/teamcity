@@ -4,7 +4,7 @@ import com.teamcity.api.config.Config;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 
-public class RetryAnalyzer implements IRetryAnalyzer {
+public final class RetryAnalyzer implements IRetryAnalyzer {
 
     private int retryCount = 0;
 
