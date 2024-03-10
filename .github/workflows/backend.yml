@@ -1,6 +1,6 @@
 name: Deploy backend
 
-on: workflow_call
+on: workflow_dispatch
 
 # Это лишь примерные степы, как может выглядеть пайплайн бэкенда
 jobs:
