@@ -11,18 +11,10 @@ jobs:
       - name: Test frontend
         run: echo Запускаются юнит тесты и линтеры фронтенда, формируется и публикуется Docker образ
 
-  deploy_stage:
+  deploy-stage:
     needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Deploy frontend to stage
         run: echo Происходит деплой фронтенда на стейдж
-
-  deploy_production:
-    needs: deploy_stage
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Deploy backend to production
-        run: echo Происходит деплой фронтенда на прод
