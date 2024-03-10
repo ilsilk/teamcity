@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build backend
-        run: echo Собирается билд бэкенда (при сборке прогоняются юнит тесты), формируется и публикуется Docker образ
+        run: echo Собирается билд бэкенда \(при сборке прогоняются юнит тесты\), формируется и публикуется Docker образ
 
   deploy_stage:
     needs: build
