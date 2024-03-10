@@ -1,0 +1,15 @@
+name: TeamCity deployment
+
+on: push
+
+jobs:
+  backend:
+    uses: ./.github/workflows/backend.yml
+
+  frontend:
+    needs: backend
+    uses: ./.github/workflows/frontend.yml
+
+  automation:
+    needs: frontend
+    uses: ./.github/workflows/automation.yml
