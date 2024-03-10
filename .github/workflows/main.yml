@@ -22,5 +22,5 @@ jobs:
       - run: echo Approved to prod
 
   deploy-prod:
-    needs: frontend
+    needs: manual-prod-approval
     uses: ./.github/workflows/deploy-prod.yml
