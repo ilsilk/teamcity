@@ -45,7 +45,7 @@ jobs:
         if: always()
         with:
           gh_pages: gh-pages
-          allure_history: allure-history
+          allure_history: allure-history-api
           allure_results: target/allure-results
 
       - name: Publish test report
@@ -54,7 +54,8 @@ jobs:
         with:
           github_token: $
           publish_branch: gh-pages
-          publish_dir: allure-history
+          publish_dir: allure-history-api
+          keep_files: true
 
       # Создание репорта с покрытием API тестов, основанного на Swagger. Документация: https://github.com/viclovsky/swagger-coverage
       # Обязательно добавить SwaggerCoverageRestAssured фильтр во все реквесты, как в Specifications.reqBuilder
