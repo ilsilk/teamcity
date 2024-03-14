@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Teamcity setup
-        uses: .github/actions/teamcity-setup
+        uses: ./.github/actions/teamcity-setup
 
       - name: Run UI tests
         # Указываем группу, чтобы еще раз не запустить тесты, которые использовались для сетапа сервера и агента
