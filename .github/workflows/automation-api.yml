@@ -1,4 +1,4 @@
-name: Run tests
+name: Run API tests
 
 on: workflow_call
 
@@ -16,7 +16,7 @@ jobs:
       - name: Validate Checkstyle
         run: ./mvnw validate
 
-  run-tests:
+  run-api-tests:
     needs: checkstyle
     runs-on: ubuntu-latest
     steps:
@@ -39,31 +39,6 @@ jobs:
       # Храним переменные как в переменных среды ($GITHUB_ENV), для использования внутри этого yml файла, так и в config.properties, для использования в тестах
       - name: Set up host config property
         run: echo "host=$HOST:8111" >> src/main/resources/config.properties
-
-      - name: Pull Selenoid browsers
-        # Парсим browsers.json и достаем из него все браузеры
-        run: |
-          for browser in $(awk -F'"' '/"image": "/{print $4}' "config/browsers.json"); do
-            docker pull $browser
-          done
-
-      - name: Run Selenoid
-        # Флаг -d запускает контейнер в фоновом режиме (так как, например, контейнер с сервером не имеет окончания, он просто всегда включен,
-        # и если мы без этого флага в него перейдем, то никогда не сможем перешагнуть к следующему степу
-        run: |
-          docker run -d --name selenoid \
-          -v /var/run/docker.sock:/var/run/docker.sock \
-          -v $(pwd)/config/:/etc/selenoid/:ro \
-          -p 4444:4444 \
-          aerokube/selenoid:latest-release
-
-      # В этом степе нет смысла, так как через GitHub Actions нет доступа к Selenoid UI. Но зато это полезно при локальном запуске через act, для отладки
-      - name: Run Selenoid UI
-        run: |
-          docker run -d --name selenoid-ui \
-          -p 8080:8080 \
-          aerokube/selenoid-ui:latest-release \
-          --selenoid-uri http://$HOST:4444
 
       - name: Run TeamCity server
         # Флаг -u 0 запускает контейнер от имени root, чтобы был доступ на запись файлов в директории, указанные в volume.
@@ -104,9 +79,6 @@ jobs:
         # Указываем группу, чтобы еще раз не запустить тесты, которые использовались для сетапа сервера и агента
         run: ./mvnw test -Dtest='com.teamcity.api.**' -Dgroups=Regression
 
-      - name: Run UI tests
-        run: ./mvnw test -Dtest='com.teamcity.ui.**' -Dgroups=Regression
-
       # Следующие 3 степа на сохранение Allure репортов с историей и публикацию их в GitHub Pages.
       # Необходимо ознакомиться с документацией: https://allurereport.org/docs/integrations-github/,
       # так как есть степы, которые необходимо выполнить вручную в настройках репозитория, чтобы публикация работала корректно.
@@ -126,14 +98,6 @@ jobs:
           gh_pages: gh-pages
           allure_history: allure-history
           allure_results: target/allure-results
-
-      - name: Publish test report
-        uses: peaceiris/actions-gh-pages@v3
-        if: always()
-        with:
-          github_token: $
-          publish_branch: gh-pages
-          publish_dir: allure-history
 
       # Создание репорта с покрытием API тестов, основанного на Swagger. Документация: https://github.com/viclovsky/swagger-coverage
       # Обязательно добавить SwaggerCoverageRestAssured фильтр во все реквесты, как в Specifications.reqBuilder
