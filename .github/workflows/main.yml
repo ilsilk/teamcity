@@ -24,10 +24,10 @@ jobs:
   allure-publish:
     needs: [ automation-api, automation-ui ]
     runs-on: ubuntu-latest
+    if: always()
     steps:
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3
-        if: always()
         with:
           github_token: $
           publish_branch: gh-pages
