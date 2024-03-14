@@ -23,11 +23,20 @@ jobs:
 
   allure-publish:
     needs: [ automation-api, automation-ui ]
-    runs-on: ubuntu-latest
     if: always()
+    runs-on: ubuntu-latest
     steps:
+      - name: Load test report history
+        uses: actions/checkout@v4
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3
+        if: always()
         with:
           github_token: $
           publish_branch: gh-pages

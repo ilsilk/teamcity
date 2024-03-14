@@ -94,4 +94,3 @@ runs:
       # Авторизация агента при первом запуске, реализованная в виде теста
       # Не указываем clean, чтобы потом в итоговом репорте были и setup тесты
       run: ./mvnw test -Dtest=SetupAgentTest#setupTeamCityAgentTest
-
