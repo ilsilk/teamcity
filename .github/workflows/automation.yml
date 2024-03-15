@@ -1,9 +1,9 @@
-name: Run API tests
+name: Run tests
 
 on: workflow_call
 
 jobs:
-  checkstyle:
+  validate-checkstyle:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,8 +17,8 @@ jobs:
       - name: Validate Checkstyle
         run: ./mvnw validate
 
-  run-api-tests:
-    needs: checkstyle
+  run-tests:
+    needs: validate-checkstyle
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,8 +27,13 @@ jobs:
         uses: ./.github/actions/teamcity-setup
 
       - name: Run API tests
+        # Чтобы запустить UI тесты в любом случае, даже если API упали
+        continue-on-error: true
         # Указываем группу, чтобы еще раз не запустить тесты, которые использовались для сетапа сервера и агента
         run: ./mvnw test -Dtest='com.teamcity.api.**' -Dgroups=Regression
+
+      - name: Run UI tests
+        run: ./mvnw test -Dtest='com.teamcity.ui.**' -Dgroups=Regression
 
       # Следующие 3 степа на сохранение Allure репортов с историей и публикацию их в GitHub Pages.
       # Необходимо ознакомиться с документацией: https://allurereport.org/docs/integrations-github/,
@@ -57,8 +62,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
-          destination_dir: api
-          keep_files: true
 
       # Создание репорта с покрытием API тестов, основанного на Swagger. Документация: https://github.com/viclovsky/swagger-coverage
       # Обязательно добавить SwaggerCoverageRestAssured фильтр во все реквесты, как в Specifications.reqBuilder
