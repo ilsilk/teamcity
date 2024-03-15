@@ -49,7 +49,6 @@ jobs:
           gh_pages: gh-pages
           allure_history: allure-history
           allure_results: target/allure-results
-          subfolder: ui
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3
@@ -58,4 +57,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
+          destination_dir: ui
           keep_files: true
