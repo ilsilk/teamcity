@@ -3,22 +3,11 @@ name: Run UI tests
 on: workflow_call
 
 jobs:
-  validate-checkstyle:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'zulu'
-
-      - name: Validate Checkstyle
-        run: ./mvnw validate
+  checkstyle:
+    uses: ./.github/workflows/checkstyle-validation.yml
 
   run-ui-tests:
-    needs: validate-checkstyle
+    needs: checkstyle
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
