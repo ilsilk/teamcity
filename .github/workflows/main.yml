@@ -11,10 +11,15 @@ jobs:
   frontend:
     uses: ./.github/workflows/frontend-stage.yml
 
-  # Прогоняются автотесты
-  automation:
+  # Прогоняются API автотесты
+  automation-api:
     needs: [ backend, frontend ]
-    uses: ./.github/workflows/automation.yml
+    uses: ./.github/workflows/automation-api.yml
+
+  # Прогоняются UI автотесты
+  automation-ui:
+    needs: [ backend, frontend ]
+    uses: ./.github/workflows/automation-ui.yml
 
   # Необходим мануальный апрув, чтобы задеплоить бэкенд и фронтенд на прод
   # Нужно настроить prod environment. Инструкция: https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#creating-an-environment
@@ -22,7 +27,7 @@ jobs:
   # Однако, мануальное действие здесь поможет провести дополнительное ревью, а также, например, какие-то мануальные или перформанс тесты,
   # так как деплой на прод - это очень серьезное действие
   manual-prod-approval:
-    needs: automation
+    needs: [ automation-api, automation-ui ]
     runs-on: ubuntu-latest
     environment: 'prod'
     steps:

@@ -1,4 +1,4 @@
-name: Run tests
+name: Run UI tests
 
 on: workflow_call
 
@@ -17,7 +17,7 @@ jobs:
       - name: Validate Checkstyle
         run: ./mvnw validate
 
-  run-tests:
+  run-ui-tests:
     needs: validate-checkstyle
     runs-on: ubuntu-latest
     steps:
@@ -26,13 +26,8 @@ jobs:
       - name: Teamcity setup
         uses: ./.github/actions/teamcity-setup
 
-      - name: Run API tests
-        # Чтобы запустить UI тесты в любом случае, даже если API упали
-        continue-on-error: true
-        # Указываем группу, чтобы еще раз не запустить тесты, которые использовались для сетапа сервера и агента
-        run: ./mvnw test -Dtest='com.teamcity.api.**' -Dgroups=Regression
-
       - name: Run UI tests
+        # Указываем группу, чтобы еще раз не запустить тесты, которые использовались для сетапа сервера и агента
         run: ./mvnw test -Dtest='com.teamcity.ui.**' -Dgroups=Regression
 
       # Следующие 3 степа на сохранение Allure репортов с историей и публикацию их в GitHub Pages.
@@ -54,7 +49,7 @@ jobs:
           gh_pages: gh-pages
           allure_history: allure-history
           allure_results: target/allure-results
-          subfolder: tests
+          subfolder: ui
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3
@@ -63,19 +58,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
-
-      # Создание репорта с покрытием API тестов, основанного на Swagger. Документация: https://github.com/viclovsky/swagger-coverage
-      # Обязательно добавить SwaggerCoverageRestAssured фильтр во все реквесты, как в Specifications.reqBuilder
-      - name: Run Swagger coverage
-        if: always()
-        run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s http://$HOST:8111/app/rest/swagger.json -i target/swagger-coverage-output
-
-      # Swagger coverage репорт сохраняется в артефакты GitHub Actions прогона
-      - name: Save Swagger coverage
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: swagger-coverage
-          path: |
-            swagger-coverage-report.html
-            swagger-coverage-results.json
