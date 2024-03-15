@@ -48,9 +48,6 @@ jobs:
           publish_branch: gh-pages
           publish_dir: allure-history
 
-      - name: Override page url
-        run: echo "page_url=${{ steps.deployment.outputs.page_url }}api/" >> $GITHUB_OUTPUT
-
       # Создание репорта с покрытием API тестов, основанного на Swagger. Документация: https://github.com/viclovsky/swagger-coverage
       # Обязательно добавить SwaggerCoverageRestAssured фильтр во все реквесты, как в Specifications.reqBuilder
       - name: Run Swagger coverage
