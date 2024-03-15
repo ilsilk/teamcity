@@ -47,6 +47,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
-
-      - name: Override page url
-        run: echo "new_page_url=${{ steps.deployment.outputs.page_url }}ui/" >> $GITHUB_OUTPUT
