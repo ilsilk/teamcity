@@ -7,7 +7,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
       - name: Test frontend
         run: echo Запускаются юнит тесты и линтеры фронтенда, формируется и публикуется Docker образ
 
@@ -15,6 +14,5 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
       - name: Deploy frontend to stage
         run: echo Происходит деплой фронтенда на стейдж

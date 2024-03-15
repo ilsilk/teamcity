@@ -7,7 +7,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
       - name: Build backend
         run: echo Собирается билд бэкенда \(при сборке прогоняются юнит тесты\), формируется и публикуется Docker образ
 
@@ -15,6 +14,5 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
       - name: Deploy backend to stage
         run: echo Происходит деплой бэкенда на стейдж
