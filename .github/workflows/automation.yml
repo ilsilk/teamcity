@@ -54,6 +54,7 @@ jobs:
           gh_pages: gh-pages
           allure_history: allure-history
           allure_results: target/allure-results
+          subfolder: tests
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3
@@ -62,7 +63,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
-          destination_dir: tests
 
       # Создание репорта с покрытием API тестов, основанного на Swagger. Документация: https://github.com/viclovsky/swagger-coverage
       # Обязательно добавить SwaggerCoverageRestAssured фильтр во все реквесты, как в Specifications.reqBuilder
