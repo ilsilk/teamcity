@@ -12,7 +12,7 @@ jobs:
     uses: ./.github/workflows/frontend-stage.yml
 
   # Прогоняются API автотесты
-  automation-ap:
+  automation-api:
     needs: [ backend, frontend ]
     uses: ./.github/workflows/automation.yml
     with:
