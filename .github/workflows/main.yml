@@ -14,12 +14,16 @@ jobs:
   # Прогоняются API автотесты
   automation-api:
     needs: [ backend, frontend ]
-    uses: ./.github/workflows/automation-api.yml
+    uses: ./.github/workflows/automation.yml
+    with:
+      package: api
 
   # Прогоняются UI автотесты
   automation-ui:
     needs: [ backend, frontend ]
-    uses: ./.github/workflows/automation-ui.yml
+    uses: ./.github/workflows/automation.yml
+    with:
+      package: ui
 
   # Необходим мануальный апрув, чтобы задеплоить бэкенд и фронтенд на прод
   # Нужно настроить prod environment. Инструкция: https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#creating-an-environment
