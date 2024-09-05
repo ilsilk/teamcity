@@ -11,14 +11,17 @@ import org.apache.http.HttpStatus;
 
 public final class CheckedBase extends Request implements CrudInterface {
 
+    private final UncheckedBase uncheckedBase;
+
     // Все реквесты, имеющие одинаковую реализацию CRUD методов, можно создать через общий конструктор
     public CheckedBase(RequestSpecification spec, Endpoint endpoint) {
         super(spec, endpoint);
+        uncheckedBase = new UncheckedBase(spec, endpoint);
     }
 
     @Override
     public BaseModel create(BaseModel model) {
-        var createdModel = new UncheckedBase(spec, endpoint)
+        var createdModel = uncheckedBase
                 .create(model)
                 .then().assertThat().statusCode(HttpStatus.SC_OK)
                 .extract().as(endpoint.getModelClass());
@@ -29,7 +32,7 @@ public final class CheckedBase extends Request implements CrudInterface {
 
     @Override
     public BaseModel read(String id) {
-        return new UncheckedBase(spec, endpoint)
+        return uncheckedBase
                 .read(id)
                 .then().assertThat().statusCode(HttpStatus.SC_OK)
                 .extract().as(endpoint.getModelClass());
@@ -37,7 +40,7 @@ public final class CheckedBase extends Request implements CrudInterface {
 
     @Override
     public BaseModel update(String id, BaseModel model) {
-        return new UncheckedBase(spec, endpoint)
+        return uncheckedBase
                 .update(id, model)
                 .then().assertThat().statusCode(HttpStatus.SC_OK)
                 .extract().as(endpoint.getModelClass());
@@ -45,7 +48,7 @@ public final class CheckedBase extends Request implements CrudInterface {
 
     @Override
     public String delete(String id) {
-        return new UncheckedBase(spec, endpoint)
+        return uncheckedBase
                 .delete(id)
                 .then().assertThat().statusCode(HttpStatus.SC_NO_CONTENT)
                 .extract().asString();
