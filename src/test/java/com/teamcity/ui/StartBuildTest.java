@@ -17,24 +17,24 @@ public class StartBuildTest extends BaseUiTest {
 
     @Test(description = "User should be able to create build type step and start build", groups = {"Regression"})
     public void userCreatesBuildTypeStepAndStartsBuildTest() {
-        checkedSuperUser.getRequest(PROJECTS).create(testData.project());
-        checkedSuperUser.getRequest(BUILD_TYPES).create(testData.buildType());
-        loginAs(testData.user());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
+        checkedSuperUser.getRequest(BUILD_TYPES).create(testData.getBuildType());
+        loginAs(testData.getUser());
 
-        CreateBuildTypeStepPage.open(testData.buildType().id())
+        CreateBuildTypeStepPage.open(testData.getBuildType().getId())
                 .createCommandLineBuildStep("echo 'Hello World!'");
 
         // Тесты реализованы по паттерну fluent page object, поэтому эта запись выглядит как билдер, в одну строчку
         var createdBuildId = ProjectsPage.open()
-                .verifyProjectAndBuildType(testData.project().name(), testData.buildType().name())
+                .verifyProjectAndBuildType(testData.getProject().getName(), testData.getBuildType().getName())
                 .runBuildAndWaitUntilItIsFinished()
                 .getBuildId();
         var checkedBuildRequest = new CheckedBase(Specifications.getSpec()
-                .authSpec(testData.user()), BUILDS);
+                .authSpec(testData.getUser()), BUILDS);
         // Каждое действие на UI всегда проверяется через API
         var build = (Build) checkedBuildRequest.read(createdBuildId);
-        softy.assertThat(build.state()).as("buildState").isEqualTo("finished");
-        softy.assertThat(build.status()).as("buildStatus").isEqualTo("SUCCESS");
+        softy.assertThat(build.getState()).as("buildState").isEqualTo("finished");
+        softy.assertThat(build.getStatus()).as("buildStatus").isEqualTo("SUCCESS");
     }
 
 }

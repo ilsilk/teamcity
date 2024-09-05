@@ -26,124 +26,124 @@ public class BuildTypeTest extends BaseApiTest {
 
     @Test(description = "User should be able to create build type", groups = {"Regression"})
     public void userCreatesBuildTypeTest() {
-        checkedSuperUser.getRequest(USERS).create(testData.user());
-        checkedSuperUser.getRequest(PROJECTS).create(testData.project());
+        checkedSuperUser.getRequest(USERS).create(testData.getUser());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
 
         var checkedBuildTypeRequest = new CheckedBase(Specifications.getSpec()
-                .authSpec(testData.user()), BUILD_TYPES);
-        var buildType = (BuildType) checkedBuildTypeRequest.create(testData.buildType());
+                .authSpec(testData.getUser()), BUILD_TYPES);
+        var buildType = (BuildType) checkedBuildTypeRequest.create(testData.getBuildType());
 
-        softy.assertThat(buildType.id()).as("buildTypeId").isEqualTo(testData.buildType().id());
+        softy.assertThat(buildType.getId()).as("buildTypeId").isEqualTo(testData.getBuildType().getId());
     }
 
     @Test(description = "User should not be able to create two build types with the same id", groups = {"Regression"})
     public void userCreatesTwoBuildTypesWithSameIdTest() {
-        checkedSuperUser.getRequest(USERS).create(testData.user());
-        checkedSuperUser.getRequest(PROJECTS).create(testData.project());
+        checkedSuperUser.getRequest(USERS).create(testData.getUser());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
 
         var checkedBuildTypeRequest = new CheckedBase(Specifications.getSpec()
-                .authSpec(testData.user()), BUILD_TYPES);
-        checkedBuildTypeRequest.create(testData.buildType());
+                .authSpec(testData.getUser()), BUILD_TYPES);
+        checkedBuildTypeRequest.create(testData.getBuildType());
 
         var secondTestData = generate();
-        var buildTypeTestData = testData.buildType();
-        var secondBuildTypeTestData = (BuildType) secondTestData.buildType();
-        secondBuildTypeTestData.id(buildTypeTestData.id());
-        secondBuildTypeTestData.project(buildTypeTestData.project());
+        var buildTypeTestData = testData.getBuildType();
+        var secondBuildTypeTestData = (BuildType) secondTestData.getBuildType();
+        secondBuildTypeTestData.setId(buildTypeTestData.getId());
+        secondBuildTypeTestData.setProject(buildTypeTestData.getProject());
 
         var uncheckedBuildTypeRequest = new UncheckedBase(Specifications.getSpec()
-                .authSpec(testData.user()), BUILD_TYPES);
-        uncheckedBuildTypeRequest.create(secondTestData.buildType())
+                .authSpec(testData.getUser()), BUILD_TYPES);
+        uncheckedBuildTypeRequest.create(secondTestData.getBuildType())
                 .then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test(description = "User should not be able to create build type with id exceeding the limit", groups = {"Regression"})
     public void userCreatesBuildTypeWithIdExceedingLimitTest() {
-        checkedSuperUser.getRequest(USERS).create(testData.user());
-        checkedSuperUser.getRequest(PROJECTS).create(testData.project());
+        checkedSuperUser.getRequest(USERS).create(testData.getUser());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
 
-        var buildTypeTestData = testData.buildType();
-        buildTypeTestData.id(RandomData.getString(BUILD_TYPE_ID_CHARACTERS_LIMIT + 1));
+        var buildTypeTestData = testData.getBuildType();
+        buildTypeTestData.setId(RandomData.getString(BUILD_TYPE_ID_CHARACTERS_LIMIT + 1));
 
         var uncheckedBuildTypeRequest = new UncheckedBase(Specifications.getSpec()
-                .authSpec(testData.user()), BUILD_TYPES);
-        uncheckedBuildTypeRequest.create(testData.buildType())
+                .authSpec(testData.getUser()), BUILD_TYPES);
+        uncheckedBuildTypeRequest.create(testData.getBuildType())
                 .then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 
-        buildTypeTestData.id(RandomData.getString(BUILD_TYPE_ID_CHARACTERS_LIMIT));
+        buildTypeTestData.setId(RandomData.getString(BUILD_TYPE_ID_CHARACTERS_LIMIT));
 
         var checkedBuildTypeRequest = new CheckedBase(Specifications.getSpec()
-                .authSpec(testData.user()), BUILD_TYPES);
-        checkedBuildTypeRequest.create(testData.buildType());
+                .authSpec(testData.getUser()), BUILD_TYPES);
+        checkedBuildTypeRequest.create(testData.getBuildType());
     }
 
     @Test(description = "Unauthorized user should not be able to create build type", groups = {"Regression"})
     public void unauthorizedUserCreatesBuildTypeTest() {
-        checkedSuperUser.getRequest(PROJECTS).create(testData.project());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
 
         var uncheckedBuildTypeRequest = new UncheckedBase(Specifications.getSpec()
                 .unauthSpec(), BUILD_TYPES);
-        uncheckedBuildTypeRequest.create(testData.buildType())
+        uncheckedBuildTypeRequest.create(testData.getBuildType())
                 .then().assertThat().statusCode(HttpStatus.SC_UNAUTHORIZED);
 
-        uncheckedSuperUser.getRequest(BUILD_TYPES).read(testData.buildType().id())
+        uncheckedSuperUser.getRequest(BUILD_TYPES).read(testData.getBuildType().getId())
                 .then().assertThat().statusCode(HttpStatus.SC_NOT_FOUND)
                 .body(Matchers.containsString("Could not find the entity requested"));
     }
 
     @Test(description = "User should be able to delete build type", groups = {"Regression"})
     public void userDeletesBuildTypeTest() {
-        checkedSuperUser.getRequest(USERS).create(testData.user());
-        checkedSuperUser.getRequest(PROJECTS).create(testData.project());
+        checkedSuperUser.getRequest(USERS).create(testData.getUser());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
 
         var checkedBuildTypeRequest = new CheckedBase(Specifications.getSpec()
-                .authSpec(testData.user()), BUILD_TYPES);
-        checkedBuildTypeRequest.create(testData.buildType());
-        checkedBuildTypeRequest.delete(testData.buildType().id());
+                .authSpec(testData.getUser()), BUILD_TYPES);
+        checkedBuildTypeRequest.create(testData.getBuildType());
+        checkedBuildTypeRequest.delete(testData.getBuildType().getId());
 
         var uncheckedBuildTypeRequest = new UncheckedBase(Specifications.getSpec()
-                .authSpec(testData.user()), BUILD_TYPES);
-        uncheckedBuildTypeRequest.read(testData.buildType().id())
+                .authSpec(testData.getUser()), BUILD_TYPES);
+        uncheckedBuildTypeRequest.read(testData.getBuildType().getId())
                 .then().assertThat().statusCode(HttpStatus.SC_NOT_FOUND)
                 .body(Matchers.containsString("Could not find the entity requested"));
     }
 
     @Test(description = "Project admin should be able to create build type for their project", groups = {"Regression"})
     public void projectAdminCreatesBuildTypeTest() {
-        checkedSuperUser.getRequest(PROJECTS).create(testData.project());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
 
-        var userTestData = testData.user();
-        var projectTestData = testData.project();
-        userTestData.roles(generate(Roles.class, UserRole.PROJECT_ADMIN, "p:" + projectTestData.id()));
+        var userTestData = testData.getUser();
+        var projectTestData = testData.getProject();
+        userTestData.setRoles(generate(Roles.class, UserRole.PROJECT_ADMIN, "p:" + projectTestData.getId()));
 
-        checkedSuperUser.getRequest(USERS).create(testData.user());
+        checkedSuperUser.getRequest(USERS).create(testData.getUser());
 
         var checkedBuildTypeRequest = new CheckedBase(Specifications.getSpec()
-                .authSpec(testData.user()), BUILD_TYPES);
-        var buildType = (BuildType) checkedBuildTypeRequest.create(testData.buildType());
+                .authSpec(testData.getUser()), BUILD_TYPES);
+        var buildType = (BuildType) checkedBuildTypeRequest.create(testData.getBuildType());
 
-        softy.assertThat(buildType.id()).as("buildTypeId").isEqualTo(testData.buildType().id());
+        softy.assertThat(buildType.getId()).as("buildTypeId").isEqualTo(testData.getBuildType().getId());
     }
 
     @Test(description = "Project admin should not be able to create build type for not their project", groups = {"Regression"})
     public void projectAdminCreatesBuildTypeForAnotherUserProjectTest() {
         var secondTestData = generate();
-        checkedSuperUser.getRequest(PROJECTS).create(testData.project());
-        checkedSuperUser.getRequest(PROJECTS).create(secondTestData.project());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
+        checkedSuperUser.getRequest(PROJECTS).create(secondTestData.getProject());
 
-        var userTestData = testData.user();
-        var secondUserTestData = (User) secondTestData.user();
-        var projectTestData = testData.project();
-        var secondProjectTestData = (NewProjectDescription) secondTestData.project();
-        userTestData.roles(generate(Roles.class, UserRole.PROJECT_ADMIN, "p:" + projectTestData.id()));
-        secondUserTestData.roles(generate(Roles.class, UserRole.PROJECT_ADMIN, "p:" + secondProjectTestData.id()));
+        var userTestData = testData.getUser();
+        var secondUserTestData = (User) secondTestData.getUser();
+        var projectTestData = testData.getProject();
+        var secondProjectTestData = (NewProjectDescription) secondTestData.getProject();
+        userTestData.setRoles(generate(Roles.class, UserRole.PROJECT_ADMIN, "p:" + projectTestData.getId()));
+        secondUserTestData.setRoles(generate(Roles.class, UserRole.PROJECT_ADMIN, "p:" + secondProjectTestData.getId()));
 
-        checkedSuperUser.getRequest(USERS).create(testData.user());
-        checkedSuperUser.getRequest(USERS).create(secondTestData.user());
+        checkedSuperUser.getRequest(USERS).create(testData.getUser());
+        checkedSuperUser.getRequest(USERS).create(secondTestData.getUser());
 
         var uncheckedBuildTypeRequest = new UncheckedBase(Specifications.getSpec()
-                .authSpec(testData.user()), BUILD_TYPES);
-        uncheckedBuildTypeRequest.create(secondTestData.buildType())
+                .authSpec(testData.getUser()), BUILD_TYPES);
+        uncheckedBuildTypeRequest.create(secondTestData.getBuildType())
                 .then().assertThat().statusCode(HttpStatus.SC_FORBIDDEN)
                 .body(Matchers.containsString("Access denied"));
     }

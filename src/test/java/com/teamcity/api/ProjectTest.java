@@ -22,78 +22,78 @@ public class ProjectTest extends BaseApiTest {
 
     @Test(description = "User should be able to create project", groups = {"Regression"})
     public void userCreatesProjectTest() {
-        checkedSuperUser.getRequest(USERS).create(testData.user());
+        checkedSuperUser.getRequest(USERS).create(testData.getUser());
 
         var checkedProjectRequest = new CheckedBase(Specifications.getSpec()
-                .authSpec(testData.user()), PROJECTS);
-        var project = (Project) checkedProjectRequest.create(testData.project());
+                .authSpec(testData.getUser()), PROJECTS);
+        var project = (Project) checkedProjectRequest.create(testData.getProject());
 
-        softy.assertThat(project.id()).as("projectId").isEqualTo(testData.project().id());
+        softy.assertThat(project.getId()).as("projectId").isEqualTo(testData.getProject().getId());
     }
 
     @Test(description = "User should not be able to create two projects with the same id", groups = {"Regression"})
     public void userCreatesTwoProjectsWithSameIdTest() {
-        checkedSuperUser.getRequest(USERS).create(testData.user());
+        checkedSuperUser.getRequest(USERS).create(testData.getUser());
 
         var checkedProjectRequest = new CheckedBase(Specifications.getSpec()
-                .authSpec(testData.user()), PROJECTS);
-        checkedProjectRequest.create(testData.project());
+                .authSpec(testData.getUser()), PROJECTS);
+        checkedProjectRequest.create(testData.getProject());
 
         var secondTestData = generate();
-        var projectTestData = testData.project();
-        var secondProjectTestData = (NewProjectDescription) secondTestData.project();
-        secondProjectTestData.id(projectTestData.id());
+        var projectTestData = testData.getProject();
+        var secondProjectTestData = (NewProjectDescription) secondTestData.getProject();
+        secondProjectTestData.setId(projectTestData.getId());
 
         var uncheckedProjectRequest = new UncheckedBase(Specifications.getSpec()
-                .authSpec(testData.user()), PROJECTS);
-        uncheckedProjectRequest.create(secondTestData.project())
+                .authSpec(testData.getUser()), PROJECTS);
+        uncheckedProjectRequest.create(secondTestData.getProject())
                 .then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test(description = "User should not be able to create project with id exceeding the limit", groups = {"Regression"})
     public void userCreatesProjectWithIdExceedingLimitTest() {
-        checkedSuperUser.getRequest(USERS).create(testData.user());
+        checkedSuperUser.getRequest(USERS).create(testData.getUser());
 
-        var projectTestData = testData.project();
-        projectTestData.id(RandomData.getString(PROJECT_ID_CHARACTERS_LIMIT + 1));
+        var projectTestData = testData.getProject();
+        projectTestData.setId(RandomData.getString(PROJECT_ID_CHARACTERS_LIMIT + 1));
 
         var uncheckedProjectRequest = new UncheckedBase(Specifications.getSpec()
-                .authSpec(testData.user()), PROJECTS);
-        uncheckedProjectRequest.create(testData.project())
+                .authSpec(testData.getUser()), PROJECTS);
+        uncheckedProjectRequest.create(testData.getProject())
                 .then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 
-        projectTestData.id(RandomData.getString(PROJECT_ID_CHARACTERS_LIMIT));
+        projectTestData.setId(RandomData.getString(PROJECT_ID_CHARACTERS_LIMIT));
 
         var checkedProjectRequest = new CheckedBase(Specifications.getSpec()
-                .authSpec(testData.user()), PROJECTS);
-        checkedProjectRequest.create(testData.project());
+                .authSpec(testData.getUser()), PROJECTS);
+        checkedProjectRequest.create(testData.getProject());
     }
 
     @Test(description = "Unauthorized user should not be able to create project", groups = {"Regression"})
     public void unauthorizedUserCreatesProjectTest() {
         var uncheckedProjectRequest = new UncheckedBase(Specifications.getSpec()
                 .unauthSpec(), PROJECTS);
-        uncheckedProjectRequest.create(testData.project())
+        uncheckedProjectRequest.create(testData.getProject())
                 .then().assertThat().statusCode(HttpStatus.SC_UNAUTHORIZED);
 
         uncheckedSuperUser.getRequest(PROJECTS)
-                .read(testData.project().id())
+                .read(testData.getProject().getId())
                 .then().assertThat().statusCode(HttpStatus.SC_NOT_FOUND)
                 .body(Matchers.containsString("Could not find the entity requested"));
     }
 
     @Test(description = "User should be able to delete project", groups = {"Regression"})
     public void userDeletesProjectTest() {
-        checkedSuperUser.getRequest(USERS).create(testData.user());
+        checkedSuperUser.getRequest(USERS).create(testData.getUser());
 
         var checkedProjectRequest = new CheckedBase(Specifications.getSpec()
-                .authSpec(testData.user()), PROJECTS);
-        checkedProjectRequest.create(testData.project());
-        checkedProjectRequest.delete(testData.project().id());
+                .authSpec(testData.getUser()), PROJECTS);
+        checkedProjectRequest.create(testData.getProject());
+        checkedProjectRequest.delete(testData.getProject().getId());
 
         var uncheckedProjectRequest = new UncheckedBase(Specifications.getSpec()
-                .authSpec(testData.user()), PROJECTS);
-        uncheckedProjectRequest.read(testData.project().id())
+                .authSpec(testData.getUser()), PROJECTS);
+        uncheckedProjectRequest.read(testData.getProject().getId())
                 .then().assertThat().statusCode(HttpStatus.SC_NOT_FOUND)
                 .body(Matchers.containsString("Could not find the entity requested"));
     }

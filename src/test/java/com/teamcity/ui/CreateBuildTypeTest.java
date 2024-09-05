@@ -16,26 +16,26 @@ public class CreateBuildTypeTest extends BaseUiTest {
 
     @Test(description = "User should be able to create build type", groups = {"Regression"})
     public void userCreatesBuildTypeTest() {
-        checkedSuperUser.getRequest(PROJECTS).create(testData.project());
-        loginAs(testData.user());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
+        loginAs(testData.getUser());
 
-        CreateBuildTypePage.open(testData.project().id())
+        CreateBuildTypePage.open(testData.getProject().getId())
                 .createFrom(GIT_URL)
-                .setupBuildType(testData.buildType().name());
+                .setupBuildType(testData.getBuildType().getName());
         var createdBuildTypeId = EditBuildTypePage.open().getBuildTypeId();
 
         var checkedBuildTypeRequest = new CheckedBase(Specifications.getSpec()
-                .authSpec(testData.user()), BUILD_TYPES);
+                .authSpec(testData.getUser()), BUILD_TYPES);
         var buildType = (BuildType) checkedBuildTypeRequest.read(createdBuildTypeId);
-        softy.assertThat(buildType.name()).as("buildTypeName").isEqualTo(testData.buildType().name());
+        softy.assertThat(buildType.getName()).as("buildTypeName").isEqualTo(testData.getBuildType().getName());
     }
 
     @Test(description = "User should not be able to create build type without name", groups = {"Regression"})
     public void userCreatesBuildTypeWithoutName() {
-        checkedSuperUser.getRequest(PROJECTS).create(testData.project());
-        loginAs(testData.user());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
+        loginAs(testData.getUser());
 
-        CreateBuildTypePage.open(testData.project().id())
+        CreateBuildTypePage.open(testData.getProject().getId())
                 .createFrom(GIT_URL)
                 .setupBuildType("")
                 .verifyBuildTypeNameError("Build configuration name must not be empty");

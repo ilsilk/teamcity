@@ -26,26 +26,26 @@ public class StartBuildTest extends BaseApiTest {
 
     @Test(description = "User should be able to start build", groups = {"Regression"})
     public void userStartsBuildTest() {
-        checkedSuperUser.getRequest(USERS).create(testData.user());
-        checkedSuperUser.getRequest(PROJECTS).create(testData.project());
+        checkedSuperUser.getRequest(USERS).create(testData.getUser());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
 
-        var buildTypeTestData = testData.buildType();
-        buildTypeTestData.steps(generate(Steps.class, List.of(
+        var buildTypeTestData = testData.getBuildType();
+        buildTypeTestData.setSteps(generate(Steps.class, List.of(
                 generate(Property.class, "script.content", "echo 'Hello World!'"),
                 generate(Property.class, "use.custom.script", "true"))));
 
-        checkedSuperUser.getRequest(BUILD_TYPES).create(testData.buildType());
+        checkedSuperUser.getRequest(BUILD_TYPES).create(testData.getBuildType());
 
         var checkedBuildQueueRequest = new CheckedBase(Specifications.getSpec()
-                .authSpec(testData.user()), BUILD_QUEUE);
+                .authSpec(testData.getUser()), BUILD_QUEUE);
         var build = (Build) checkedBuildQueueRequest.create(Build.builder()
-                .buildType(testData.buildType())
+                .buildType(testData.getBuildType())
                 .build());
 
-        softy.assertThat(build.state()).as("buildState").isEqualTo("queued");
+        softy.assertThat(build.getState()).as("buildState").isEqualTo("queued");
 
         build = waitUntilBuildIsFinished(build);
-        softy.assertThat(build.status()).as("buildStatus").isEqualTo("SUCCESS");
+        softy.assertThat(build.getStatus()).as("buildStatus").isEqualTo("SUCCESS");
     }
 
     @Step("Wait until build is finished")
@@ -53,13 +53,13 @@ public class StartBuildTest extends BaseApiTest {
         // Необходимо использовать AtomicReference, так как переменная в лямбда выражении должна быть final или effectively final
         var atomicBuild = new AtomicReference<>(build);
         var checkedBuildRequest = new CheckedBase(Specifications.getSpec()
-                .authSpec(testData.user()), BUILDS);
+                .authSpec(testData.getUser()), BUILDS);
         Awaitility.await()
                 .atMost(Duration.ofSeconds(30))
                 .pollInterval(Duration.ofSeconds(3))
                 .until(() -> {
-                    atomicBuild.set((Build) checkedBuildRequest.read(atomicBuild.get().id()));
-                    return "finished".equals(atomicBuild.get().state());
+                    atomicBuild.set((Build) checkedBuildRequest.read(atomicBuild.get().getId()));
+                    return "finished".equals(atomicBuild.get().getState());
                 });
         return atomicBuild.get();
     }
