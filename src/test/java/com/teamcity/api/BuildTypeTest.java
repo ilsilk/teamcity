@@ -3,9 +3,7 @@ package com.teamcity.api;
 import com.teamcity.api.enums.UserRole;
 import com.teamcity.api.generators.RandomData;
 import com.teamcity.api.models.BuildType;
-import com.teamcity.api.models.NewProjectDescription;
 import com.teamcity.api.models.Roles;
-import com.teamcity.api.models.User;
 import com.teamcity.api.requests.checked.CheckedBase;
 import com.teamcity.api.requests.unchecked.UncheckedBase;
 import com.teamcity.api.spec.Specifications;
@@ -47,7 +45,7 @@ public class BuildTypeTest extends BaseApiTest {
 
         var secondTestData = generate();
         var buildTypeTestData = testData.getBuildType();
-        var secondBuildTypeTestData = (BuildType) secondTestData.getBuildType();
+        var secondBuildTypeTestData = secondTestData.getBuildType();
         secondBuildTypeTestData.setId(buildTypeTestData.getId());
         secondBuildTypeTestData.setProject(buildTypeTestData.getProject());
 
@@ -132,9 +130,9 @@ public class BuildTypeTest extends BaseApiTest {
         checkedSuperUser.getRequest(PROJECTS).create(secondTestData.getProject());
 
         var userTestData = testData.getUser();
-        var secondUserTestData = (User) secondTestData.getUser();
+        var secondUserTestData = secondTestData.getUser();
         var projectTestData = testData.getProject();
-        var secondProjectTestData = (NewProjectDescription) secondTestData.getProject();
+        var secondProjectTestData = secondTestData.getProject();
         userTestData.setRoles(generate(Roles.class, UserRole.PROJECT_ADMIN, "p:" + projectTestData.getId()));
         secondUserTestData.setRoles(generate(Roles.class, UserRole.PROJECT_ADMIN, "p:" + secondProjectTestData.getId()));
 

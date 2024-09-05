@@ -1,7 +1,6 @@
 package com.teamcity.api;
 
 import com.teamcity.api.generators.RandomData;
-import com.teamcity.api.models.NewProjectDescription;
 import com.teamcity.api.models.Project;
 import com.teamcity.api.requests.checked.CheckedBase;
 import com.teamcity.api.requests.unchecked.UncheckedBase;
@@ -41,7 +40,7 @@ public class ProjectTest extends BaseApiTest {
 
         var secondTestData = generate();
         var projectTestData = testData.getProject();
-        var secondProjectTestData = (NewProjectDescription) secondTestData.getProject();
+        var secondProjectTestData = secondTestData.getProject();
         secondProjectTestData.setId(projectTestData.getId());
 
         var uncheckedProjectRequest = new UncheckedBase(Specifications.getSpec()
