@@ -29,10 +29,10 @@ public class StartBuildTest extends BaseUiTest {
                 .verifyProjectAndBuildType(testData.getProject().getName(), testData.getBuildType().getName())
                 .runBuildAndWaitUntilItIsFinished()
                 .getBuildId();
-        var checkedBuildRequest = new CheckedBase(Specifications.getSpec()
+        var checkedBuildRequest = new CheckedBase<Build>(Specifications.getSpec()
                 .authSpec(testData.getUser()), BUILDS);
         // Каждое действие на UI всегда проверяется через API
-        var build = (Build) checkedBuildRequest.read(createdBuildId);
+        var build = checkedBuildRequest.read(createdBuildId);
         softy.assertThat(build.getState()).as("buildState").isEqualTo("finished");
         softy.assertThat(build.getStatus()).as("buildStatus").isEqualTo("SUCCESS");
     }

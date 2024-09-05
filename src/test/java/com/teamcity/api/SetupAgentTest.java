@@ -20,15 +20,14 @@ public class SetupAgentTest extends BaseApiTest {
 
     @Test(groups = {"Setup"})
     public void setupTeamCityAgentTest() {
-        var agentId = waitUntilAgentIsFound().getId();
         var checkedAgentsRequest = new CheckedAgents(Specifications.getSpec().superUserSpec());
+        var agentId = waitUntilAgentIsFound(checkedAgentsRequest).getId();
         checkedAgentsRequest.update(agentId, generate(AuthorizedInfo.class));
     }
 
     @Step("Wait until agent is found")
-    private Agent waitUntilAgentIsFound() {
+    private Agent waitUntilAgentIsFound(CheckedAgents checkedAgentsRequest) {
         var atomicAgents = new AtomicReference<List<Agent>>();
-        var checkedAgentsRequest = new CheckedAgents(Specifications.getSpec().superUserSpec());
         Awaitility.await()
                 .atMost(Duration.ofSeconds(30))
                 .pollInterval(Duration.ofSeconds(3))

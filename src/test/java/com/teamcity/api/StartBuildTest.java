@@ -29,16 +29,15 @@ public class StartBuildTest extends BaseApiTest {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
         checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
 
-        var buildTypeTestData = testData.getBuildType();
-        buildTypeTestData.setSteps(generate(Steps.class, List.of(
+        testData.getBuildType().setSteps(generate(Steps.class, List.of(
                 generate(Property.class, "script.content", "echo 'Hello World!'"),
                 generate(Property.class, "use.custom.script", "true"))));
 
         checkedSuperUser.getRequest(BUILD_TYPES).create(testData.getBuildType());
 
-        var checkedBuildQueueRequest = new CheckedBase(Specifications.getSpec()
+        var checkedBuildQueueRequest = new CheckedBase<Build>(Specifications.getSpec()
                 .authSpec(testData.getUser()), BUILD_QUEUE);
-        var build = (Build) checkedBuildQueueRequest.create(Build.builder()
+        var build = checkedBuildQueueRequest.create(Build.builder()
                 .buildType(testData.getBuildType())
                 .build());
 
@@ -52,13 +51,13 @@ public class StartBuildTest extends BaseApiTest {
     private Build waitUntilBuildIsFinished(Build build) {
         // Необходимо использовать AtomicReference, так как переменная в лямбда выражении должна быть final или effectively final
         var atomicBuild = new AtomicReference<>(build);
-        var checkedBuildRequest = new CheckedBase(Specifications.getSpec()
+        var checkedBuildRequest = new CheckedBase<Build>(Specifications.getSpec()
                 .authSpec(testData.getUser()), BUILDS);
         Awaitility.await()
                 .atMost(Duration.ofSeconds(30))
                 .pollInterval(Duration.ofSeconds(3))
                 .until(() -> {
-                    atomicBuild.set((Build) checkedBuildRequest.read(atomicBuild.get().getId()));
+                    atomicBuild.set(checkedBuildRequest.read(atomicBuild.get().getId()));
                     return "finished".equals(atomicBuild.get().getState());
                 });
         return atomicBuild.get();

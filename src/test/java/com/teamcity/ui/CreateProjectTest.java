@@ -25,9 +25,9 @@ public class CreateProjectTest extends BaseUiTest {
                 .setupProject(testData.getProject().getName(), (testData.getBuildType()).getName());
         var createdBuildTypeId = EditBuildTypePage.open().getBuildTypeId();
 
-        var checkedBuildTypeRequest = new CheckedBase(Specifications.getSpec()
+        var checkedBuildTypeRequest = new CheckedBase<BuildType>(Specifications.getSpec()
                 .authSpec(testData.getUser()), BUILD_TYPES);
-        var buildType = (BuildType) checkedBuildTypeRequest.read(createdBuildTypeId);
+        var buildType = checkedBuildTypeRequest.read(createdBuildTypeId);
         softy.assertThat(buildType.getProject().getName()).as("projectName").isEqualTo(testData.getProject().getName());
         softy.assertThat(buildType.getName()).as("buildTypeName").isEqualTo(testData.getBuildType().getName());
         // Добавляем созданную сущность в сторедж, чтобы автоматически удалить ее в конце теста логикой, реализованной в API части
@@ -35,9 +35,9 @@ public class CreateProjectTest extends BaseUiTest {
         var createdProjectId = ProjectsPage.open()
                 .verifyProjectAndBuildType(testData.getProject().getName(), (testData.getBuildType()).getName())
                 .getProjectId();
-        var checkedProjectRequest = new CheckedBase(Specifications.getSpec()
+        var checkedProjectRequest = new CheckedBase<Project>(Specifications.getSpec()
                 .authSpec(testData.getUser()), PROJECTS);
-        var project = (Project) checkedProjectRequest.read(createdProjectId);
+        var project = checkedProjectRequest.read(createdProjectId);
         softy.assertThat(project.getName()).as("projectName").isEqualTo(testData.getProject().getName());
     }
 

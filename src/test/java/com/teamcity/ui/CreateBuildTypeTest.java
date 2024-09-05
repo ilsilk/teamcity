@@ -24,9 +24,9 @@ public class CreateBuildTypeTest extends BaseUiTest {
                 .setupBuildType(testData.getBuildType().getName());
         var createdBuildTypeId = EditBuildTypePage.open().getBuildTypeId();
 
-        var checkedBuildTypeRequest = new CheckedBase(Specifications.getSpec()
+        var checkedBuildTypeRequest = new CheckedBase<BuildType>(Specifications.getSpec()
                 .authSpec(testData.getUser()), BUILD_TYPES);
-        var buildType = (BuildType) checkedBuildTypeRequest.read(createdBuildTypeId);
+        var buildType = checkedBuildTypeRequest.read(createdBuildTypeId);
         softy.assertThat(buildType.getName()).as("buildTypeName").isEqualTo(testData.getBuildType().getName());
     }
 
