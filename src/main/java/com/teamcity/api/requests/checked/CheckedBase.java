@@ -16,8 +16,6 @@ public final class CheckedBase extends Request implements CrudInterface {
         super(spec, endpoint);
     }
 
-
-
     @Override
     public BaseModel create(BaseModel model) {
         var createdModel = new UncheckedBase(spec, endpoint)

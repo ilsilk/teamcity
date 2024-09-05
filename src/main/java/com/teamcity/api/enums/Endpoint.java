@@ -13,6 +13,7 @@ import lombok.Getter;
 public enum Endpoint {
 
     // Описываем соответствие между эндпоинтом и моделью, которую он возвращает
+    // Порядок определения важен и влияет на TestDataStorage.createdEntitiesMap
     BUILD_QUEUE("/app/rest/buildQueue", Build.class),
     BUILDS("/app/rest/builds", Build.class),
     BUILD_TYPES("/app/rest/buildTypes", BuildType.class),
