@@ -40,7 +40,7 @@ public final class Specifications {
     public RequestSpecification authSpec(BaseModel model) {
         var user = (User) model;
         return reqBuilder()
-                .setBaseUri("http://%s:%s@%s".formatted(user.getUsername(), user.getPassword(),
+                .setBaseUri("http://%s:%s@%s".formatted(user.username(), user.password(),
                         Config.getProperty("host")))
                 .build();
     }

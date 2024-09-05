@@ -1,9 +1,6 @@
 package com.teamcity.ui;
 
 import com.teamcity.api.models.Build;
-import com.teamcity.api.models.BuildType;
-import com.teamcity.api.models.NewProjectDescription;
-import com.teamcity.api.models.Project;
 import com.teamcity.api.requests.checked.CheckedBase;
 import com.teamcity.api.spec.Specifications;
 import com.teamcity.ui.pages.ProjectsPage;
@@ -11,31 +8,33 @@ import com.teamcity.ui.pages.admin.CreateBuildTypeStepPage;
 import io.qameta.allure.Feature;
 import org.testng.annotations.Test;
 
-import static com.teamcity.api.enums.Endpoint.*;
+import static com.teamcity.api.enums.Endpoint.BUILDS;
+import static com.teamcity.api.enums.Endpoint.BUILD_TYPES;
+import static com.teamcity.api.enums.Endpoint.PROJECTS;
 
 @Feature("Start build")
 public class StartBuildTest extends BaseUiTest {
 
     @Test(description = "User should be able to create build type step and start build", groups = {"Regression"})
     public void userCreatesBuildTypeStepAndStartsBuildTest() {
-        checkedSuperUser.getRequest(PROJECTS).create(testData.get(PROJECTS));
-        checkedSuperUser.getRequest(BUILD_TYPES).create(testData.get(BUILD_TYPES));
-        loginAs(testData.get(USERS));
+        checkedSuperUser.getRequest(PROJECTS).create(testData.project());
+        checkedSuperUser.getRequest(BUILD_TYPES).create(testData.buildType());
+        loginAs(testData.user());
 
-        CreateBuildTypeStepPage.open(((BuildType) testData.get(BUILD_TYPES)).getId())
+        CreateBuildTypeStepPage.open(testData.buildType().id())
                 .createCommandLineBuildStep("echo 'Hello World!'");
 
         // Тесты реализованы по паттерну fluent page object, поэтому эта запись выглядит как билдер, в одну строчку
         var createdBuildId = ProjectsPage.open()
-                .verifyProjectAndBuildType(((NewProjectDescription) testData.get(PROJECTS)).getName(), ((BuildType) testData.get(BUILD_TYPES)).getName())
+                .verifyProjectAndBuildType(testData.project().name(), testData.buildType().name())
                 .runBuildAndWaitUntilItIsFinished()
                 .getBuildId();
         var checkedBuildRequest = new CheckedBase(Specifications.getSpec()
-                .authSpec(testData.get(USERS)), BUILDS);
+                .authSpec(testData.user()), BUILDS);
         // Каждое действие на UI всегда проверяется через API
         var build = (Build) checkedBuildRequest.read(createdBuildId);
-        softy.assertThat(build.getState()).as("buildState").isEqualTo("finished");
-        softy.assertThat(build.getStatus()).as("buildStatus").isEqualTo("SUCCESS");
+        softy.assertThat(build.state()).as("buildState").isEqualTo("finished");
+        softy.assertThat(build.status()).as("buildStatus").isEqualTo("SUCCESS");
     }
 
 }

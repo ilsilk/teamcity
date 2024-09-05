@@ -32,8 +32,8 @@ public class LoginPage extends BasePage {
     @Step("Login as {user.username}")
     public ProjectsPage login(User user) {
         // Метод val(text) заменяет 2 действия: clear и sendKeys
-        usernameInput.val(user.getUsername());
-        passwordInput.val(user.getPassword());
+        usernameInput.val(user.username());
+        passwordInput.val(user.password());
         loginButton.click();
         // Аналогично new ProjectsPage(). Все методы имеют return для реализации паттерна fluent page object
         return page(ProjectsPage.class);

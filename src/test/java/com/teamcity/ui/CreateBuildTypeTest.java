@@ -1,7 +1,6 @@
 package com.teamcity.ui;
 
 import com.teamcity.api.models.BuildType;
-import com.teamcity.api.models.NewProjectDescription;
 import com.teamcity.api.requests.checked.CheckedBase;
 import com.teamcity.api.spec.Specifications;
 import com.teamcity.ui.pages.admin.CreateBuildTypePage;
@@ -9,33 +8,34 @@ import com.teamcity.ui.pages.admin.EditBuildTypePage;
 import io.qameta.allure.Feature;
 import org.testng.annotations.Test;
 
-import static com.teamcity.api.enums.Endpoint.*;
+import static com.teamcity.api.enums.Endpoint.BUILD_TYPES;
+import static com.teamcity.api.enums.Endpoint.PROJECTS;
 
 @Feature("Build type")
 public class CreateBuildTypeTest extends BaseUiTest {
 
     @Test(description = "User should be able to create build type", groups = {"Regression"})
     public void userCreatesBuildTypeTest() {
-        checkedSuperUser.getRequest(PROJECTS).create(testData.get(PROJECTS));
-        loginAs(testData.get(USERS));
+        checkedSuperUser.getRequest(PROJECTS).create(testData.project());
+        loginAs(testData.user());
 
-        CreateBuildTypePage.open(((NewProjectDescription) testData.get(PROJECTS)).getId())
+        CreateBuildTypePage.open(testData.project().id())
                 .createFrom(GIT_URL)
-                .setupBuildType(((BuildType) testData.get(BUILD_TYPES)).getName());
+                .setupBuildType(testData.buildType().name());
         var createdBuildTypeId = EditBuildTypePage.open().getBuildTypeId();
 
         var checkedBuildTypeRequest = new CheckedBase(Specifications.getSpec()
-                .authSpec(testData.get(USERS)), BUILD_TYPES);
+                .authSpec(testData.user()), BUILD_TYPES);
         var buildType = (BuildType) checkedBuildTypeRequest.read(createdBuildTypeId);
-        softy.assertThat(buildType.getName()).as("buildTypeName").isEqualTo(((BuildType) testData.get(BUILD_TYPES)).getName());
+        softy.assertThat(buildType.name()).as("buildTypeName").isEqualTo(testData.buildType().name());
     }
 
     @Test(description = "User should not be able to create build type without name", groups = {"Regression"})
     public void userCreatesBuildTypeWithoutName() {
-        checkedSuperUser.getRequest(PROJECTS).create(testData.get(PROJECTS));
-        loginAs(testData.get(USERS));
+        checkedSuperUser.getRequest(PROJECTS).create(testData.project());
+        loginAs(testData.user());
 
-        CreateBuildTypePage.open(((NewProjectDescription) testData.get(PROJECTS)).getId())
+        CreateBuildTypePage.open(testData.project().id())
                 .createFrom(GIT_URL)
                 .setupBuildType("")
                 .verifyBuildTypeNameError("Build configuration name must not be empty");

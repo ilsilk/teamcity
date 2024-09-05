@@ -20,7 +20,7 @@ public class SetupAgentTest extends BaseApiTest {
 
     @Test(groups = {"Setup"})
     public void setupTeamCityAgentTest() {
-        var agentId = waitUntilAgentIsFound().getId();
+        var agentId = waitUntilAgentIsFound().id();
         var checkedAgentsRequest = new CheckedAgents(Specifications.getSpec().superUserSpec());
         checkedAgentsRequest.update(agentId, generate(AuthorizedInfo.class));
     }
@@ -33,7 +33,7 @@ public class SetupAgentTest extends BaseApiTest {
                 .atMost(Duration.ofSeconds(30))
                 .pollInterval(Duration.ofSeconds(3))
                 .until(() -> {
-                    atomicAgents.set(checkedAgentsRequest.read("authorized:false").getAgent());
+                    atomicAgents.set(checkedAgentsRequest.read("authorized:false").agent());
                     return !atomicAgents.get().isEmpty();
                 });
         return atomicAgents.get().get(0);

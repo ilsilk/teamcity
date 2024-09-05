@@ -21,9 +21,9 @@ public class BaseApiTest extends BaseTest {
     public void setUpServerAuthSettings() {
         // Получаем текущее значение настройки perProjectPermissions
         perProjectPermissions = checkedServerAuthSettingsRequest.read(null)
-                .getPerProjectPermissions();
+                .perProjectPermissions();
 
-        authModules = (AuthModules) generate(AuthModules.class);
+        authModules = generate(AuthModules.class);
         // Обновляем значение настройки perProjectPermissions на true (для тестирования ролей)
         checkedServerAuthSettingsRequest.update(null, ServerAuthSettings.builder()
                 .perProjectPermissions(true)

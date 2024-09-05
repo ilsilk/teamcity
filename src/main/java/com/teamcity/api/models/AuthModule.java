@@ -6,9 +6,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import lombok.extern.jackson.Jacksonized;
 
 @Data
+// Меняет методы get и set, по аналогии с record (id() вместо getId() и тд)
+@Accessors(fluent = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
