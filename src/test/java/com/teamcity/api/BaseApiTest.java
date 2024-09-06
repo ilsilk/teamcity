@@ -5,6 +5,8 @@ import com.teamcity.api.models.AuthModules;
 import com.teamcity.api.models.ServerAuthSettings;
 import com.teamcity.api.requests.checked.CheckedServerAuthSettings;
 import com.teamcity.api.spec.Specifications;
+import io.qameta.allure.awaitility.AllureAwaitilityListener;
+import org.awaitility.Awaitility;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
@@ -19,6 +21,7 @@ public class BaseApiTest extends BaseTest {
 
     @BeforeSuite(alwaysRun = true)
     public void setUpServerAuthSettings() {
+        Awaitility.setDefaultConditionEvaluationListener(new AllureAwaitilityListener());
         // Получаем текущее значение настройки perProjectPermissions
         perProjectPermissions = checkedServerAuthSettingsRequest.read(null)
                 .getPerProjectPermissions();
