@@ -27,6 +27,7 @@ public class BaseApiTest extends BaseTest {
         Awaitility.setDefaultPollInterval(Duration.ofSeconds(3));
         Awaitility.setDefaultTimeout(Duration.ofSeconds(30));
         Awaitility.pollInSameThread();
+
         // Получаем текущее значение настройки perProjectPermissions
         perProjectPermissions = checkedServerAuthSettingsRequest.read(null)
                 .getPerProjectPermissions();
