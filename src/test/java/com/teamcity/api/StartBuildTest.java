@@ -10,7 +10,6 @@ import io.qameta.allure.Step;
 import org.awaitility.Awaitility;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -54,8 +53,6 @@ public class StartBuildTest extends BaseApiTest {
         var checkedBuildRequest = new CheckedBase<Build>(Specifications.getSpec()
                 .authSpec(testData.getUser()), BUILDS);
         Awaitility.await()
-                .atMost(Duration.ofSeconds(30))
-                .pollInterval(Duration.ofSeconds(3))
                 .until(() -> {
                     atomicBuild.set(checkedBuildRequest.read(atomicBuild.get().getId()));
                     return "finished".equals(atomicBuild.get().getState());

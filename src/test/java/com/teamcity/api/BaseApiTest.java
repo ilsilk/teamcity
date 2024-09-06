@@ -10,6 +10,8 @@ import org.awaitility.Awaitility;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
+import java.time.Duration;
+
 import static com.teamcity.api.generators.TestDataGenerator.generate;
 
 public class BaseApiTest extends BaseTest {
@@ -22,6 +24,9 @@ public class BaseApiTest extends BaseTest {
     @BeforeSuite(alwaysRun = true)
     public void setUpServerAuthSettings() {
         Awaitility.setDefaultConditionEvaluationListener(new AllureAwaitilityListener());
+        Awaitility.setDefaultPollInterval(Duration.ofSeconds(3));
+        Awaitility.setDefaultTimeout(Duration.ofSeconds(30));
+        Awaitility.pollInSameThread();
         // Получаем текущее значение настройки perProjectPermissions
         perProjectPermissions = checkedServerAuthSettingsRequest.read(null)
                 .getPerProjectPermissions();

@@ -9,7 +9,6 @@ import io.qameta.allure.Step;
 import org.awaitility.Awaitility;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -29,8 +28,6 @@ public class SetupAgentTest extends BaseApiTest {
     private Agent waitUntilAgentIsFound(CheckedAgents checkedAgentsRequest) {
         var atomicAgents = new AtomicReference<List<Agent>>();
         Awaitility.await()
-                .atMost(Duration.ofSeconds(30))
-                .pollInterval(Duration.ofSeconds(3))
                 .until(() -> {
                     atomicAgents.set(checkedAgentsRequest.read("authorized:false").getAgent());
                     return !atomicAgents.get().isEmpty();
