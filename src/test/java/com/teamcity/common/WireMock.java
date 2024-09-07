@@ -19,7 +19,7 @@ public final class WireMock {
 
     @SneakyThrows
     public static void setupServer(MappingBuilder mappingBuilder, int status, BaseModel model) {
-        wireMockServer = new WireMockServer(8080);
+        wireMockServer = new WireMockServer(8081);
         wireMockServer.start();
 
         var jsonModel = new ObjectMapper().writeValueAsString(model);
