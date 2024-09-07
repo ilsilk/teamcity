@@ -33,14 +33,12 @@ jobs:
         uses: ./.github/actions/teamcity-setup
 
       - name: Run tests
-        continue-on-error: true
         # Указываем группу, чтобы еще раз не запустить тесты, которые использовались для сетапа сервера и агента
         run: ./mvnw test -Dtest='com.teamcity.${{ inputs.package }}.**' -Dgroups=Regression
 
       # Создание репорта с покрытием API тестов, основанного на Swagger. Документация: https://github.com/viclovsky/swagger-coverage
       # Обязательно добавить SwaggerCoverageRestAssured фильтр во все реквесты, как в Specifications.reqBuilder
       - name: Run Swagger coverage
-        continue-on-error: true
         # Запускается только для API тестов
         if: ${{ inputs.package == 'api' }}
         run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s http://$HOST:8111/app/rest/swagger.json -i target/swagger-coverage-output
