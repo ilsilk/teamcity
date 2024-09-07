@@ -10,6 +10,7 @@ import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
 
 @SuppressWarnings("unchecked")
+// Реализация checked реквестов с помощью дженериков. Позволяет получать респонс с конкретным нужным типом модели
 public final class CheckedBase<T extends BaseModel> extends Request implements CrudInterface {
 
     private final UncheckedBase uncheckedBase;
