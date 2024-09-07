@@ -1,14 +1,13 @@
 package com.teamcity.api.generators;
 
+import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.RandomStringUtils;
 
+@UtilityClass
 public final class RandomData {
 
     private static final int LENGTH = 10;
     private static final String TEST_PREFIX = "test_";
-
-    private RandomData() {
-    }
 
     public static String getString() {
         return TEST_PREFIX + RandomStringUtils.randomAlphabetic(LENGTH);

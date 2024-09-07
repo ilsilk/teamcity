@@ -1,14 +1,13 @@
 package com.teamcity.ui;
 
+import lombok.experimental.UtilityClass;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selectors.byAttribute;
 import static com.codeborne.selenide.Selectors.byCssSelector;
 
+@UtilityClass
 public final class Selectors {
-
-    private Selectors() {
-    }
 
     /* Оператор ~= ищет частичное вхождение. Например, byDataTest("runner-item") найдет элемент с атрибутом
     data-test="runner-item simpleRunner".

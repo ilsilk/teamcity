@@ -5,6 +5,7 @@ import com.teamcity.api.annotations.Parameterizable;
 import com.teamcity.api.annotations.Random;
 import com.teamcity.api.models.BaseModel;
 import com.teamcity.api.models.TestData;
+import lombok.experimental.UtilityClass;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
@@ -13,10 +14,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+@UtilityClass
 public final class TestDataGenerator {
-
-    private TestDataGenerator() {
-    }
 
     /* Основной метод генерации тестовых данных. Если у поля аннотация Optional, оно пропускается, иначе выбор:
     1) если у поля аннотация Parameterizable, и в метод были переданы параметры, то поочередно (по мере встречи полей с

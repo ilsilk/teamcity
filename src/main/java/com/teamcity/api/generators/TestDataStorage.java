@@ -7,6 +7,7 @@ import com.teamcity.api.spec.Specifications;
 
 import java.util.EnumMap;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public final class TestDataStorage {
@@ -35,7 +36,9 @@ public final class TestDataStorage {
     Условие .computeIfAbsent() создает пустое множество, если данному эндпоинту еще не соответствует ни одно.
     Далее в созданное или в ранее существовавшее множество добавляется новый id */
     public void addCreatedEntity(Endpoint endpoint, String id) {
-        createdEntitiesMap.computeIfAbsent(endpoint, key -> new HashSet<>()).add(id);
+        if (id != null) {
+            createdEntitiesMap.computeIfAbsent(endpoint, key -> new HashSet<>()).add(id);
+        }
     }
 
     public void addCreatedEntity(Endpoint endpoint, BaseModel model) {
@@ -55,11 +58,11 @@ public final class TestDataStorage {
         try {
             var idField = model.getClass().getDeclaredField("id");
             idField.setAccessible(true);
-            var idFieldValue = String.valueOf(idField.get(model));
+            var idFieldValue = Objects.toString(idField.get(model), null);
             idField.setAccessible(false);
             return idFieldValue;
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new IllegalStateException("Cannot get entity id", e);
+            return null;
         }
     }
 

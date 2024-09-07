@@ -5,14 +5,18 @@ import com.teamcity.api.models.Property;
 import com.teamcity.api.models.Steps;
 import com.teamcity.api.requests.checked.CheckedBase;
 import com.teamcity.api.spec.Specifications;
+import com.teamcity.common.WireMock;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Step;
+import org.apache.http.HttpStatus;
 import org.awaitility.Awaitility;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.teamcity.api.enums.Endpoint.BUILDS;
 import static com.teamcity.api.enums.Endpoint.BUILD_QUEUE;
 import static com.teamcity.api.enums.Endpoint.BUILD_TYPES;
@@ -22,6 +26,11 @@ import static com.teamcity.api.generators.TestDataGenerator.generate;
 
 @Feature("Start build")
 public class StartBuildTest extends BaseApiTest {
+
+    @AfterMethod(alwaysRun = true)
+    public void stopWireMockServer() {
+        WireMock.stopServer();
+    }
 
     @Test(description = "User should be able to start build", groups = {"Regression"})
     public void userStartsBuildTest() {
@@ -43,6 +52,25 @@ public class StartBuildTest extends BaseApiTest {
         softy.assertThat(build.getState()).as("buildState").isEqualTo("queued");
 
         build = waitUntilBuildIsFinished(build);
+        softy.assertThat(build.getStatus()).as("buildStatus").isEqualTo("SUCCESS");
+    }
+
+    @Test(description = "User should be able to start build (with WireMock)", groups = {"Regression"})
+    public void userStartsBuildWithWireMockTest() {
+        var fakeBuild = Build.builder()
+                .state("finished")
+                .status("SUCCESS")
+                .build();
+
+        WireMock.setupServer(post(BUILD_QUEUE.getUrl()), HttpStatus.SC_OK, fakeBuild);
+
+        var checkedBuildQueueRequest = new CheckedBase<Build>(Specifications.getSpec()
+                .mockSpec(), BUILD_QUEUE);
+        var build = checkedBuildQueueRequest.create(Build.builder()
+                .buildType(testData.getBuildType())
+                .build());
+
+        softy.assertThat(build.getState()).as("buildState").isEqualTo("finished");
         softy.assertThat(build.getStatus()).as("buildStatus").isEqualTo("SUCCESS");
     }
 
