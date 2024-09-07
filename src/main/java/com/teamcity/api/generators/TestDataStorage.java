@@ -62,7 +62,7 @@ public final class TestDataStorage {
             idField.setAccessible(false);
             return idFieldValue;
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            return null;
+            throw new IllegalStateException("Cannot get entity id", e);
         }
     }
 

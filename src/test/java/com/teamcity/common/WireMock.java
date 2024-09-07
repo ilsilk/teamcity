@@ -19,6 +19,10 @@ public final class WireMock {
 
     @SneakyThrows
     public static void setupServer(MappingBuilder mappingBuilder, int status, BaseModel model) {
+        if (wireMockServer != null) {
+            stopServer();
+        }
+
         wireMockServer = new WireMockServer(8081);
         wireMockServer.start();
 
