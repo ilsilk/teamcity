@@ -3,7 +3,6 @@ package com.teamcity.common;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.MappingBuilder;
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.teamcity.api.models.BaseModel;
 import lombok.SneakyThrows;
 
@@ -15,9 +14,12 @@ public final class WireMock {
 
     private static WireMockServer wireMockServer;
 
+    private WireMock() {
+    }
+
     @SneakyThrows
     public static void setupServer(MappingBuilder mappingBuilder, int status, BaseModel model) {
-        wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().port(8080));
+        wireMockServer = new WireMockServer(8080);
         wireMockServer.start();
 
         var jsonModel = new ObjectMapper().writeValueAsString(model);
