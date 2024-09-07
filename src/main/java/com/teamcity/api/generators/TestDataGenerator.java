@@ -3,16 +3,14 @@ package com.teamcity.api.generators;
 import com.teamcity.api.annotations.Optional;
 import com.teamcity.api.annotations.Parameterizable;
 import com.teamcity.api.annotations.Random;
-import com.teamcity.api.enums.Endpoint;
 import com.teamcity.api.models.BaseModel;
+import com.teamcity.api.models.TestData;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.EnumMap;
 import java.util.List;
 
 public final class TestDataGenerator {
@@ -35,8 +33,8 @@ public final class TestDataGenerator {
     применяется только для пунктов 3 и 4. Например, если был сгенерирован NewProjectDescription, то передав его
     параметром generatedModels при генерации BuildType, он будет переиспользоваться при установке
     поля NewProjectDescription project, вместо генерации нового */
-    public static BaseModel generate(Collection<BaseModel> generatedModels, Class<? extends BaseModel> generatorClass,
-                                     Object... parameters) {
+    public static <T extends BaseModel> T generate(List<BaseModel> generatedModels, Class<T> generatorClass,
+                                                   Object... parameters) {
         try {
             var instance = generatorClass.getDeclaredConstructor().newInstance();
             for (var field : generatorClass.getDeclaredFields()) {
@@ -74,20 +72,31 @@ public final class TestDataGenerator {
     }
 
     // Метод, чтобы сгенерировать одну сущность. Передает пустой параметр generatedModels
-    public static BaseModel generate(Class<? extends BaseModel> generatorClass, Object... parameters) {
+    public static <T extends BaseModel> T generate(Class<T> generatorClass, Object... parameters) {
         return generate(Collections.emptyList(), generatorClass, parameters);
     }
 
-    /* Генерация всех сущностей, у которых указан generatorClass в Endpoint. Делает класс Endpoint единственной точкой
-    масштабируемости. Достаточно добавить новую строку только туда, чтобы новый объект начал генерироваться
-    в тестовых данных. Перебор идет в обратном порядке тому, что определен EnumMap. Объяснение логики работы EnumMap
-    есть в комментарии к TestDataStorage.createdEntitiesMap */
-    public static EnumMap<Endpoint, BaseModel> generate() {
-        var generatedTestData = new EnumMap<Endpoint, BaseModel>(Endpoint.class);
-        Arrays.stream(Endpoint.values()).filter(e -> e.getGeneratorClass() != null).sorted(Comparator.reverseOrder())
-                .forEach(endpoint -> generatedTestData.put(endpoint,
-                        generate(generatedTestData.values(), endpoint.getGeneratorClass())));
-        return generatedTestData;
+    /* Генерация всех сущностей, на основании всех полей, указанных в TestData. Делает класс TestData единственной
+    точкой масштабируемости. Достаточно добавить новое поле только туда, чтобы новый объект начал генерироваться
+    в тестовых данных. Перебор идет в порядке, в котором поля определены в файле */
+    public static TestData generate() {
+        try {
+            var instance = TestData.class.getDeclaredConstructor().newInstance();
+            var generatedModels = new ArrayList<BaseModel>();
+            for (var field : TestData.class.getDeclaredFields()) {
+                field.setAccessible(true);
+                if (BaseModel.class.isAssignableFrom(field.getType())) {
+                    var generatedModel = generate(generatedModels, field.getType().asSubclass(BaseModel.class));
+                    field.set(instance, generatedModel);
+                    generatedModels.add(generatedModel);
+                }
+                field.setAccessible(false);
+            }
+            return instance;
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException
+                 | NoSuchMethodException e) {
+            throw new IllegalStateException("Cannot generate test data", e);
+        }
     }
 
 }

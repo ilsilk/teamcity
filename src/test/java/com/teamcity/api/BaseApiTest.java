@@ -5,8 +5,12 @@ import com.teamcity.api.models.AuthModules;
 import com.teamcity.api.models.ServerAuthSettings;
 import com.teamcity.api.requests.checked.CheckedServerAuthSettings;
 import com.teamcity.api.spec.Specifications;
+import io.qameta.allure.awaitility.AllureAwaitilityListener;
+import org.awaitility.Awaitility;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
+
+import java.time.Duration;
 
 import static com.teamcity.api.generators.TestDataGenerator.generate;
 
@@ -19,11 +23,17 @@ public class BaseApiTest extends BaseTest {
 
     @BeforeSuite(alwaysRun = true)
     public void setUpServerAuthSettings() {
+        // Отображение Awaitility действий в Allure репорте, настройка Awaitility
+        Awaitility.setDefaultConditionEvaluationListener(new AllureAwaitilityListener());
+        Awaitility.setDefaultPollInterval(Duration.ofSeconds(3));
+        Awaitility.setDefaultTimeout(Duration.ofSeconds(30));
+        Awaitility.pollInSameThread();
+
         // Получаем текущее значение настройки perProjectPermissions
         perProjectPermissions = checkedServerAuthSettingsRequest.read(null)
                 .getPerProjectPermissions();
 
-        authModules = (AuthModules) generate(AuthModules.class);
+        authModules = generate(AuthModules.class);
         // Обновляем значение настройки perProjectPermissions на true (для тестирования ролей)
         checkedServerAuthSettingsRequest.update(null, ServerAuthSettings.builder()
                 .perProjectPermissions(true)

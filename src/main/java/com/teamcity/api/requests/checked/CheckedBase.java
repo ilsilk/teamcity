@@ -9,18 +9,21 @@ import com.teamcity.api.requests.unchecked.UncheckedBase;
 import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
 
-public final class CheckedBase extends Request implements CrudInterface {
+@SuppressWarnings("unchecked")
+// Реализация checked реквестов с помощью дженериков. Позволяет получать респонс с конкретным нужным типом модели
+public final class CheckedBase<T extends BaseModel> extends Request implements CrudInterface {
+
+    private final UncheckedBase uncheckedBase;
 
     // Все реквесты, имеющие одинаковую реализацию CRUD методов, можно создать через общий конструктор
     public CheckedBase(RequestSpecification spec, Endpoint endpoint) {
         super(spec, endpoint);
+        uncheckedBase = new UncheckedBase(spec, endpoint);
     }
 
-
-
     @Override
-    public BaseModel create(BaseModel model) {
-        var createdModel = new UncheckedBase(spec, endpoint)
+    public T create(BaseModel model) {
+        var createdModel = (T) uncheckedBase
                 .create(model)
                 .then().assertThat().statusCode(HttpStatus.SC_OK)
                 .extract().as(endpoint.getModelClass());
@@ -30,16 +33,16 @@ public final class CheckedBase extends Request implements CrudInterface {
     }
 
     @Override
-    public BaseModel read(String id) {
-        return new UncheckedBase(spec, endpoint)
+    public T read(String id) {
+        return (T) uncheckedBase
                 .read(id)
                 .then().assertThat().statusCode(HttpStatus.SC_OK)
                 .extract().as(endpoint.getModelClass());
     }
 
     @Override
-    public BaseModel update(String id, BaseModel model) {
-        return new UncheckedBase(spec, endpoint)
+    public T update(String id, BaseModel model) {
+        return (T) uncheckedBase
                 .update(id, model)
                 .then().assertThat().statusCode(HttpStatus.SC_OK)
                 .extract().as(endpoint.getModelClass());
@@ -47,7 +50,7 @@ public final class CheckedBase extends Request implements CrudInterface {
 
     @Override
     public String delete(String id) {
-        return new UncheckedBase(spec, endpoint)
+        return uncheckedBase
                 .delete(id)
                 .then().assertThat().statusCode(HttpStatus.SC_NO_CONTENT)
                 .extract().asString();

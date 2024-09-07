@@ -3,7 +3,7 @@ package com.teamcity.api.requests;
 import com.teamcity.api.enums.Endpoint;
 import io.restassured.specification.RequestSpecification;
 
-public class Request {
+public abstract class Request {
 
     /* Придерживаемся паттерна, что все переменные по умолчанию final,
     если реализация целенаправленно не требует обратного
