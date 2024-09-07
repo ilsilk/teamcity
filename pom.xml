@@ -18,7 +18,7 @@
         <allure.version>2.29.0</allure.version>
         <assertj-core.version>3.26.3</assertj-core.version>
         <awaitility.version>4.2.2</awaitility.version>
-        <wiremock-jre8.version>3.0.1</wiremock-jre8.version>
+        <wiremock.version>3.0.1</wiremock.version>
         <lombok.version>1.18.34</lombok.version>
         <jackson.version>2.17.2</jackson.version>
         <swagger-coverage-rest-assured.version>1.5.0</swagger-coverage-rest-assured.version>
@@ -88,8 +88,8 @@
         </dependency>
         <dependency>
             <groupId>com.github.tomakehurst</groupId>
-            <artifactId>wiremock-jre8</artifactId>
-            <version>${wiremock-jre8.version}</version>
+            <artifactId>wiremock</artifactId>
+            <version>${wiremock.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
