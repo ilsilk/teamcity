@@ -1,5 +1,0 @@
-"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Thu Sep 05 07:55:29 GMT 2024","Thu Sep 05 07:56:21 GMT 2024","52097","Surefire suite","Surefire test","com.teamcity.ui.SetupServerTest","com.teamcity.ui.SetupServerTest","setupTeamCityServerTest","setupTeamCityServerTest",""
-"failed","Thu Sep 05 07:57:27 GMT 2024","Thu Sep 05 07:57:27 GMT 2024","0","Surefire suite","Surefire test","com.teamcity.api.SetupAgentTest","com.teamcity.api.SetupAgentTest","cleanUpServerAuthSettings","cleanUpServerAuthSettings",""
-"skipped","Thu Sep 05 07:57:27 GMT 2024","Thu Sep 05 07:57:27 GMT 2024","1","Surefire suite","Surefire test","com.teamcity.api.SetupAgentTest","com.teamcity.api.SetupAgentTest","setupTeamCityAgentTest","setupTeamCityAgentTest",""
-"failed","Thu Sep 05 07:57:26 GMT 2024","Thu Sep 05 07:57:26 GMT 2024","18","Surefire suite","Surefire test","com.teamcity.api.SetupAgentTest","com.teamcity.api.SetupAgentTest","setUpServerAuthSettings","setUpServerAuthSettings",""
