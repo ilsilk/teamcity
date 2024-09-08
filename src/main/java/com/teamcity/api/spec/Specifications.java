@@ -49,6 +49,12 @@ public final class Specifications {
                 .build();
     }
 
+    public RequestSpecification mockSpec() {
+        return reqBuilder()
+                .setBaseUri("http://localhost:8081")
+                .build();
+    }
+
     private RequestSpecBuilder reqBuilder() {
         return new RequestSpecBuilder()
                 // Фильтры для отображения реквестов и респонсов в Allure репорте и генерации Swagger Coverage репорта
