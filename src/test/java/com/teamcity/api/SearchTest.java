@@ -20,15 +20,18 @@ import static com.teamcity.api.generators.TestDataGenerator.generate;
 public class SearchTest extends BaseApiTest {
 
     private static final int CREATED_MODELS_COUNT = 3;
+    private final CheckedSearch<Project> checkedProjectsSearchRequest = new CheckedSearch<>(Specifications.getSpec()
+            .superUserSpec(), PROJECTS);
+    private final CheckedSearch<User> checkedUsersSearchRequest = new CheckedSearch<>(Specifications.getSpec()
+            .superUserSpec(), USERS);
+    private final CheckedSearch<BuildType> checkedBuildTypesSearchRequest = new CheckedSearch<>(Specifications.getSpec()
+            .superUserSpec(), BUILD_TYPES);
 
     @Test(description = "User should be able to search models", groups = {"Regression"})
     public void searchTest() {
-        var initialProjectSize = new CheckedSearch<>(Specifications.getSpec()
-                .superUserSpec(), PROJECTS).search().size();
-        var initialUsersSize = new CheckedSearch<>(Specifications.getSpec()
-                .superUserSpec(), USERS).search().size();
-        var initialBuildTypesSize = new CheckedSearch<>(Specifications.getSpec()
-                .superUserSpec(), BUILD_TYPES).search().size();
+        var initialProjectSize = checkedProjectsSearchRequest.search().size();
+        var initialUsersSize = checkedUsersSearchRequest.search().size();
+        var initialBuildTypesSize = checkedBuildTypesSearchRequest.search().size();
 
         var createdProjects = new ArrayList<String>();
         var createdUsers = new ArrayList<String>();
@@ -44,12 +47,9 @@ public class SearchTest extends BaseApiTest {
             testData = generate();
         }
 
-        var projects = new CheckedSearch<Project>(Specifications.getSpec()
-                .superUserSpec(), PROJECTS).search().stream().map(Project::getName).toList();
-        var users = new CheckedSearch<User>(Specifications.getSpec()
-                .superUserSpec(), USERS).search().stream().map(User::getUsername).toList();
-        var buildTypes = new CheckedSearch<BuildType>(Specifications.getSpec()
-                .superUserSpec(), BUILD_TYPES).search().stream().map(BuildType::getName).toList();
+        var projects = checkedProjectsSearchRequest.search().stream().map(Project::getName).toList();
+        var users = checkedUsersSearchRequest.search().stream().map(User::getUsername).toList();
+        var buildTypes = checkedBuildTypesSearchRequest.search().stream().map(BuildType::getName).toList();
 
         softy.assertThat(projects).as("projects")
                 .hasSize(initialProjectSize + CREATED_MODELS_COUNT).containsAll(createdProjects);
