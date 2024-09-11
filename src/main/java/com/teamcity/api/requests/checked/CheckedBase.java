@@ -5,13 +5,17 @@ import com.teamcity.api.generators.TestDataStorage;
 import com.teamcity.api.models.BaseModel;
 import com.teamcity.api.requests.CrudInterface;
 import com.teamcity.api.requests.Request;
+import com.teamcity.api.requests.SearchInterface;
 import com.teamcity.api.requests.unchecked.UncheckedBase;
 import io.restassured.specification.RequestSpecification;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
+
+import java.util.List;
 
 @SuppressWarnings("unchecked")
 // Реализация checked реквестов с помощью дженериков. Позволяет получать респонс с конкретным нужным типом модели
-public final class CheckedBase<T extends BaseModel> extends Request implements CrudInterface {
+public final class CheckedBase<T extends BaseModel> extends Request implements CrudInterface, SearchInterface {
 
     private final UncheckedBase uncheckedBase;
 
@@ -54,6 +58,15 @@ public final class CheckedBase<T extends BaseModel> extends Request implements C
                 .delete(id)
                 .then().assertThat().statusCode(HttpStatus.SC_NO_CONTENT)
                 .extract().asString();
+    }
+
+    @Override
+    public List<T> search() {
+        return (List<T>) uncheckedBase
+                .search()
+                .then().assertThat().statusCode(HttpStatus.SC_OK)
+                .extract().jsonPath()
+                .getList(StringUtils.uncapitalize(endpoint.getModelClass().getSimpleName()), endpoint.getModelClass());
     }
 
 }
