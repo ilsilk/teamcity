@@ -56,7 +56,7 @@ public class ProjectTest extends BaseApiTest {
     public void userCreatesProjectWithIdExceedingLimitTest() {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
 
-        var projectTestData = testData.getProject();
+        var projectTestData = testData.getNewProjectDescription();
         projectTestData.setId(RandomData.getString(PROJECT_ID_CHARACTERS_LIMIT + 1));
 
         uncheckedProjectRequest.create(testData.getNewProjectDescription())
