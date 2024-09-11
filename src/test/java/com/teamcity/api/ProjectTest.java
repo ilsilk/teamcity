@@ -56,13 +56,12 @@ public class ProjectTest extends BaseApiTest {
     public void userCreatesProjectWithIdExceedingLimitTest() {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
 
-        var projectTestData = testData.getNewProjectDescription();
-        projectTestData.setId(RandomData.getString(PROJECT_ID_CHARACTERS_LIMIT + 1));
+        testData.getNewProjectDescription().setId(RandomData.getString(PROJECT_ID_CHARACTERS_LIMIT + 1));
 
         uncheckedProjectRequest.create(testData.getNewProjectDescription())
                 .then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 
-        projectTestData.setId(RandomData.getString(PROJECT_ID_CHARACTERS_LIMIT));
+        testData.getNewProjectDescription().setId(RandomData.getString(PROJECT_ID_CHARACTERS_LIMIT));
 
         checkedProjectRequest.create(testData.getNewProjectDescription());
     }
