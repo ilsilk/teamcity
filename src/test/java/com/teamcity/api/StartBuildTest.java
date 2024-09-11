@@ -35,7 +35,7 @@ public class StartBuildTest extends BaseApiTest {
     @Test(description = "User should be able to start build", groups = {"Regression"})
     public void userStartsBuildTest() {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
-        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getNewProjectDescription());
 
         testData.getBuildType().setSteps(generate(Steps.class, List.of(
                 generate(Property.class, "script.content", "echo 'Hello World!'"),

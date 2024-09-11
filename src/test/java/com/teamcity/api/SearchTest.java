@@ -33,7 +33,7 @@ public class SearchTest extends BaseApiTest {
         var createdBuildTypes = new ArrayList<String>();
 
         for (var i = 0; i < CREATED_MODELS_COUNT; i++) {
-            createdProjects.add(checkedProjectRequest.create(testData.getProject()).getName());
+            createdProjects.add(checkedProjectRequest.create(testData.getNewProjectDescription()).getName());
             createdUsers.add(checkedUserRequest.create(testData.getUser()).getUsername());
             createdBuildTypes.add(checkedBuildTypeRequest.create(testData.getBuildType()).getName());
             testData = generate();

@@ -1,5 +1,6 @@
 package com.teamcity.api.generators;
 
+import com.teamcity.api.annotations.Dependent;
 import com.teamcity.api.annotations.Optional;
 import com.teamcity.api.annotations.Parameterizable;
 import com.teamcity.api.annotations.Random;
@@ -24,8 +25,10 @@ public final class TestDataGenerator {
     аннотацией Parameterizable, но параметров в метод было передано 3, то значения будут установлены только у первых
     трех встретившихся элементов в порядке их передачи в метод. Поэтому также важно следить за порядком полей
     в @Data классе; 2) иначе, если у поля аннотация Random и это строка, оно заполняется рандомными данными; 3) иначе,
+    если у поля аннотация Dependent, то значение поля устанавливается значением поля с таким же названием из
+    модели, находящейся в generatedModels и принадлежащей классу relatedClass (если такая присутствует); 4) иначе,
     если поле - наследник класса BaseModel, то оно генерируется, рекурсивно отправляясь в новый метод generate;
-    4) иначе, если поле - List, у которого generic type - наследник класса BaseModel, то оно устанавливается списком
+    5) иначе, если поле - List, у которого generic type - наследник класса BaseModel, то оно устанавливается списком
     из одного элемента, который генерируется, рекурсивно отправляясь в новый метод generate.
     Параметр generatedModels передается, когда генерируется несколько сущностей в цикле, и содержит в себе
     сгенерированные на предыдущих шагах сущности. Позволяет при генерации сложной сущности, которая своим полем содержит
@@ -47,6 +50,17 @@ public final class TestDataGenerator {
                         parameters = Arrays.copyOfRange(parameters, 1, parameters.length);
                     } else if (field.isAnnotationPresent(Random.class) && String.class.equals(field.getType())) {
                         field.set(instance, RandomData.getString());
+                    } else if (field.isAnnotationPresent(Dependent.class)) {
+                        var relatedClass = field.getAnnotation(Dependent.class).relatedClass();
+                        var generatedRelatedModel = generatedModels.stream().filter(m
+                                -> m.getClass().equals(relatedClass)).findFirst();
+                        if (generatedRelatedModel.isPresent()) {
+                            var relatedField = relatedClass.getDeclaredField(field.getName());
+                            relatedField.setAccessible(true);
+                            var relatedValue = relatedField.get(generatedRelatedModel.get());
+                            relatedField.setAccessible(false);
+                            field.set(instance, relatedValue);
+                        }
                     } else if (BaseModel.class.isAssignableFrom(field.getType())) {
                         var finalParameters = parameters;
                         field.set(instance, generatedClass.orElseGet(() -> generate(
@@ -66,7 +80,7 @@ public final class TestDataGenerator {
             }
             return instance;
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException
-                 | NoSuchMethodException e) {
+                 | NoSuchMethodException | NoSuchFieldException e) {
             throw new IllegalStateException("Cannot generate test data", e);
         }
     }

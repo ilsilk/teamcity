@@ -16,7 +16,7 @@ public class CreateBuildTypeTest extends BaseUiTest {
 
     @Test(description = "User should be able to create build type", groups = {"Regression"})
     public void userCreatesBuildTypeTest() {
-        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getNewProjectDescription());
         loginAs(testData.getUser());
 
         CreateBuildTypePage.open(testData.getProject().getId())
@@ -32,7 +32,7 @@ public class CreateBuildTypeTest extends BaseUiTest {
 
     @Test(description = "User should not be able to create build type without name", groups = {"Regression"})
     public void userCreatesBuildTypeWithoutName() {
-        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getNewProjectDescription());
         loginAs(testData.getUser());
 
         CreateBuildTypePage.open(testData.getProject().getId())
