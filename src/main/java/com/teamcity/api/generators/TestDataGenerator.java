@@ -33,9 +33,9 @@ public final class TestDataGenerator {
     Параметр generatedModels передается, когда генерируется несколько сущностей в цикле, и содержит в себе
     сгенерированные на предыдущих шагах сущности. Позволяет при генерации сложной сущности, которая своим полем содержит
     другую сущность, сгенерированную на предыдущем шаге, установить ее, а не генерировать новую. Данная логика
-    применяется только для пунктов 3 и 4. Например, если был сгенерирован NewProjectDescription, то передав его
-    параметром generatedModels при генерации BuildType, он будет переиспользоваться при установке
-    поля NewProjectDescription project, вместо генерации нового */
+    применяется только для пунктов 3 и 4. Например, если был сгенерирован Project, то передав его параметром
+    generatedModels при генерации BuildType, он будет переиспользоваться при установке поля Project project,
+    вместо генерации нового */
     public static <T extends BaseModel> T generate(List<BaseModel> generatedModels, Class<T> generatorClass,
                                                    Object... parameters) {
         try {
