@@ -1,0 +1,124 @@
+{
+  "uid" : "98d3104e051c652961429bf95fa0b5d6",
+  "children" : [ {
+    "name" : "Surefire suite",
+    "children" : [ {
+      "name" : "Surefire test",
+      "children" : [ {
+        "name" : "com.teamcity.ui.SetupServerTest",
+        "children" : [ {
+          "name" : "setupTeamCityServerTest",
+          "uid" : "f83aac0c5b8c3b8c",
+          "parentUid" : "965c1204d1e23501a99a12743556dbe6",
+          "status" : "passed",
+          "time" : {
+            "start" : 1726170215489,
+            "stop" : 1726170269389,
+            "duration" : 53900
+          },
+          "flaky" : false,
+          "newFailed" : false,
+          "parameters" : [ ]
+        } ],
+        "uid" : "965c1204d1e23501a99a12743556dbe6"
+      }, {
+        "name" : "com.teamcity.api.SetupAgentTest",
+        "children" : [ {
+          "name" : "setupTeamCityAgentTest",
+          "uid" : "452806711f06a2e",
+          "parentUid" : "2520c9d0aea480e90577c04e99c5166c",
+          "status" : "passed",
+          "time" : {
+            "start" : 1726170335947,
+            "stop" : 1726170345579,
+            "duration" : 9632
+          },
+          "flaky" : false,
+          "newFailed" : false,
+          "parameters" : [ ]
+        } ],
+        "uid" : "2520c9d0aea480e90577c04e99c5166c"
+      }, {
+        "name" : "com.teamcity.ui.CreateProjectTest",
+        "children" : [ {
+          "name" : "User should be able to create project",
+          "uid" : "ac09ec0ead82d112",
+          "parentUid" : "877448cbc0c7b71c2bf33463fb5dbf6d",
+          "status" : "passed",
+          "time" : {
+            "start" : 1726170361326,
+            "stop" : 1726170413026,
+            "duration" : 51700
+          },
+          "flaky" : false,
+          "newFailed" : false,
+          "parameters" : [ ]
+        }, {
+          "name" : "User should not be able to create project without name",
+          "uid" : "e658b300252be557",
+          "parentUid" : "877448cbc0c7b71c2bf33463fb5dbf6d",
+          "status" : "passed",
+          "time" : {
+            "start" : 1726170414209,
+            "stop" : 1726170423819,
+            "duration" : 9610
+          },
+          "flaky" : false,
+          "newFailed" : false,
+          "parameters" : [ ]
+        } ],
+        "uid" : "877448cbc0c7b71c2bf33463fb5dbf6d"
+      }, {
+        "name" : "com.teamcity.ui.CreateBuildTypeTest",
+        "children" : [ {
+          "name" : "User should be able to create build type",
+          "uid" : "bd82bd84ebfd9ce7",
+          "parentUid" : "f8cce4b087e3490a424672cdab4029bd",
+          "status" : "passed",
+          "time" : {
+            "start" : 1726170424707,
+            "stop" : 1726170434704,
+            "duration" : 9997
+          },
+          "flaky" : false,
+          "newFailed" : false,
+          "parameters" : [ ]
+        }, {
+          "name" : "User should not be able to create build type without name",
+          "uid" : "d06a18c8cb4ed14a",
+          "parentUid" : "f8cce4b087e3490a424672cdab4029bd",
+          "status" : "passed",
+          "time" : {
+            "start" : 1726170435849,
+            "stop" : 1726170445303,
+            "duration" : 9454
+          },
+          "flaky" : false,
+          "newFailed" : false,
+          "parameters" : [ ]
+        } ],
+        "uid" : "f8cce4b087e3490a424672cdab4029bd"
+      }, {
+        "name" : "com.teamcity.ui.StartBuildTest",
+        "children" : [ {
+          "name" : "User should be able to create build type step and start build",
+          "uid" : "abc290ac402a3bef",
+          "parentUid" : "247e7b9e870e6324af9ebcfe39e96625",
+          "status" : "passed",
+          "time" : {
+            "start" : 1726170446218,
+            "stop" : 1726170471127,
+            "duration" : 24909
+          },
+          "flaky" : false,
+          "newFailed" : false,
+          "parameters" : [ ]
+        } ],
+        "uid" : "247e7b9e870e6324af9ebcfe39e96625"
+      } ],
+      "uid" : "1fcb2e6ec8e5b5e8a1f2a70b87c80b24"
+    } ],
+    "uid" : "940a09faf31371a51747026c9d178f0a"
+  } ],
+  "name" : "suites"
+}

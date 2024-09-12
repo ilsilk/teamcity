@@ -1,0 +1,13 @@
+[ {
+  "buildOrder" : 94,
+  "reportUrl" : "https://ilsilk.github.io/teamcity/ui-firefox/94",
+  "reportName" : "Allure Report with history",
+  "data" : {
+    "failed" : 0,
+    "broken" : 0,
+    "skipped" : 0,
+    "passed" : 7,
+    "unknown" : 0,
+    "total" : 7
+  }
+} ]

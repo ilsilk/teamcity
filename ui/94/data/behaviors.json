@@ -1,0 +1,112 @@
+{
+  "uid" : "b1a8273437954620fa374b796ffaacdd",
+  "children" : [ {
+    "name" : "Setup",
+    "children" : [ {
+      "name" : "setupTeamCityServerTest",
+      "uid" : "361e5f78390f2b78",
+      "parentUid" : "a0b94fc4b1891889d06dd7f52e89a3d4",
+      "status" : "passed",
+      "time" : {
+        "start" : 1726170215276,
+        "stop" : 1726170268698,
+        "duration" : 53422
+      },
+      "flaky" : false,
+      "newFailed" : false,
+      "parameters" : [ ]
+    }, {
+      "name" : "setupTeamCityAgentTest",
+      "uid" : "577fa1e24204e714",
+      "parentUid" : "a0b94fc4b1891889d06dd7f52e89a3d4",
+      "status" : "passed",
+      "time" : {
+        "start" : 1726170337759,
+        "stop" : 1726170347712,
+        "duration" : 9953
+      },
+      "flaky" : false,
+      "newFailed" : false,
+      "parameters" : [ ]
+    } ],
+    "uid" : "a0b94fc4b1891889d06dd7f52e89a3d4"
+  }, {
+    "name" : "Project",
+    "children" : [ {
+      "name" : "User should be able to create project",
+      "uid" : "8d6a712b27b6b0f1",
+      "parentUid" : "b71caa12e5654478957b8c5110b9dd6c",
+      "status" : "passed",
+      "time" : {
+        "start" : 1726170363485,
+        "stop" : 1726170407892,
+        "duration" : 44407
+      },
+      "flaky" : false,
+      "newFailed" : false,
+      "parameters" : [ ]
+    }, {
+      "name" : "User should not be able to create project without name",
+      "uid" : "c23f27f1b4b24768",
+      "parentUid" : "b71caa12e5654478957b8c5110b9dd6c",
+      "status" : "passed",
+      "time" : {
+        "start" : 1726170408502,
+        "stop" : 1726170417470,
+        "duration" : 8968
+      },
+      "flaky" : false,
+      "newFailed" : false,
+      "parameters" : [ ]
+    } ],
+    "uid" : "b71caa12e5654478957b8c5110b9dd6c"
+  }, {
+    "name" : "Build type",
+    "children" : [ {
+      "name" : "User should be able to create build type",
+      "uid" : "7c029dbcb92c3b13",
+      "parentUid" : "6a3e112fdacfe9425440846b8591f0eb",
+      "status" : "passed",
+      "time" : {
+        "start" : 1726170417700,
+        "stop" : 1726170426978,
+        "duration" : 9278
+      },
+      "flaky" : false,
+      "newFailed" : false,
+      "parameters" : [ ]
+    }, {
+      "name" : "User should not be able to create build type without name",
+      "uid" : "41ee63800a7e66c6",
+      "parentUid" : "6a3e112fdacfe9425440846b8591f0eb",
+      "status" : "passed",
+      "time" : {
+        "start" : 1726170427327,
+        "stop" : 1726170434648,
+        "duration" : 7321
+      },
+      "flaky" : false,
+      "newFailed" : false,
+      "parameters" : [ ]
+    } ],
+    "uid" : "6a3e112fdacfe9425440846b8591f0eb"
+  }, {
+    "name" : "Start build",
+    "children" : [ {
+      "name" : "User should be able to create build type step and start build",
+      "uid" : "ab2f63cd18b88cee",
+      "parentUid" : "c5b51ea957a3170835aabbaffb787a6b",
+      "status" : "passed",
+      "time" : {
+        "start" : 1726170434799,
+        "stop" : 1726170451056,
+        "duration" : 16257
+      },
+      "flaky" : false,
+      "newFailed" : false,
+      "parameters" : [ ]
+    } ],
+    "uid" : "c5b51ea957a3170835aabbaffb787a6b"
+  } ],
+  "name" : "behaviors"
+}

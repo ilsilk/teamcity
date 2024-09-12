@@ -1,0 +1,694 @@
+{
+  "uid" : "1600478715809157",
+  "name" : "Project admin should be able to create build type for their project",
+  "fullName" : "com.teamcity.api.BuildTypeTest.projectAdminCreatesBuildTypeTest",
+  "historyId" : "128dec697d01c1124528222c8a06813c",
+  "time" : {
+    "start" : 1726170367957,
+    "stop" : 1726170368973,
+    "duration" : 1016
+  },
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "beforeStages" : [ {
+    "name" : "getRequests",
+    "time" : {
+      "start" : 1726170367955,
+      "stop" : 1726170367955,
+      "duration" : 0
+    },
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  }, {
+    "name" : "generateBaseTestData",
+    "time" : {
+      "start" : 1726170367952,
+      "stop" : 1726170367953,
+      "duration" : 1
+    },
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  }, {
+    "name" : "setUpServerAuthSettings",
+    "time" : {
+      "start" : 1726170352540,
+      "stop" : 1726170356718,
+      "duration" : 4178
+    },
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Read ServerAuthSettings",
+      "time" : {
+        "start" : 1726170352658,
+        "stop" : 1726170356015,
+        "duration" : 3357
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "1bc440f1914df5df",
+        "name" : "Request",
+        "source" : "1bc440f1914df5df.html",
+        "type" : "text/html",
+        "size" : 572
+      }, {
+        "uid" : "600d9c9b444d9be9",
+        "name" : "HTTP/1.1 200 ",
+        "source" : "600d9c9b444d9be9.html",
+        "type" : "text/html",
+        "size" : 1144
+      } ],
+      "parameters" : [ {
+        "name" : "id",
+        "value" : "null"
+      } ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "Update ServerAuthSettings",
+      "time" : {
+        "start" : 1726170356342,
+        "stop" : 1726170356713,
+        "duration" : 371
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "9a8f0f1a93b8cfda",
+        "name" : "Request",
+        "source" : "9a8f0f1a93b8cfda.html",
+        "type" : "text/html",
+        "size" : 1083
+      }, {
+        "uid" : "56316624f521ef66",
+        "name" : "HTTP/1.1 200 ",
+        "source" : "56316624f521ef66.html",
+        "type" : "text/html",
+        "size" : 1143
+      } ],
+      "parameters" : [ {
+        "name" : "id",
+        "value" : "null"
+      }, {
+        "name" : "model",
+        "value" : "ServerAuthSettings(perProjectPermissions=true, modules=AuthModules(module=[AuthModule(name=HTTP-Basic)]))"
+      } ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 2,
+    "attachmentsCount" : 4,
+    "shouldDisplayMessage" : false,
+    "hasContent" : true
+  } ],
+  "testStage" : {
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Create NewProjectDescription(id=test_VHLEgznONB, name=test_oMYwJStuts, parentProject=Project(id=null, name=null, locator=_Root))",
+      "time" : {
+        "start" : 1726170367957,
+        "stop" : 1726170368019,
+        "duration" : 62
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "287588bea64ecc1b",
+        "name" : "Request",
+        "source" : "287588bea64ecc1b.html",
+        "type" : "text/html",
+        "size" : 1153
+      }, {
+        "uid" : "4af333434addad68",
+        "name" : "HTTP/1.1 200 ",
+        "source" : "4af333434addad68.html",
+        "type" : "text/html",
+        "size" : 2225
+      } ],
+      "parameters" : [ {
+        "name" : "model",
+        "value" : "NewProjectDescription(id=test_VHLEgznONB, name=test_oMYwJStuts, parentProject=Project(id=null, name=null, locator=_Root))"
+      } ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "Create User(id=null, username=test_QjyZFofpqx, email=test_MflQQSlrCb, password=test_bDLFSmakXb, roles=Roles(role=[Role(roleId=PROJECT_ADMIN, scope=p:test_VHLEgznONB)]))",
+      "time" : {
+        "start" : 1726170368026,
+        "stop" : 1726170368122,
+        "duration" : 96
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "f86a79673e97c056",
+        "name" : "Request",
+        "source" : "f86a79673e97c056.html",
+        "type" : "text/html",
+        "size" : 1477
+      }, {
+        "uid" : "c5501f312618995b",
+        "name" : "HTTP/1.1 200 ",
+        "source" : "c5501f312618995b.html",
+        "type" : "text/html",
+        "size" : 2174
+      } ],
+      "parameters" : [ {
+        "name" : "model",
+        "value" : "User(id=null, username=test_QjyZFofpqx, email=test_MflQQSlrCb, password=test_bDLFSmakXb, roles=Roles(role=[Role(roleId=PROJECT_ADMIN, scope=p:test_VHLEgznONB)]))"
+      } ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "Create BuildType(id=test_vLVzmSefrX, name=test_cLIiawzABt, project=Project(id=test_VHLEgznONB, name=test_oMYwJStuts, locator=null), steps=null)",
+      "time" : {
+        "start" : 1726170368129,
+        "stop" : 1726170368231,
+        "duration" : 102
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "c28d269cbebca327",
+        "name" : "Request",
+        "source" : "c28d269cbebca327.html",
+        "type" : "text/html",
+        "size" : 1291
+      }, {
+        "uid" : "2ce9944f4cb92b3d",
+        "name" : "HTTP/1.1 200 ",
+        "source" : "2ce9944f4cb92b3d.html",
+        "type" : "text/html",
+        "size" : 2946
+      } ],
+      "parameters" : [ {
+        "name" : "model",
+        "value" : "BuildType(id=test_vLVzmSefrX, name=test_cLIiawzABt, project=Project(id=test_VHLEgznONB, name=test_oMYwJStuts, locator=null), steps=null)"
+      } ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "assertThat 'test_vLVzmSefrX'",
+      "time" : {
+        "start" : 1726170368968,
+        "stop" : 1726170368968,
+        "duration" : 0
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    }, {
+      "name" : "describedAs 'buildTypeId'",
+      "time" : {
+        "start" : 1726170368972,
+        "stop" : 1726170368972,
+        "duration" : 0
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    }, {
+      "name" : "isEqualTo 'test_vLVzmSefrX'",
+      "time" : {
+        "start" : 1726170368972,
+        "stop" : 1726170368972,
+        "duration" : 0
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "isEqualTo$accessor$9HzO0piD 'test_vLVzmSefrX'",
+        "time" : {
+          "start" : 1726170368972,
+          "stop" : 1726170368972,
+          "duration" : 0
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "isEqualTo 'test_vLVzmSefrX'",
+          "time" : {
+            "start" : 1726170368972,
+            "stop" : 1726170368972,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ {
+            "name" : "isEqualTo 'test_vLVzmSefrX'",
+            "time" : {
+              "start" : 1726170368972,
+              "stop" : 1726170368972,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ ],
+            "stepsCount" : 0,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false,
+            "hasContent" : false
+          } ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 1,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : true
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 2,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false,
+        "hasContent" : true
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 3,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 9,
+    "attachmentsCount" : 6,
+    "shouldDisplayMessage" : false,
+    "hasContent" : true
+  },
+  "afterStages" : [ {
+    "name" : "deleteCreatedEntities",
+    "time" : {
+      "start" : 1726170368974,
+      "stop" : 1726170369097,
+      "duration" : 123
+    },
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Delete test_vLVzmSefrX",
+      "time" : {
+        "start" : 1726170368976,
+        "stop" : 1726170369017,
+        "duration" : 41
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "1301929eadc656c9",
+        "name" : "Request",
+        "source" : "1301929eadc656c9.html",
+        "type" : "text/html",
+        "size" : 602
+      }, {
+        "uid" : "cd4f6f779c159473",
+        "name" : "HTTP/1.1 204 ",
+        "source" : "cd4f6f779c159473.html",
+        "type" : "text/html",
+        "size" : 478
+      } ],
+      "parameters" : [ {
+        "name" : "id",
+        "value" : "test_vLVzmSefrX"
+      } ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "Delete 6",
+      "time" : {
+        "start" : 1726170369017,
+        "stop" : 1726170369058,
+        "duration" : 41
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "f8b027ff82a22c11",
+        "name" : "Request",
+        "source" : "f8b027ff82a22c11.html",
+        "type" : "text/html",
+        "size" : 564
+      }, {
+        "uid" : "96543ad006cb9ee1",
+        "name" : "HTTP/1.1 204 ",
+        "source" : "96543ad006cb9ee1.html",
+        "type" : "text/html",
+        "size" : 478
+      } ],
+      "parameters" : [ {
+        "name" : "id",
+        "value" : "6"
+      } ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "Delete test_VHLEgznONB",
+      "time" : {
+        "start" : 1726170369059,
+        "stop" : 1726170369097,
+        "duration" : 38
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "87949c63243affaf",
+        "name" : "Request",
+        "source" : "87949c63243affaf.html",
+        "type" : "text/html",
+        "size" : 598
+      }, {
+        "uid" : "a37a71414774c4af",
+        "name" : "HTTP/1.1 204 ",
+        "source" : "a37a71414774c4af.html",
+        "type" : "text/html",
+        "size" : 478
+      } ],
+      "parameters" : [ {
+        "name" : "id",
+        "value" : "test_VHLEgznONB"
+      } ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 3,
+    "attachmentsCount" : 6,
+    "shouldDisplayMessage" : false,
+    "hasContent" : true
+  }, {
+    "name" : "cleanUpServerAuthSettings",
+    "time" : {
+      "start" : 1726170378223,
+      "stop" : 1726170378311,
+      "duration" : 88
+    },
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Update ServerAuthSettings",
+      "time" : {
+        "start" : 1726170378223,
+        "stop" : 1726170378309,
+        "duration" : 86
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "a0b159ca2b3599e9",
+        "name" : "Request",
+        "source" : "a0b159ca2b3599e9.html",
+        "type" : "text/html",
+        "size" : 1085
+      }, {
+        "uid" : "2b2337fb9dff696f",
+        "name" : "HTTP/1.1 200 ",
+        "source" : "2b2337fb9dff696f.html",
+        "type" : "text/html",
+        "size" : 1144
+      } ],
+      "parameters" : [ {
+        "name" : "id",
+        "value" : "null"
+      }, {
+        "name" : "model",
+        "value" : "ServerAuthSettings(perProjectPermissions=false, modules=AuthModules(module=[AuthModule(name=HTTP-Basic)]))"
+      } ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 1,
+    "attachmentsCount" : 2,
+    "shouldDisplayMessage" : false,
+    "hasContent" : true
+  } ],
+  "labels" : [ {
+    "name" : "package",
+    "value" : "com.teamcity.api.BuildTypeTest"
+  }, {
+    "name" : "testClass",
+    "value" : "com.teamcity.api.BuildTypeTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "projectAdminCreatesBuildTypeTest"
+  }, {
+    "name" : "parentSuite",
+    "value" : "Surefire suite"
+  }, {
+    "name" : "suite",
+    "value" : "Surefire test"
+  }, {
+    "name" : "subSuite",
+    "value" : "com.teamcity.api.BuildTypeTest"
+  }, {
+    "name" : "host",
+    "value" : "fv-az651-671"
+  }, {
+    "name" : "thread",
+    "value" : "5279@fv-az651-671.main(1)"
+  }, {
+    "name" : "framework",
+    "value" : "testng"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "feature",
+    "value" : "Build type"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "history" : {
+      "statistic" : {
+        "failed" : 0,
+        "broken" : 0,
+        "skipped" : 0,
+        "passed" : 19,
+        "unknown" : 0,
+        "total" : 19
+      },
+      "items" : [ {
+        "uid" : "2decee2348c2d7c5",
+        "reportUrl" : "https://ilsilk.github.io/teamcity/api/92//#testresult/2decee2348c2d7c5",
+        "status" : "passed",
+        "time" : {
+          "start" : 1726168087440,
+          "stop" : 1726168088383,
+          "duration" : 943
+        }
+      }, {
+        "uid" : "a83a1dfd5f5b980e",
+        "reportUrl" : "https://ilsilk.github.io/teamcity/api/91//#testresult/a83a1dfd5f5b980e",
+        "status" : "passed",
+        "time" : {
+          "start" : 1726165924609,
+          "stop" : 1726165925562,
+          "duration" : 953
+        }
+      }, {
+        "uid" : "9f4a7681ae1f0676",
+        "reportUrl" : "https://ilsilk.github.io/teamcity/api/90//#testresult/9f4a7681ae1f0676",
+        "status" : "passed",
+        "time" : {
+          "start" : 1726162872847,
+          "stop" : 1726162873644,
+          "duration" : 797
+        }
+      }, {
+        "uid" : "9d337cb3c00f6f09",
+        "reportUrl" : "https://ilsilk.github.io/teamcity/api/88//#testresult/9d337cb3c00f6f09",
+        "status" : "passed",
+        "time" : {
+          "start" : 1726159793177,
+          "stop" : 1726159793962,
+          "duration" : 785
+        }
+      }, {
+        "uid" : "1c56c26c0558f897",
+        "reportUrl" : "https://ilsilk.github.io/teamcity/api/87//#testresult/1c56c26c0558f897",
+        "status" : "passed",
+        "time" : {
+          "start" : 1726152500716,
+          "stop" : 1726152501523,
+          "duration" : 807
+        }
+      }, {
+        "uid" : "c9f1c75eadd29c69",
+        "reportUrl" : "https://ilsilk.github.io/teamcity/api/85//#testresult/c9f1c75eadd29c69",
+        "status" : "passed",
+        "time" : {
+          "start" : 1726149521822,
+          "stop" : 1726149522730,
+          "duration" : 908
+        }
+      }, {
+        "uid" : "d9180b8d07c32028",
+        "reportUrl" : "https://ilsilk.github.io/teamcity/api/84//#testresult/d9180b8d07c32028",
+        "status" : "passed",
+        "time" : {
+          "start" : 1726090386267,
+          "stop" : 1726090387111,
+          "duration" : 844
+        }
+      }, {
+        "uid" : "ee924319860fad02",
+        "reportUrl" : "https://ilsilk.github.io/teamcity/api/83//#testresult/ee924319860fad02",
+        "status" : "passed",
+        "time" : {
+          "start" : 1726067159826,
+          "stop" : 1726067160677,
+          "duration" : 851
+        }
+      }, {
+        "uid" : "e96d25ceba40dc41",
+        "reportUrl" : "https://ilsilk.github.io/teamcity/api/82//#testresult/e96d25ceba40dc41",
+        "status" : "passed",
+        "time" : {
+          "start" : 1726066753808,
+          "stop" : 1726066754790,
+          "duration" : 982
+        }
+      }, {
+        "uid" : "64f8aea517eef9ef",
+        "reportUrl" : "https://ilsilk.github.io/teamcity/api/81//#testresult/64f8aea517eef9ef",
+        "status" : "passed",
+        "time" : {
+          "start" : 1726066522319,
+          "stop" : 1726066523197,
+          "duration" : 878
+        }
+      }, {
+        "uid" : "5d6c70d63af51407",
+        "reportUrl" : "https://ilsilk.github.io/teamcity/api/80//#testresult/5d6c70d63af51407",
+        "status" : "passed",
+        "time" : {
+          "start" : 1726066162061,
+          "stop" : 1726066162986,
+          "duration" : 925
+        }
+      }, {
+        "uid" : "c28260c6c8ed791f",
+        "reportUrl" : "https://ilsilk.github.io/teamcity/api/79//#testresult/c28260c6c8ed791f",
+        "status" : "passed",
+        "time" : {
+          "start" : 1726065957140,
+          "stop" : 1726065958120,
+          "duration" : 980
+        }
+      }, {
+        "uid" : "e29722ced3c3b853",
+        "reportUrl" : "https://ilsilk.github.io/teamcity/api/78//#testresult/e29722ced3c3b853",
+        "status" : "passed",
+        "time" : {
+          "start" : 1726046771817,
+          "stop" : 1726046772782,
+          "duration" : 965
+        }
+      }, {
+        "uid" : "b6e075e9c18e7d83",
+        "reportUrl" : "https://ilsilk.github.io/teamcity/api/77//#testresult/b6e075e9c18e7d83",
+        "status" : "passed",
+        "time" : {
+          "start" : 1726045045328,
+          "stop" : 1726045046237,
+          "duration" : 909
+        }
+      }, {
+        "uid" : "b10c75dd6b6e123d",
+        "reportUrl" : "https://ilsilk.github.io/teamcity/api/75//#testresult/b10c75dd6b6e123d",
+        "status" : "passed",
+        "time" : {
+          "start" : 1726033503212,
+          "stop" : 1726033504235,
+          "duration" : 1023
+        }
+      }, {
+        "uid" : "1a527feb24578f16",
+        "reportUrl" : "https://ilsilk.github.io/teamcity/api/74//#testresult/1a527feb24578f16",
+        "status" : "passed",
+        "time" : {
+          "start" : 1726005407390,
+          "stop" : 1726005408296,
+          "duration" : 906
+        }
+      }, {
+        "uid" : "a7abbb7e0cfd1f7e",
+        "reportUrl" : "https://ilsilk.github.io/teamcity/api/73//#testresult/a7abbb7e0cfd1f7e",
+        "status" : "passed",
+        "time" : {
+          "start" : 1726004742472,
+          "stop" : 1726004743433,
+          "duration" : 961
+        }
+      }, {
+        "uid" : "589690de6bfa137",
+        "reportUrl" : "https://ilsilk.github.io/teamcity/api/72//#testresult/589690de6bfa137",
+        "status" : "passed",
+        "time" : {
+          "start" : 1725996552980,
+          "stop" : 1725996553929,
+          "duration" : 949
+        }
+      } ]
+    },
+    "tags" : [ ]
+  },
+  "source" : "1600478715809157.json",
+  "parameterValues" : [ ]
+}

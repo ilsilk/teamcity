@@ -1,0 +1,436 @@
+{
+  "uid" : "452806711f06a2e",
+  "name" : "setupTeamCityAgentTest",
+  "fullName" : "com.teamcity.api.SetupAgentTest.setupTeamCityAgentTest",
+  "historyId" : "4854a786d7aec56b29a832fd6bb17bd9",
+  "time" : {
+    "start" : 1726170335947,
+    "stop" : 1726170345579,
+    "duration" : 9632
+  },
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "beforeStages" : [ {
+    "name" : "generateBaseTestData",
+    "time" : {
+      "start" : 1726170334556,
+      "stop" : 1726170335804,
+      "duration" : 1248
+    },
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  }, {
+    "name" : "setUpServerAuthSettings",
+    "time" : {
+      "start" : 1726170329838,
+      "stop" : 1726170334430,
+      "duration" : 4592
+    },
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Read ServerAuthSettings",
+      "time" : {
+        "start" : 1726170329911,
+        "stop" : 1726170333389,
+        "duration" : 3478
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "d53e254ce97457bb",
+        "name" : "Request",
+        "source" : "d53e254ce97457bb.html",
+        "type" : "text/html",
+        "size" : 572
+      }, {
+        "uid" : "d11a1d01ff3157fd",
+        "name" : "HTTP/1.1 200 ",
+        "source" : "d11a1d01ff3157fd.html",
+        "type" : "text/html",
+        "size" : 2281
+      } ],
+      "parameters" : [ {
+        "name" : "id",
+        "value" : "null"
+      } ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "Update ServerAuthSettings",
+      "time" : {
+        "start" : 1726170333759,
+        "stop" : 1726170334420,
+        "duration" : 661
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "88590ae762b5e543",
+        "name" : "Request",
+        "source" : "88590ae762b5e543.html",
+        "type" : "text/html",
+        "size" : 1083
+      }, {
+        "uid" : "7306a852840f1e50",
+        "name" : "HTTP/1.1 200 ",
+        "source" : "7306a852840f1e50.html",
+        "type" : "text/html",
+        "size" : 1143
+      } ],
+      "parameters" : [ {
+        "name" : "id",
+        "value" : "null"
+      }, {
+        "name" : "model",
+        "value" : "ServerAuthSettings(perProjectPermissions=true, modules=AuthModules(module=[AuthModule(name=HTTP-Basic)]))"
+      } ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 2,
+    "attachmentsCount" : 4,
+    "shouldDisplayMessage" : false,
+    "hasContent" : true
+  } ],
+  "testStage" : {
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Wait until agent is found",
+      "time" : {
+        "start" : 1726170335951,
+        "stop" : 1726170345390,
+        "duration" : 9439
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Awaitility: Starting evaluation",
+        "time" : {
+          "start" : 1726170335963,
+          "stop" : 1726170345390,
+          "duration" : 9427
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Read Agents",
+          "time" : {
+            "start" : 1726170338968,
+            "stop" : 1726170339120,
+            "duration" : 152
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ {
+            "uid" : "f65943b685ef4a74",
+            "name" : "Request",
+            "source" : "f65943b685ef4a74.html",
+            "type" : "text/html",
+            "size" : 600
+          }, {
+            "uid" : "d382c845ce04531f",
+            "name" : "HTTP/1.1 200 ",
+            "source" : "d382c845ce04531f.html",
+            "type" : "text/html",
+            "size" : 722
+          } ],
+          "parameters" : [ {
+            "name" : "locator",
+            "value" : "authorized:false"
+          } ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 2,
+          "shouldDisplayMessage" : false,
+          "hasContent" : true
+        }, {
+          "name" : "Condition defined as a Lambda expression in com.teamcity.api.SetupAgentTest returned false (elapsed time 3169 milliseconds, remaining time 26831 milliseconds (last poll interval was 3 seconds))",
+          "time" : {
+            "start" : 1726170339135,
+            "stop" : 1726170339135,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "Read Agents",
+          "time" : {
+            "start" : 1726170342136,
+            "stop" : 1726170342219,
+            "duration" : 83
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ {
+            "uid" : "27cbe732896becb3",
+            "name" : "Request",
+            "source" : "27cbe732896becb3.html",
+            "type" : "text/html",
+            "size" : 600
+          }, {
+            "uid" : "12a66731341edd5",
+            "name" : "HTTP/1.1 200 ",
+            "source" : "12a66731341edd5.html",
+            "type" : "text/html",
+            "size" : 722
+          } ],
+          "parameters" : [ {
+            "name" : "locator",
+            "value" : "authorized:false"
+          } ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 2,
+          "shouldDisplayMessage" : false,
+          "hasContent" : true
+        }, {
+          "name" : "Condition defined as a Lambda expression in com.teamcity.api.SetupAgentTest returned false (elapsed time 6274 milliseconds, remaining time 23726 milliseconds (last poll interval was 3 seconds))",
+          "time" : {
+            "start" : 1726170342238,
+            "stop" : 1726170342238,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "Read Agents",
+          "time" : {
+            "start" : 1726170345238,
+            "stop" : 1726170345384,
+            "duration" : 146
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ {
+            "uid" : "76349ede658cd508",
+            "name" : "Request",
+            "source" : "76349ede658cd508.html",
+            "type" : "text/html",
+            "size" : 600
+          }, {
+            "uid" : "977bcfb5e1bc14b0",
+            "name" : "HTTP/1.1 200 ",
+            "source" : "977bcfb5e1bc14b0.html",
+            "type" : "text/html",
+            "size" : 1060
+          } ],
+          "parameters" : [ {
+            "name" : "locator",
+            "value" : "authorized:false"
+          } ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 2,
+          "shouldDisplayMessage" : false,
+          "hasContent" : true
+        }, {
+          "name" : "Condition defined as a Lambda expression in com.teamcity.api.SetupAgentTest returned true after 9426 milliseconds (remaining time 20574 milliseconds, last poll interval was 3 seconds)",
+          "time" : {
+            "start" : 1726170345390,
+            "stop" : 1726170345390,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 6,
+        "attachmentsCount" : 6,
+        "shouldDisplayMessage" : false,
+        "hasContent" : true
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "checkedAgentsRequest",
+        "value" : "com.teamcity.api.requests.checked.CheckedAgents@9a82ef"
+      } ],
+      "stepsCount" : 7,
+      "attachmentsCount" : 6,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "Update Agent",
+      "time" : {
+        "start" : 1726170345398,
+        "stop" : 1726170345571,
+        "duration" : 173
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "97ba7da033f5f990",
+        "name" : "Request",
+        "source" : "97ba7da033f5f990.html",
+        "type" : "text/html",
+        "size" : 753
+      }, {
+        "uid" : "c88207ea161d9ea7",
+        "name" : "HTTP/1.1 200 ",
+        "source" : "c88207ea161d9ea7.html",
+        "type" : "text/html",
+        "size" : 943
+      } ],
+      "parameters" : [ {
+        "name" : "id",
+        "value" : "1/authorizedInfo"
+      }, {
+        "name" : "model",
+        "value" : "AuthorizedInfo(status=true)"
+      } ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 9,
+    "attachmentsCount" : 8,
+    "shouldDisplayMessage" : false,
+    "hasContent" : true
+  },
+  "afterStages" : [ {
+    "name" : "deleteCreatedEntities",
+    "time" : {
+      "start" : 1726170345600,
+      "stop" : 1726170345608,
+      "duration" : 8
+    },
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  }, {
+    "name" : "cleanUpServerAuthSettings",
+    "time" : {
+      "start" : 1726170345654,
+      "stop" : 1726170345795,
+      "duration" : 141
+    },
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Update ServerAuthSettings",
+      "time" : {
+        "start" : 1726170345654,
+        "stop" : 1726170345786,
+        "duration" : 132
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "d9925df212e532c6",
+        "name" : "Request",
+        "source" : "d9925df212e532c6.html",
+        "type" : "text/html",
+        "size" : 1085
+      }, {
+        "uid" : "ddabdeeb68213c48",
+        "name" : "HTTP/1.1 200 ",
+        "source" : "ddabdeeb68213c48.html",
+        "type" : "text/html",
+        "size" : 1144
+      } ],
+      "parameters" : [ {
+        "name" : "id",
+        "value" : "null"
+      }, {
+        "name" : "model",
+        "value" : "ServerAuthSettings(perProjectPermissions=false, modules=AuthModules(module=[AuthModule(name=HTTP-Basic)]))"
+      } ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 1,
+    "attachmentsCount" : 2,
+    "shouldDisplayMessage" : false,
+    "hasContent" : true
+  } ],
+  "labels" : [ {
+    "name" : "package",
+    "value" : "com.teamcity.api.SetupAgentTest"
+  }, {
+    "name" : "testClass",
+    "value" : "com.teamcity.api.SetupAgentTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "setupTeamCityAgentTest"
+  }, {
+    "name" : "parentSuite",
+    "value" : "Surefire suite"
+  }, {
+    "name" : "suite",
+    "value" : "Surefire test"
+  }, {
+    "name" : "subSuite",
+    "value" : "com.teamcity.api.SetupAgentTest"
+  }, {
+    "name" : "host",
+    "value" : "fv-az1499-20"
+  }, {
+    "name" : "thread",
+    "value" : "4798@fv-az1499-20.main(1)"
+  }, {
+    "name" : "framework",
+    "value" : "testng"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "feature",
+    "value" : "Setup"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "452806711f06a2e.json",
+  "parameterValues" : [ ]
+}
