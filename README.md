@@ -4,7 +4,7 @@
 https://github.com/nektos/act.
 
 Для локального запуска тестов через maven, необходимо сначала добавить в *src/main/resources/config.properties*
-следующие параметры:
+значения следующих параметров:
 
 ```
 host=<IP>:8111, где <IP> - результат вывода команды ipconfig getifaddr en0 или аналогичной
