@@ -1,6 +1,7 @@
 package com.teamcity.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.teamcity.api.annotations.Optional;
 import com.teamcity.api.annotations.Random;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +23,8 @@ public class NewProjectDescription extends BaseModel {
     private String id;
     @Random
     private String name;
-    private Project parentProject;
+    @Builder.Default
+    @Optional
+    private Project parentProject = new Project(null, null, "_Root");
 
 }

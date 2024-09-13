@@ -7,6 +7,9 @@ on:
         description: api | ui
         required: true
         type: string
+      browser:
+        description: chrome | firefox | opera
+        type: string
 
 jobs:
   validate-checkstyle:
@@ -32,6 +35,10 @@ jobs:
       - name: Teamcity setup
         uses: ./.github/actions/teamcity-setup
 
+      - name: Set up browser config property
+        if: inputs.browser
+        run: sed -i "s/^browser=.*/browser=${{ inputs.browser }}/" src/main/resources/config.properties
+
       - name: Run tests
         # Указываем группу, чтобы еще раз не запустить тесты, которые использовались для сетапа сервера и агента
         run: ./mvnw test -Dtest='com.teamcity.${{ inputs.package }}.**' -Dgroups=Regression
@@ -40,18 +47,16 @@ jobs:
       # Обязательно добавить SwaggerCoverageRestAssured фильтр во все реквесты, как в Specifications.reqBuilder
       - name: Run Swagger coverage
         # Запускается только для API тестов
-        if: ${{ inputs.package == 'api' }}
+        if: always() && inputs.package == 'api'
         run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s http://$HOST:8111/app/rest/swagger.json -i target/swagger-coverage-output
 
       # Swagger coverage репорт сохраняется в артефакты GitHub Actions прогона
       - name: Save Swagger coverage
         uses: actions/upload-artifact@v4
-        if: ${{ inputs.package == 'api' }}
+        if: always() && inputs.package == 'api'
         with:
           name: swagger-coverage
-          path: |
-            swagger-coverage-report.html
-            swagger-coverage-results.json
+          path: swagger-coverage-report.html
 
       # Следующие 3 степа на сохранение Allure репортов с историей и публикацию их в GitHub Pages.
       # Необходимо ознакомиться с документацией: https://allurereport.org/docs/integrations-github/,

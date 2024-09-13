@@ -20,7 +20,7 @@ public class CreateProjectTest extends BaseUiTest {
     public void userCreatesProject() {
         loginAs(testData.getUser());
 
-        CreateProjectPage.open(testData.getProject().getParentProject().getLocator())
+        CreateProjectPage.open(testData.getNewProjectDescription().getParentProject().getLocator())
                 .createFrom(GIT_URL)
                 .setupProject(testData.getProject().getName(), (testData.getBuildType()).getName());
         var createdBuildTypeId = EditBuildTypePage.open().getBuildTypeId();
@@ -45,7 +45,7 @@ public class CreateProjectTest extends BaseUiTest {
     public void userCreatesProjectWithoutName() {
         loginAs(testData.getUser());
 
-        CreateProjectPage.open(testData.getProject().getParentProject().getLocator())
+        CreateProjectPage.open(testData.getNewProjectDescription().getParentProject().getLocator())
                 .createFrom(GIT_URL)
                 .setupProject("", (testData.getBuildType()).getName())
                 .verifyProjectNameError("Project name must not be empty");

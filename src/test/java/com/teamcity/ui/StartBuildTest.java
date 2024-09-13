@@ -17,7 +17,7 @@ public class StartBuildTest extends BaseUiTest {
 
     @Test(description = "User should be able to create build type step and start build", groups = {"Regression"})
     public void userCreatesBuildTypeStepAndStartsBuildTest() {
-        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getNewProjectDescription());
         checkedSuperUser.getRequest(BUILD_TYPES).create(testData.getBuildType());
         loginAs(testData.getUser());
 

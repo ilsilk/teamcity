@@ -7,7 +7,8 @@ import lombok.Data;
 // Порядок определения важен и влияет на этот метод
 public class TestData {
 
-    private NewProjectDescription project;
+    private NewProjectDescription newProjectDescription;
+    private Project project;
     private User user;
     private BuildType buildType;
 

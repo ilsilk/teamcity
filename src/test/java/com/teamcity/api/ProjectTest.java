@@ -34,7 +34,7 @@ public class ProjectTest extends BaseApiTest {
     public void userCreatesProjectTest() {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
 
-        var project = checkedProjectRequest.create(testData.getProject());
+        var project = checkedProjectRequest.create(testData.getNewProjectDescription());
 
         softy.assertThat(project.getId()).as("projectId").isEqualTo(testData.getProject().getId());
     }
@@ -43,12 +43,12 @@ public class ProjectTest extends BaseApiTest {
     public void userCreatesTwoProjectsWithSameIdTest() {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
 
-        checkedProjectRequest.create(testData.getProject());
+        checkedProjectRequest.create(testData.getNewProjectDescription());
 
         var secondTestData = generate();
-        secondTestData.getProject().setId(testData.getProject().getId());
+        secondTestData.getNewProjectDescription().setId(testData.getNewProjectDescription().getId());
 
-        uncheckedProjectRequest.create(secondTestData.getProject())
+        uncheckedProjectRequest.create(secondTestData.getNewProjectDescription())
                 .then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
@@ -56,22 +56,21 @@ public class ProjectTest extends BaseApiTest {
     public void userCreatesProjectWithIdExceedingLimitTest() {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
 
-        var projectTestData = testData.getProject();
-        projectTestData.setId(RandomData.getString(PROJECT_ID_CHARACTERS_LIMIT + 1));
+        testData.getNewProjectDescription().setId(RandomData.getString(PROJECT_ID_CHARACTERS_LIMIT + 1));
 
-        uncheckedProjectRequest.create(testData.getProject())
+        uncheckedProjectRequest.create(testData.getNewProjectDescription())
                 .then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 
-        projectTestData.setId(RandomData.getString(PROJECT_ID_CHARACTERS_LIMIT));
+        testData.getNewProjectDescription().setId(RandomData.getString(PROJECT_ID_CHARACTERS_LIMIT));
 
-        checkedProjectRequest.create(testData.getProject());
+        checkedProjectRequest.create(testData.getNewProjectDescription());
     }
 
     @Test(description = "Unauthorized user should not be able to create project", groups = {"Regression"})
     public void unauthorizedUserCreatesProjectTest() {
         var uncheckedUnauthProjectRequest = new UncheckedBase(Specifications.getSpec()
                 .unauthSpec(), PROJECTS);
-        uncheckedUnauthProjectRequest.create(testData.getProject())
+        uncheckedUnauthProjectRequest.create(testData.getNewProjectDescription())
                 .then().assertThat().statusCode(HttpStatus.SC_UNAUTHORIZED);
 
         uncheckedSuperUser.getRequest(PROJECTS)
@@ -84,7 +83,7 @@ public class ProjectTest extends BaseApiTest {
     public void userDeletesProjectTest() {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
 
-        checkedProjectRequest.create(testData.getProject());
+        checkedProjectRequest.create(testData.getNewProjectDescription());
         checkedProjectRequest.delete(testData.getProject().getId());
 
         uncheckedProjectRequest.read(testData.getProject().getId())

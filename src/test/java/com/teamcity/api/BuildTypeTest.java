@@ -36,7 +36,7 @@ public class BuildTypeTest extends BaseApiTest {
     @Test(description = "User should be able to create build type", groups = {"Regression"})
     public void userCreatesBuildTypeTest() {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
-        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getNewProjectDescription());
 
         var buildType = checkedBuildTypeRequest.create(testData.getBuildType());
 
@@ -46,7 +46,7 @@ public class BuildTypeTest extends BaseApiTest {
     @Test(description = "User should not be able to create two build types with the same id", groups = {"Regression"})
     public void userCreatesTwoBuildTypesWithSameIdTest() {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
-        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getNewProjectDescription());
 
         checkedBuildTypeRequest.create(testData.getBuildType());
 
@@ -63,7 +63,7 @@ public class BuildTypeTest extends BaseApiTest {
     @Test(description = "User should not be able to create build type with id exceeding the limit", groups = {"Regression"})
     public void userCreatesBuildTypeWithIdExceedingLimitTest() {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
-        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getNewProjectDescription());
 
         var buildTypeTestData = testData.getBuildType();
         buildTypeTestData.setId(RandomData.getString(BUILD_TYPE_ID_CHARACTERS_LIMIT + 1));
@@ -78,7 +78,7 @@ public class BuildTypeTest extends BaseApiTest {
 
     @Test(description = "Unauthorized user should not be able to create build type", groups = {"Regression"})
     public void unauthorizedUserCreatesBuildTypeTest() {
-        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getNewProjectDescription());
 
         var uncheckedUnauthBuildTypeRequest = new UncheckedBase(Specifications.getSpec()
                 .unauthSpec(), BUILD_TYPES);
@@ -93,7 +93,7 @@ public class BuildTypeTest extends BaseApiTest {
     @Test(description = "User should be able to delete build type", groups = {"Regression"})
     public void userDeletesBuildTypeTest() {
         checkedSuperUser.getRequest(USERS).create(testData.getUser());
-        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getNewProjectDescription());
 
         checkedBuildTypeRequest.create(testData.getBuildType());
         checkedBuildTypeRequest.delete(testData.getBuildType().getId());
@@ -105,7 +105,7 @@ public class BuildTypeTest extends BaseApiTest {
 
     @Test(description = "Project admin should be able to create build type for their project", groups = {"Regression"})
     public void projectAdminCreatesBuildTypeTest() {
-        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getNewProjectDescription());
 
         testData.getUser().setRoles(generate(Roles.class, UserRole.PROJECT_ADMIN, "p:" + testData.getProject().getId()));
 
@@ -119,8 +119,8 @@ public class BuildTypeTest extends BaseApiTest {
     @Test(description = "Project admin should not be able to create build type for not their project", groups = {"Regression"})
     public void projectAdminCreatesBuildTypeForAnotherUserProjectTest() {
         var secondTestData = generate();
-        checkedSuperUser.getRequest(PROJECTS).create(testData.getProject());
-        checkedSuperUser.getRequest(PROJECTS).create(secondTestData.getProject());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.getNewProjectDescription());
+        checkedSuperUser.getRequest(PROJECTS).create(secondTestData.getNewProjectDescription());
 
         testData.getUser().setRoles(generate(Roles.class, UserRole.PROJECT_ADMIN, "p:" + testData.getProject().getId()));
         secondTestData.getUser().setRoles(generate(Roles.class, UserRole.PROJECT_ADMIN, "p:" + secondTestData.getProject().getId()));

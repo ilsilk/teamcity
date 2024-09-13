@@ -1,5 +1,6 @@
 package com.teamcity.api.generators;
 
+import com.teamcity.api.annotations.Dependent;
 import com.teamcity.api.annotations.Optional;
 import com.teamcity.api.annotations.Parameterizable;
 import com.teamcity.api.annotations.Random;
@@ -23,16 +24,18 @@ public final class TestDataGenerator {
     этой аннотацией) устанавливаются переданные параметры. То есть, если по ходу генерации было пройдено 4 поля с
     аннотацией Parameterizable, но параметров в метод было передано 3, то значения будут установлены только у первых
     трех встретившихся элементов в порядке их передачи в метод. Поэтому также важно следить за порядком полей
-    в @Data классе; 2) иначе, если у поля аннотация Random и это строка, оно заполняется рандомными данными; 3) иначе,
+    в @Data классе; 2) иначе, если у поля аннотация Dependent, то значение поля устанавливается значением поля
+    с таким же названием из модели, находящейся в generatedModels и принадлежащей классу relatedClass (если такая
+    присутствует); 3) иначе, если у поля аннотация Random и это строка, оно заполняется рандомными данными; 4) иначе,
     если поле - наследник класса BaseModel, то оно генерируется, рекурсивно отправляясь в новый метод generate;
-    4) иначе, если поле - List, у которого generic type - наследник класса BaseModel, то оно устанавливается списком
+    5) иначе, если поле - List, у которого generic type - наследник класса BaseModel, то оно устанавливается списком
     из одного элемента, который генерируется, рекурсивно отправляясь в новый метод generate.
     Параметр generatedModels передается, когда генерируется несколько сущностей в цикле, и содержит в себе
     сгенерированные на предыдущих шагах сущности. Позволяет при генерации сложной сущности, которая своим полем содержит
     другую сущность, сгенерированную на предыдущем шаге, установить ее, а не генерировать новую. Данная логика
-    применяется только для пунктов 3 и 4. Например, если был сгенерирован NewProjectDescription, то передав его
-    параметром generatedModels при генерации BuildType, он будет переиспользоваться при установке
-    поля NewProjectDescription project, вместо генерации нового */
+    применяется только для пунктов 3 и 4. Например, если был сгенерирован Project, то передав его параметром
+    generatedModels при генерации BuildType, он будет переиспользоваться при установке поля Project project,
+    вместо генерации нового */
     public static <T extends BaseModel> T generate(List<BaseModel> generatedModels, Class<T> generatorClass,
                                                    Object... parameters) {
         try {
@@ -45,6 +48,18 @@ public final class TestDataGenerator {
                     if (field.isAnnotationPresent(Parameterizable.class) && parameters.length > 0) {
                         field.set(instance, parameters[0]);
                         parameters = Arrays.copyOfRange(parameters, 1, parameters.length);
+                    } else if (field.isAnnotationPresent(Dependent.class) && generatedModels.stream().anyMatch(m
+                            -> m.getClass().equals(field.getAnnotation(Dependent.class).relatedClass()))) {
+                        var relatedClass = field.getAnnotation(Dependent.class).relatedClass();
+                        var generatedRelatedModel = generatedModels.stream().filter(m
+                                -> m.getClass().equals(relatedClass)).findFirst();
+                        if (generatedRelatedModel.isPresent()) {
+                            var relatedField = relatedClass.getDeclaredField(field.getName());
+                            relatedField.setAccessible(true);
+                            var relatedValue = relatedField.get(generatedRelatedModel.get());
+                            relatedField.setAccessible(false);
+                            field.set(instance, relatedValue);
+                        }
                     } else if (field.isAnnotationPresent(Random.class) && String.class.equals(field.getType())) {
                         field.set(instance, RandomData.getString());
                     } else if (BaseModel.class.isAssignableFrom(field.getType())) {
@@ -66,7 +81,7 @@ public final class TestDataGenerator {
             }
             return instance;
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException
-                 | NoSuchMethodException e) {
+                 | NoSuchMethodException | NoSuchFieldException e) {
             throw new IllegalStateException("Cannot generate test data", e);
         }
     }
