@@ -40,18 +40,16 @@ jobs:
       # Обязательно добавить SwaggerCoverageRestAssured фильтр во все реквесты, как в Specifications.reqBuilder
       - name: Run Swagger coverage
         # Запускается только для API тестов
-        if: ${{ inputs.package == 'api' }}
+        if: always() && inputs.package == 'api'
         run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s http://$HOST:8111/app/rest/swagger.json -i target/swagger-coverage-output
 
       # Swagger coverage репорт сохраняется в артефакты GitHub Actions прогона
       - name: Save Swagger coverage
         uses: actions/upload-artifact@v4
-        if: ${{ inputs.package == 'api' }}
+        if: always() && inputs.package == 'api'
         with:
           name: swagger-coverage
-          path: |
-            swagger-coverage-report.html
-            swagger-coverage-results.json
+          path: swagger-coverage-report.html
 
       # Следующие 3 степа на сохранение Allure репортов с историей и публикацию их в GitHub Pages.
       # Необходимо ознакомиться с документацией: https://allurereport.org/docs/integrations-github/,
