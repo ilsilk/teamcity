@@ -15,7 +15,7 @@ import org.testng.annotations.BeforeSuite;
 import java.util.Map;
 
 import static com.teamcity.api.enums.Endpoint.USERS;
-import static io.qameta.allure.Allure.label;
+import static io.qameta.allure.Allure.parameter;
 
 public class BaseUiTest extends BaseTest {
 
@@ -46,7 +46,7 @@ public class BaseUiTest extends BaseTest {
 
     @BeforeMethod(alwaysRun = true)
     public void addLabel() {
-        label("browser", Configuration.browser);
+        parameter("browser", Configuration.browser);
     }
 
     @AfterMethod(alwaysRun = true)
