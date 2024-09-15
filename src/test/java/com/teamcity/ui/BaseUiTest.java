@@ -9,11 +9,13 @@ import com.teamcity.api.models.User;
 import com.teamcity.ui.pages.LoginPage;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
 import java.util.Map;
 
 import static com.teamcity.api.enums.Endpoint.USERS;
+import static io.qameta.allure.Allure.label;
 
 public class BaseUiTest extends BaseTest {
 
@@ -40,6 +42,11 @@ public class BaseUiTest extends BaseTest {
                 .savePageSource(true)
                 .includeSelenideSteps(true));
 
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void addLabel() {
+        label("browser", Configuration.browser);
     }
 
     @AfterMethod(alwaysRun = true)
