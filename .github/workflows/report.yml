@@ -10,6 +10,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: allure-results
+          merge-multiple: true
 
       - name: Load test report history
         uses: actions/checkout@v4
