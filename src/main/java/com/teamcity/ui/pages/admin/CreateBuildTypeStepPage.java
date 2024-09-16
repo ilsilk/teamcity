@@ -35,7 +35,7 @@ public class CreateBuildTypeStepPage extends BasePage {
 
     @Step("Create command line build step")
     public EditBuildTypePage createCommandLineBuildStep(String customScript) {
-        runnerItems.findBy(text(COMMAND_LINE_RUNNER_TYPE)).hover().$(byDataTest("ring-link")).click();
+        runnerItems.findBy(text(COMMAND_LINE_RUNNER_TYPE)).click();
         buildStepNameInput.shouldBe(visible, BASE_WAITING).val(RandomData.getString());
         // Сложный элемент на UI для вставки кастомного скрипта, поэтому пришлось таким трудным путем его заполнять:
         // кликать сначала на один элемент, потом передавать sendKeys (не val) в другой элемент

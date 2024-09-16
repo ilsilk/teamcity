@@ -17,7 +17,7 @@ import static com.teamcity.api.enums.Endpoint.PROJECTS;
 public class CreateProjectTest extends BaseUiTest {
 
     @Test(description = "User should be able to create project", groups = {"Regression"})
-    public void userCreatesProject(String browser) {
+    public void userCreatesProject(String ignoredBrowser) {
         loginAs(testData.getUser());
 
         CreateProjectPage.open(testData.getNewProjectDescription().getParentProject().getLocator())
@@ -42,7 +42,7 @@ public class CreateProjectTest extends BaseUiTest {
     }
 
     @Test(description = "User should not be able to create project without name", groups = {"Regression"})
-    public void userCreatesProjectWithoutName(String browser) {
+    public void userCreatesProjectWithoutName(String ignoredBrowser) {
         loginAs(testData.getUser());
 
         CreateProjectPage.open(testData.getNewProjectDescription().getParentProject().getLocator())
