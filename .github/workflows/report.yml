@@ -12,6 +12,10 @@ jobs:
           path: allure-results
           merge-multiple: true
 
+      # Следующие 3 степа на сохранение Allure репортов с историей и публикацию их в GitHub Pages.
+      # Необходимо ознакомиться с документацией: https://allurereport.org/docs/integrations-github/,
+      # так как есть степы, которые необходимо выполнить вручную в настройках репозитория, чтобы публикация работала корректно.
+      # Рекомендованные степы для создания пустой ветки gh-pages, используемой для публикации репортов: https://gist.github.com/ramnathv/2227408?permalink_comment_id=2915143#gistcomment-2915143
       - name: Load test report history
         uses: actions/checkout@v4
         with:
