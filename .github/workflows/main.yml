@@ -32,7 +32,7 @@ jobs:
       package: ui
       browser: firefox
 
-  allure-report:
+  report:
     needs: [ automation-api, automation-ui, automation-ui-firefox ]
     if: always()
     uses: ./.github/workflows/report.yml
@@ -43,7 +43,7 @@ jobs:
   # Однако, мануальное действие здесь поможет провести дополнительное ревью, а также, например, какие-то мануальные или перформанс тесты,
   # так как деплой на прод - это очень серьезное действие
   manual-prod-approval:
-    needs: allure-report
+    needs: report
     if: success()
     runs-on: ubuntu-latest
     environment: prod
