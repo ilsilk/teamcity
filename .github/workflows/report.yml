@@ -6,6 +6,7 @@ jobs:
   allure-report:
     runs-on: ubuntu-latest
     steps:
+      # Выкачиваем все артефакты в одну директорию для формирования одного общего репорта
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
