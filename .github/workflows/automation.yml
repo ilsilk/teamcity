@@ -58,7 +58,7 @@ jobs:
           name: swagger-coverage
           path: swagger-coverage-report.html
 
-      # Сохраняем allure-results в артефакты, чтобы опубликовать результаты всех прогонов вместе в main.yml, джоба allure-report
+      # Сохраняем allure-results в артефакты, чтобы опубликовать результаты всех прогонов вместе в main.yml/report
       - name: Save allure results
         uses: actions/upload-artifact@v4
         if: always()
