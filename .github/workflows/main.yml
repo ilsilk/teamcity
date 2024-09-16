@@ -6,7 +6,7 @@ on:
     inputs:
       # Возможность указать другой браузер во время мануального запуска воркфлоу
       browser:
-        description: chrome | firefox | opera
+        description: chrome | firefox
         type: string
 
 jobs:

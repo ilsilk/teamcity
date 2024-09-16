@@ -45,7 +45,7 @@ public class BaseUiTest extends BaseTest {
     }
 
     @BeforeMethod(alwaysRun = true)
-    public void addLabel() {
+    public void addParameter() {
         parameter("browser", Configuration.browser);
     }
 

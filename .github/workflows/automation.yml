@@ -8,7 +8,7 @@ on:
         required: true
         type: string
       browser:
-        description: chrome | firefox | opera
+        description: chrome | firefox
         type: string
 
 jobs:
