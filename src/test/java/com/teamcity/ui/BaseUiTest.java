@@ -9,13 +9,12 @@ import com.teamcity.api.models.User;
 import com.teamcity.ui.pages.LoginPage;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.DataProvider;
 
 import java.util.Map;
 
 import static com.teamcity.api.enums.Endpoint.USERS;
-import static io.qameta.allure.Allure.parameter;
 
 public class BaseUiTest extends BaseTest {
 
@@ -44,15 +43,15 @@ public class BaseUiTest extends BaseTest {
 
     }
 
-    @BeforeMethod(alwaysRun = true)
-    public void addParameter() {
-        parameter("browser", Configuration.browser);
-    }
-
     @AfterMethod(alwaysRun = true)
     public void closeWebDriver() {
         // Перезапускаем браузер после каждого теста
         Selenide.closeWebDriver();
+    }
+
+    @DataProvider(name = "browserProvider")
+    public Object[][] browserProvider() {
+        return new Object[][]{{Configuration.browser}};
     }
 
     protected void loginAs(User user) {
