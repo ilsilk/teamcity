@@ -44,9 +44,9 @@ public final class TestDataStorage {
         addCreatedEntity(endpoint, getEntityId(model));
     }
 
-    public void deleteCreatedEntities(UncheckedRequests uncheckedRequests) {
+    public void deleteCreatedEntities(UncheckedRequests uncheckedSuperUser) {
         createdEntitiesMap.forEach((endpoint, ids) -> ids.forEach(id ->
-                uncheckedRequests.getRequest(endpoint).delete(id)));
+                uncheckedSuperUser.getRequest(endpoint).delete(id)));
         // Очистка Map необходима, так как если этого не делать и запускать более 1-ого теста, то со второго
         // будут попытки удалить уже удаленные сущности
         createdEntitiesMap.clear();

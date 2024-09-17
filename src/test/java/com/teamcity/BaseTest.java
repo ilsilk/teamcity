@@ -38,15 +38,8 @@ public class BaseTest implements IHookable {
     @Override
     public void run(IHookCallBack callBack, ITestResult testResult) {
         softy = new SoftAssertions();
-        testResult.setAttribute("softy", softy);
         callBack.runTestMethod(testResult);
-        softy = (SoftAssertions) testResult.getAttribute("softy");
-        try {
-            softy.assertAll();
-        } catch (AssertionError e) {
-            testResult.setThrowable(e);
-            testResult.setStatus(ITestResult.FAILURE);
-        }
+        softy.assertAll();
     }
 
 }
