@@ -16,7 +16,6 @@
         <rest-assured.version>5.5.0</rest-assured.version>
         <selenide.version>7.4.3</selenide.version>
         <allure.version>2.29.0</allure.version>
-        <allure-environment-writer.version>1.0.0</allure-environment-writer.version>
         <assertj-core.version>3.26.3</assertj-core.version>
         <awaitility.version>4.2.2</awaitility.version>
         <wiremock.version>3.9.1</wiremock.version>
@@ -74,11 +73,6 @@
             <artifactId>allure-awaitility</artifactId>
             <version>${allure.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.automatedowl</groupId>
-            <artifactId>allure-environment-writer</artifactId>
-            <version>${allure-environment-writer.version}</version>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
