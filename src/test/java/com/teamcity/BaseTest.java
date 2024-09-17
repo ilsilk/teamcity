@@ -1,10 +1,13 @@
 package com.teamcity;
 
+import com.teamcity.api.config.Config;
 import com.teamcity.api.generators.TestDataStorage;
 import com.teamcity.api.models.TestData;
 import com.teamcity.api.requests.CheckedRequests;
 import com.teamcity.api.requests.UncheckedRequests;
 import com.teamcity.api.spec.Specifications;
+import com.teamcity.ui.BaseUiTest;
+import io.qameta.allure.Allure;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.IHookCallBack;
 import org.testng.IHookable;
@@ -13,6 +16,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 import static com.teamcity.api.generators.TestDataGenerator.generate;
+import static io.qameta.allure.util.ResultsUtils.TAG_LABEL_NAME;
 
 public class BaseTest implements IHookable {
 
@@ -38,6 +42,12 @@ public class BaseTest implements IHookable {
     @Override
     public void run(IHookCallBack callBack, ITestResult testResult) {
         softy = new SoftAssertions();
+        // Добавляем сьют и тэг для лучшей информативности и возможности фильтрации тестов в Allure репорте
+        if (BaseUiTest.class.isAssignableFrom(testResult.getTestClass().getRealClass())) {
+            var browser = Config.getProperty("browser");
+            Allure.suite(browser);
+            Allure.label(TAG_LABEL_NAME, browser);
+        }
         callBack.runTestMethod(testResult);
         softy.assertAll();
     }
