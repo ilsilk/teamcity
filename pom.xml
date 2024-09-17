@@ -132,7 +132,7 @@
                     <properties>
                         <property>
                             <name>listener</name>
-                            <value>com.teamcity.common.RetryListener</value>
+                            <value>com.teamcity.common.AnnotationTransformerListener</value>
                         </property>
                     </properties>
                 </configuration>

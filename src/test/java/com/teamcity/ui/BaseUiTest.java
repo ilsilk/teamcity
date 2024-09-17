@@ -40,7 +40,6 @@ public class BaseUiTest extends BaseTest {
                 .screenshots(true)
                 .savePageSource(true)
                 .includeSelenideSteps(true));
-
     }
 
     @AfterMethod(alwaysRun = true)
@@ -50,7 +49,7 @@ public class BaseUiTest extends BaseTest {
     }
 
     @DataProvider(name = "browserProvider")
-    public Object[][] browserProvider() {
+    protected Object[][] browserProvider() {
         return new Object[][]{{Configuration.browser}};
     }
 

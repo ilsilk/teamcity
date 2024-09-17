@@ -29,7 +29,7 @@ public class BaseTest implements IHookable {
 
     @AfterMethod(alwaysRun = true)
     public void deleteCreatedEntities() {
-        TestDataStorage.getStorage().deleteCreatedEntities();
+        TestDataStorage.getStorage().deleteCreatedEntities(uncheckedSuperUser);
     }
 
     // Если делать assertAll в @AfterMethod, то ничего не будет работать: тест не будет ретраиться, а все последующие тесты в его классе скипнутся.
