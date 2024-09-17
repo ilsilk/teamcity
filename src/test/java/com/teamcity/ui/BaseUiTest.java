@@ -3,6 +3,7 @@ package com.teamcity.ui;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
+import com.google.common.collect.ImmutableMap;
 import com.teamcity.BaseTest;
 import com.teamcity.api.config.Config;
 import com.teamcity.api.models.User;
@@ -14,6 +15,7 @@ import org.testng.annotations.DataProvider;
 
 import java.util.Map;
 
+import static com.github.automatedowl.tools.AllureEnvironmentWriter.allureEnvironmentWriter;
 import static com.teamcity.api.enums.Endpoint.USERS;
 
 public class BaseUiTest extends BaseTest {
@@ -40,6 +42,11 @@ public class BaseUiTest extends BaseTest {
                 .screenshots(true)
                 .savePageSource(true)
                 .includeSelenideSteps(true));
+
+        allureEnvironmentWriter(
+                ImmutableMap.<String, String>builder()
+                        .put("Browser", Configuration.browser)
+                        .build());
     }
 
     @AfterMethod(alwaysRun = true)

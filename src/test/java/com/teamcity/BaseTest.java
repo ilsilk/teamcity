@@ -34,7 +34,7 @@ public class BaseTest implements IHookable {
 
     // Если делать assertAll в @AfterMethod, то ничего не будет работать: тест не будет ретраиться, а все последующие тесты в его классе скипнутся.
     // Это происходит, потому что в таком случае фейлится не сам тест, а его After метод.
-    // С помощью данного хука запускаем assertAll в конце каждого теста и передаем фейл в сам тест.
+    // С помощью данного хука запускаем assertAll в конце каждого теста и фейлим сам тест.
     @Override
     public void run(IHookCallBack callBack, ITestResult testResult) {
         softy = new SoftAssertions();
