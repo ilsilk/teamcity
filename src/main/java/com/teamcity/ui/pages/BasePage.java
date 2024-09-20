@@ -1,8 +1,12 @@
 package com.teamcity.ui.pages;
 
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import com.teamcity.ui.elements.BasePageElement;
 
 import java.time.Duration;
+import java.util.List;
+import java.util.function.Function;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -15,5 +19,12 @@ public abstract class BasePage {
     Здесь используется css селектор: элемент с классом submitButton, который является первым дочерним элементом
     у элемента с классом saveButtonsBlock */
     protected final SelenideElement submitButton = $(".saveButtonsBlock > .submitButton");
+
+    protected <T extends BasePageElement> List<T> generatePageElements(ElementsCollection collection,
+                                                                       Function<SelenideElement, T> creator) {
+        return collection.stream()
+                .map(creator)
+                .toList();
+    }
 
 }
