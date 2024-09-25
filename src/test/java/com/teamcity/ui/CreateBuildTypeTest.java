@@ -15,7 +15,7 @@ import static com.teamcity.api.enums.Endpoint.PROJECTS;
 public class CreateBuildTypeTest extends BaseUiTest {
 
     @Test(description = "User should be able to create build type", groups = {"Regression"})
-    public void userCreatesBuildTypeTest() {
+    public void userCreatesBuildTypeTest(String ignoredBrowser) {
         checkedSuperUser.getRequest(PROJECTS).create(testData.getNewProjectDescription());
         loginAs(testData.getUser());
 
@@ -31,7 +31,7 @@ public class CreateBuildTypeTest extends BaseUiTest {
     }
 
     @Test(description = "User should not be able to create build type without name", groups = {"Regression"})
-    public void userCreatesBuildTypeWithoutName() {
+    public void userCreatesBuildTypeWithoutName(String ignoredBrowser) {
         checkedSuperUser.getRequest(PROJECTS).create(testData.getNewProjectDescription());
         loginAs(testData.getUser());
 

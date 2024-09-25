@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 public class SetupServerTest extends BaseUiTest {
 
     @Test(groups = {"Setup"})
-    public void setupTeamCityServerTest() {
+    public void setupTeamCityServerTest(String ignoredBrowser) {
         FirstStartPage.open().setupFirstStart();
     }
 

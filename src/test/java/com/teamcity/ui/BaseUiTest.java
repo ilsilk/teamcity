@@ -10,6 +10,7 @@ import com.teamcity.ui.pages.LoginPage;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.DataProvider;
 
 import java.util.Map;
 
@@ -39,13 +40,17 @@ public class BaseUiTest extends BaseTest {
                 .screenshots(true)
                 .savePageSource(true)
                 .includeSelenideSteps(true));
-
     }
 
     @AfterMethod(alwaysRun = true)
     public void closeWebDriver() {
         // Перезапускаем браузер после каждого теста
         Selenide.closeWebDriver();
+    }
+
+    @DataProvider(name = "browserProvider")
+    protected Object[][] browserProvider() {
+        return new Object[][]{{Configuration.browser}};
     }
 
     protected void loginAs(User user) {

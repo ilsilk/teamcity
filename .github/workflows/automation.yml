@@ -8,7 +8,7 @@ on:
         required: true
         type: string
       browser:
-        description: chrome | firefox | opera
+        description: chrome | firefox
         type: string
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'zulu'
 
       - name: Validate Checkstyle
@@ -58,31 +58,10 @@ jobs:
           name: swagger-coverage
           path: swagger-coverage-report.html
 
-      # Следующие 3 степа на сохранение Allure репортов с историей и публикацию их в GitHub Pages.
-      # Необходимо ознакомиться с документацией: https://allurereport.org/docs/integrations-github/,
-      # так как есть степы, которые необходимо выполнить вручную в настройках репозитория, чтобы публикация работала корректно.
-      # Рекомендованные степы для создания пустой ветки gh-pages, используемой для публикации репортов: https://gist.github.com/ramnathv/2227408?permalink_comment_id=2915143#gistcomment-2915143
-      - name: Load test report history
-        uses: actions/checkout@v4
-        if: always()
-        continue-on-error: true
-        with:
-          ref: gh-pages
-          path: gh-pages
-
-      - name: Build test report
-        uses: simple-elf/allure-report-action@v1.7
+      # Сохраняем allure-results в артефакты, чтобы опубликовать результаты всех прогонов вместе в main.yml/report
+      - name: Save Allure results
+        uses: actions/upload-artifact@v4
         if: always()
         with:
-          gh_pages: gh-pages
-          allure_history: allure-history
-          allure_results: target/allure-results
-          subfolder: ${{ inputs.package }}
-
-      - name: Publish test report
-        uses: peaceiris/actions-gh-pages@v3
-        if: always()
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-history
+          name: ${{ inputs.browser && format('{0}-{1}', inputs.package, inputs.browser) || inputs.package }}
+          path: target/allure-results

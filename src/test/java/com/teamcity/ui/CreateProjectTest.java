@@ -17,12 +17,12 @@ import static com.teamcity.api.enums.Endpoint.PROJECTS;
 public class CreateProjectTest extends BaseUiTest {
 
     @Test(description = "User should be able to create project", groups = {"Regression"})
-    public void userCreatesProject() {
+    public void userCreatesProject(String ignoredBrowser) {
         loginAs(testData.getUser());
 
         CreateProjectPage.open(testData.getNewProjectDescription().getParentProject().getLocator())
                 .createFrom(GIT_URL)
-                .setupProject(testData.getProject().getName(), (testData.getBuildType()).getName());
+                .setupProject(testData.getProject().getName(), testData.getBuildType().getName());
         var createdBuildTypeId = EditBuildTypePage.open().getBuildTypeId();
 
         var checkedBuildTypeRequest = new CheckedBase<BuildType>(Specifications.getSpec()
@@ -33,7 +33,7 @@ public class CreateProjectTest extends BaseUiTest {
         // Добавляем созданную сущность в сторедж, чтобы автоматически удалить ее в конце теста логикой, реализованной в API части
 
         var createdProjectId = ProjectsPage.open()
-                .verifyProjectAndBuildType(testData.getProject().getName(), (testData.getBuildType()).getName())
+                .verifyProjectAndBuildType(testData.getProject().getName(), testData.getBuildType().getName())
                 .getProjectId();
         var checkedProjectRequest = new CheckedBase<Project>(Specifications.getSpec()
                 .authSpec(testData.getUser()), PROJECTS);
@@ -42,12 +42,12 @@ public class CreateProjectTest extends BaseUiTest {
     }
 
     @Test(description = "User should not be able to create project without name", groups = {"Regression"})
-    public void userCreatesProjectWithoutName() {
+    public void userCreatesProjectWithoutName(String ignoredBrowser) {
         loginAs(testData.getUser());
 
         CreateProjectPage.open(testData.getNewProjectDescription().getParentProject().getLocator())
                 .createFrom(GIT_URL)
-                .setupProject("", (testData.getBuildType()).getName())
+                .setupProject("", testData.getBuildType().getName())
                 .verifyProjectNameError("Project name must not be empty");
     }
 
