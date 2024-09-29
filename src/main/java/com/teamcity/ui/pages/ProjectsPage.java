@@ -4,10 +4,8 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.teamcity.api.generators.TestDataStorage;
-import com.teamcity.ui.elements.ProjectElement;
 import io.qameta.allure.Step;
 
-import java.util.List;
 import java.util.regex.Pattern;
 
 import static com.codeborne.selenide.Condition.appear;
@@ -27,6 +25,7 @@ public class ProjectsPage extends BasePage {
     // Везде стараемся использовать достаточно простые css селекторы.
     // Понятно, что в идеале нужно иметь атрибуты test-data на этих элементах, но здесь мы не можем на это повлиять.
     private final SelenideElement header = $(".MainPanel__router--gF > div");
+    private final SelenideElement editProjectLink = $(".EditEntity__link--en");
     private final SelenideElement runButton = $(byDataTest("run-build"));
     private final SelenideElement buildType = $(".BuildTypeLine__link--MF");
     private final SelenideElement buildTypeHeader = $(".BuildTypePageHeader__heading--De");
@@ -53,7 +52,7 @@ public class ProjectsPage extends BasePage {
         /* Найти в списке проектов элемент с нужным названием и кликнуть по нему: реализация через методы Selenide.
         Используем соответствующие Condition / CollectionCondition и should / shouldBe / shouldHave / и тд,
         чтобы код читался как красивое текстовое предложение */
-        getProjects().getFirst().getHeader().shouldHave(exactText(projectName)).click();
+        projects.findBy(exactText(projectName)).should(visible).click();
         runButton.shouldBe(visible, BASE_WAITING);
         buildType.shouldHave(exactText(buildTypeName));
         return this;
@@ -72,9 +71,9 @@ public class ProjectsPage extends BasePage {
     @Step("Get project id")
     // Получаем через UI айди созданного проекта
     public String getProjectId() {
-        var pattern = Pattern.compile("/project/([^#/?]+)");
+        var pattern = Pattern.compile("projectId=(.*?)(?:&|$)");
         // Метод attr(text) - получить у элемента значение атрибута text
-        var href = getProjects().getFirst().getLink().attr("href");
+        var href = editProjectLink.attr("href");
         var matcher = href != null ? pattern.matcher(href) : null;
         var projectId = matcher != null && matcher.find() ? matcher.group(1) : null;
         step("projectId=" + projectId);
@@ -89,10 +88,6 @@ public class ProjectsPage extends BasePage {
         var buildId = href != null ? href.substring(href.lastIndexOf("/") + 1) : null;
         step("buildId=" + buildId);
         return buildId;
-    }
-
-    public List<ProjectElement> getProjects() {
-        return generatePageElements(projects, ProjectElement::new);
     }
 
 }
