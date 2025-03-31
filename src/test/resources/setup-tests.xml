@@ -6,5 +6,8 @@
                 <include name="Setup"/>
             </run>
         </groups>
+        <packages>
+            <package name="com.teamcity.*"/>
+        </packages>
     </test>
 </suite>
