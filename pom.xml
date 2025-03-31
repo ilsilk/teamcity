@@ -134,9 +134,6 @@
             <properties>
                 <suiteXmlFile>src/test/resources/ui-tests.xml</suiteXmlFile>
             </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
         </profile>
         <profile>
             <id>setup</id>
