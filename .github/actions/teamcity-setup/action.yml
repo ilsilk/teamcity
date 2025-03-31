@@ -72,7 +72,7 @@ runs:
       shell: bash
       # Настройка сервера при первом запуске (принятие лицензии, выбор базы данных и т.д.), реализованная в виде теста
       # Также все версии зависимостей обновляются до последних
-      run: ./mvnw clean versions:update-properties test -Psetup -Dtest=SetupServerTest#setupTeamCityServerTest
+      run: ./mvnw clean versions:update-properties test -Dtest=SetupServerTest#setupTeamCityServerTest
 
     - name: Set up superUserToken environment variable
       shell: bash
@@ -94,4 +94,4 @@ runs:
       shell: bash
       # Авторизация агента при первом запуске, реализованная в виде теста
       # Не указываем clean, чтобы потом в итоговом репорте были и setup тесты
-      run: ./mvnw test -Psetup -Dtest=SetupAgentTest#setupTeamCityAgentTest
+      run: ./mvnw test -Dtest=SetupAgentTest#setupTeamCityAgentTest

@@ -135,12 +135,6 @@
                 <suiteXmlFile>src/test/resources/ui-tests.xml</suiteXmlFile>
             </properties>
         </profile>
-        <profile>
-            <id>setup</id>
-            <properties>
-                <suiteXmlFile>src/test/resources/setup-tests.xml</suiteXmlFile>
-            </properties>
-        </profile>
     </profiles>
     <build>
         <plugins>
