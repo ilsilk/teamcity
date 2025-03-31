@@ -119,6 +119,32 @@
             <version>${swagger-coverage-rest-assured.version}</version>
         </dependency>
     </dependencies>
+    <profiles>
+        <profile>
+            <id>api</id>
+            <properties>
+                <suiteXmlFile>src/test/resources/api-tests.xml</suiteXmlFile>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>ui</id>
+            <properties>
+                <suiteXmlFile>src/test/resources/ui-tests.xml</suiteXmlFile>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>setup</id>
+            <properties>
+                <suiteXmlFile>src/test/resources/setup-tests.xml</suiteXmlFile>
+            </properties>
+        </profile>
+    </profiles>
     <build>
         <plugins>
             <plugin>
@@ -129,6 +155,9 @@
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
+                    </suiteXmlFiles>
                 </configuration>
                 <dependencies>
                     <dependency>
