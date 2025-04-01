@@ -16,7 +16,7 @@ import java.util.Map;
 
 import static com.teamcity.api.enums.Endpoint.USERS;
 
-public class BaseUiTest extends BaseTest {
+public abstract class BaseUiTest extends BaseTest {
 
     protected static final String GIT_URL = "https://github.com/selenide/selenide.git";
 

@@ -18,9 +18,9 @@ import static com.teamcity.api.generators.TestDataGenerator.generate;
 public class SearchTest extends BaseApiTest {
 
     private static final int CREATED_MODELS_COUNT = 3;
-    private final CheckedBase<Project> checkedProjectRequest = checkedSuperUser.getRequest(PROJECTS);
-    private final CheckedBase<User> checkedUserRequest = checkedSuperUser.getRequest(USERS);
-    private final CheckedBase<BuildType> checkedBuildTypeRequest = checkedSuperUser.getRequest(BUILD_TYPES);
+    private static final CheckedBase<Project> checkedProjectRequest = checkedSuperUser.getRequest(PROJECTS);
+    private static final CheckedBase<User> checkedUserRequest = checkedSuperUser.getRequest(USERS);
+    private static final CheckedBase<BuildType> checkedBuildTypeRequest = checkedSuperUser.getRequest(BUILD_TYPES);
 
     @Test(description = "User should be able to search models", groups = {"Regression"})
     public void searchTest() {
@@ -33,10 +33,10 @@ public class SearchTest extends BaseApiTest {
         var createdBuildTypes = new ArrayList<String>();
 
         for (var i = 0; i < CREATED_MODELS_COUNT; i++) {
-            createdProjects.add(checkedProjectRequest.create(testData.getNewProjectDescription()).getName());
-            createdUsers.add(checkedUserRequest.create(testData.getUser()).getUsername());
-            createdBuildTypes.add(checkedBuildTypeRequest.create(testData.getBuildType()).getName());
-            testData = generate();
+            createdProjects.add(checkedProjectRequest.create(testData.get().getNewProjectDescription()).getName());
+            createdUsers.add(checkedUserRequest.create(testData.get().getUser()).getUsername());
+            createdBuildTypes.add(checkedBuildTypeRequest.create(testData.get().getBuildType()).getName());
+            testData.set(generate());
         }
 
         var projects = checkedProjectRequest.search().stream().map(Project::getName).toList();
@@ -44,11 +44,11 @@ public class SearchTest extends BaseApiTest {
         var buildTypes = checkedBuildTypeRequest.search().stream().map(BuildType::getName).toList();
 
         softy.assertThat(projects).as("projects")
-                .hasSize(initialProjectsSize + CREATED_MODELS_COUNT).containsAll(createdProjects);
+                .hasSizeGreaterThanOrEqualTo(initialProjectsSize + CREATED_MODELS_COUNT).containsAll(createdProjects);
         softy.assertThat(users).as("users")
-                .hasSize(initialUsersSize + CREATED_MODELS_COUNT).containsAll(createdUsers);
+                .hasSizeGreaterThanOrEqualTo(initialUsersSize + CREATED_MODELS_COUNT).containsAll(createdUsers);
         softy.assertThat(buildTypes).as("buildTypes")
-                .hasSize(initialBuildTypesSize + CREATED_MODELS_COUNT).containsAll(createdBuildTypes);
+                .hasSizeGreaterThanOrEqualTo(initialBuildTypesSize + CREATED_MODELS_COUNT).containsAll(createdBuildTypes);
     }
 
 }

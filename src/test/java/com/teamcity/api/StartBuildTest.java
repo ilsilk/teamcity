@@ -34,19 +34,19 @@ public class StartBuildTest extends BaseApiTest {
 
     @Test(description = "User should be able to start build", groups = {"Regression"})
     public void userStartsBuildTest() {
-        checkedSuperUser.getRequest(USERS).create(testData.getUser());
-        checkedSuperUser.getRequest(PROJECTS).create(testData.getNewProjectDescription());
+        checkedSuperUser.getRequest(USERS).create(testData.get().getUser());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.get().getNewProjectDescription());
 
-        testData.getBuildType().setSteps(generate(Steps.class, List.of(
+        testData.get().getBuildType().setSteps(generate(Steps.class, List.of(
                 generate(Property.class, "script.content", "echo 'Hello World!'"),
                 generate(Property.class, "use.custom.script", "true"))));
 
-        checkedSuperUser.getRequest(BUILD_TYPES).create(testData.getBuildType());
+        checkedSuperUser.getRequest(BUILD_TYPES).create(testData.get().getBuildType());
 
         var checkedBuildQueueRequest = new CheckedBase<Build>(Specifications.getSpec()
-                .authSpec(testData.getUser()), BUILD_QUEUE);
+                .authSpec(testData.get().getUser()), BUILD_QUEUE);
         var build = checkedBuildQueueRequest.create(Build.builder()
-                .buildType(testData.getBuildType())
+                .buildType(testData.get().getBuildType())
                 .build());
 
         softy.assertThat(build.getState()).as("buildState").isEqualTo("queued");
@@ -67,7 +67,7 @@ public class StartBuildTest extends BaseApiTest {
         var checkedBuildQueueRequest = new CheckedBase<Build>(Specifications.getSpec()
                 .mockSpec(), BUILD_QUEUE);
         var build = checkedBuildQueueRequest.create(Build.builder()
-                .buildType(testData.getBuildType())
+                .buildType(testData.get().getBuildType())
                 .build());
 
         softy.assertThat(build.getState()).as("buildState").isEqualTo("finished");
@@ -79,7 +79,7 @@ public class StartBuildTest extends BaseApiTest {
         // Необходимо использовать AtomicReference, так как переменная в лямбда выражении должна быть final или effectively final
         var atomicBuild = new AtomicReference<>(build);
         var checkedBuildRequest = new CheckedBase<Build>(Specifications.getSpec()
-                .authSpec(testData.getUser()), BUILDS);
+                .authSpec(testData.get().getUser()), BUILDS);
         Awaitility.await()
                 .until(() -> {
                     atomicBuild.set(checkedBuildRequest.read(atomicBuild.get().getId()));
