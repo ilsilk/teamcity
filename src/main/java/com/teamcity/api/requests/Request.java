@@ -12,7 +12,7 @@ public abstract class Request {
     protected final RequestSpecification spec;
     protected final Endpoint endpoint;
 
-    public Request(RequestSpecification spec, Endpoint endpoint) {
+    protected Request(RequestSpecification spec, Endpoint endpoint) {
         this.spec = spec;
         this.endpoint = endpoint;
     }

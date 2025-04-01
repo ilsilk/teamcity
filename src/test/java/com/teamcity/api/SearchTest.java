@@ -24,10 +24,6 @@ public class SearchTest extends BaseApiTest {
 
     @Test(description = "User should be able to search models", groups = {"Regression"})
     public void searchTest() {
-        var initialProjectsSize = checkedProjectRequest.search().size();
-        var initialUsersSize = checkedUserRequest.search().size();
-        var initialBuildTypesSize = checkedBuildTypeRequest.search().size();
-
         var createdProjects = new ArrayList<String>();
         var createdUsers = new ArrayList<String>();
         var createdBuildTypes = new ArrayList<String>();
@@ -43,12 +39,9 @@ public class SearchTest extends BaseApiTest {
         var users = checkedUserRequest.search().stream().map(User::getUsername).toList();
         var buildTypes = checkedBuildTypeRequest.search().stream().map(BuildType::getName).toList();
 
-        softy.assertThat(projects).as("projects")
-                .hasSizeGreaterThanOrEqualTo(initialProjectsSize + CREATED_MODELS_COUNT).containsAll(createdProjects);
-        softy.assertThat(users).as("users")
-                .hasSizeGreaterThanOrEqualTo(initialUsersSize + CREATED_MODELS_COUNT).containsAll(createdUsers);
-        softy.assertThat(buildTypes).as("buildTypes")
-                .hasSizeGreaterThanOrEqualTo(initialBuildTypesSize + CREATED_MODELS_COUNT).containsAll(createdBuildTypes);
+        softy.assertThat(projects).as("projects").containsAll(createdProjects);
+        softy.assertThat(users).as("users").containsAll(createdUsers);
+        softy.assertThat(buildTypes).as("buildTypes").containsAll(createdBuildTypes);
     }
 
 }

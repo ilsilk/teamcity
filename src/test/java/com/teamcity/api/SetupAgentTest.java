@@ -32,7 +32,7 @@ public class SetupAgentTest extends BaseApiTest {
                     atomicAgents.set(checkedAgentsRequest.read("authorized:false").getAgent());
                     return !atomicAgents.get().isEmpty();
                 });
-        return atomicAgents.get().get(0);
+        return atomicAgents.get().getFirst();
     }
 
 }
