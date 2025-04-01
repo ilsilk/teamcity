@@ -19,8 +19,8 @@ import static com.teamcity.api.generators.TestDataGenerator.generate;
 public class ProjectTest extends BaseApiTest {
 
     private static final int PROJECT_ID_CHARACTERS_LIMIT = 225;
-    private static final ThreadLocal<CheckedBase<Project>> checkedProjectRequest = new ThreadLocal<>();
-    private static final ThreadLocal<UncheckedBase> uncheckedProjectRequest = new ThreadLocal<>();
+    private final ThreadLocal<CheckedBase<Project>> checkedProjectRequest = new ThreadLocal<>();
+    private final ThreadLocal<UncheckedBase> uncheckedProjectRequest = new ThreadLocal<>();
 
     @BeforeMethod(alwaysRun = true)
     public void getRequests() {

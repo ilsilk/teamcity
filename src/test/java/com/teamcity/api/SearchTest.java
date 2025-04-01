@@ -18,9 +18,9 @@ import static com.teamcity.api.generators.TestDataGenerator.generate;
 public class SearchTest extends BaseApiTest {
 
     private static final int CREATED_MODELS_COUNT = 3;
-    private static final CheckedBase<Project> checkedProjectRequest = checkedSuperUser.getRequest(PROJECTS);
-    private static final CheckedBase<User> checkedUserRequest = checkedSuperUser.getRequest(USERS);
-    private static final CheckedBase<BuildType> checkedBuildTypeRequest = checkedSuperUser.getRequest(BUILD_TYPES);
+    private final CheckedBase<Project> checkedProjectRequest = checkedSuperUser.getRequest(PROJECTS);
+    private final CheckedBase<User> checkedUserRequest = checkedSuperUser.getRequest(USERS);
+    private final CheckedBase<BuildType> checkedBuildTypeRequest = checkedSuperUser.getRequest(BUILD_TYPES);
 
     @Test(description = "User should be able to search models", groups = {"Regression"})
     public void searchTest() {

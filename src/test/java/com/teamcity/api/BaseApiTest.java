@@ -16,12 +16,10 @@ import static com.teamcity.api.generators.TestDataGenerator.generate;
 
 public abstract class BaseApiTest extends BaseTest {
 
-    private static final CheckedServerAuthSettings checkedServerAuthSettingsRequest = new CheckedServerAuthSettings(
+    private final CheckedServerAuthSettings checkedServerAuthSettingsRequest = new CheckedServerAuthSettings(
             Specifications.getSpec().superUserSpec());
-    private static final AuthModules authModules = generate(AuthModules.class);
-    // Получаем текущее значение настройки perProjectPermissions
-    private static final boolean perProjectPermissions = checkedServerAuthSettingsRequest.read(null)
-            .getPerProjectPermissions();
+    private AuthModules authModules;
+    private boolean perProjectPermissions;
 
     @BeforeSuite(alwaysRun = true)
     public void setUpServerAuthSettings() {
@@ -31,6 +29,11 @@ public abstract class BaseApiTest extends BaseTest {
         Awaitility.setDefaultTimeout(Duration.ofSeconds(30));
         Awaitility.pollInSameThread();
 
+        // Получаем текущее значение настройки perProjectPermissions
+        perProjectPermissions = checkedServerAuthSettingsRequest.read(null)
+                .getPerProjectPermissions();
+
+        authModules = generate(AuthModules.class);
         // Обновляем значение настройки perProjectPermissions на true (для тестирования ролей)
         checkedServerAuthSettingsRequest.update(null, ServerAuthSettings.builder()
                 .perProjectPermissions(true)

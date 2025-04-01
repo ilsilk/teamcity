@@ -22,8 +22,8 @@ import static com.teamcity.api.generators.TestDataGenerator.generate;
 public class BuildTypeTest extends BaseApiTest {
 
     private static final int BUILD_TYPE_ID_CHARACTERS_LIMIT = 225;
-    private static final ThreadLocal<CheckedBase<BuildType>> checkedBuildTypeRequest = new ThreadLocal<>();
-    private static final ThreadLocal<UncheckedBase> uncheckedBuildTypeRequest = new ThreadLocal<>();
+    private final ThreadLocal<CheckedBase<BuildType>> checkedBuildTypeRequest = new ThreadLocal<>();
+    private final ThreadLocal<UncheckedBase> uncheckedBuildTypeRequest = new ThreadLocal<>();
 
     @BeforeMethod(alwaysRun = true)
     public void getRequests() {

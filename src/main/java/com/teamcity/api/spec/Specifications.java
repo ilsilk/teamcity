@@ -18,16 +18,13 @@ import static com.github.viclovsky.swagger.coverage.SwaggerCoverageConstants.OUT
 
 public final class Specifications {
 
-    private static Specifications spec;
+    private static final ThreadLocal<Specifications> SPEC = ThreadLocal.withInitial(Specifications::new);
 
     private Specifications() {
     }
 
     public static Specifications getSpec() {
-        if (spec == null) {
-            spec = new Specifications();
-        }
-        return spec;
+        return SPEC.get();
     }
 
     public RequestSpecification unauthSpec() {

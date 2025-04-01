@@ -20,11 +20,11 @@ import static io.qameta.allure.util.ResultsUtils.TAG_LABEL_NAME;
 
 public abstract class BaseTest implements IHookable {
 
-    protected static final CheckedRequests checkedSuperUser = new CheckedRequests(
+    protected final CheckedRequests checkedSuperUser = new CheckedRequests(
             Specifications.getSpec().superUserSpec());
-    protected static final UncheckedRequests uncheckedSuperUser = new UncheckedRequests(
+    protected final UncheckedRequests uncheckedSuperUser = new UncheckedRequests(
             Specifications.getSpec().superUserSpec());
-    protected static final ThreadLocal<TestData> testData = new ThreadLocal<>();
+    protected final ThreadLocal<TestData> testData = new ThreadLocal<>();
     protected SoftAssertions softy;
 
     @BeforeMethod(alwaysRun = true)
