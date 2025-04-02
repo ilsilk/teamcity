@@ -66,14 +66,13 @@ public final class TestDataGenerator {
                         var finalParameters = parameters;
                         field.set(instance, generatedClass.orElseGet(() -> generate(
                                 generatedModels, field.getType().asSubclass(BaseModel.class), finalParameters)));
-                    } else if (List.class.isAssignableFrom(field.getType())) {
-                        if (field.getGenericType() instanceof ParameterizedType pt) {
-                            var typeClass = (Class<?>) pt.getActualTypeArguments()[0];
-                            if (BaseModel.class.isAssignableFrom(typeClass)) {
-                                var finalParameters = parameters;
-                                field.set(instance, generatedClass.map(List::of).orElseGet(() -> List.of(generate(
-                                        generatedModels, typeClass.asSubclass(BaseModel.class), finalParameters))));
-                            }
+                    } else if (List.class.isAssignableFrom(field.getType())
+                            && field.getGenericType() instanceof ParameterizedType pt) {
+                        var typeClass = (Class<?>) pt.getActualTypeArguments()[0];
+                        if (BaseModel.class.isAssignableFrom(typeClass)) {
+                            var finalParameters = parameters;
+                            field.set(instance, generatedClass.map(List::of).orElseGet(() -> List.of(generate(
+                                    generatedModels, typeClass.asSubclass(BaseModel.class), finalParameters))));
                         }
                     }
                 }
