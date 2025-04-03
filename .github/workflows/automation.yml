@@ -40,7 +40,7 @@ jobs:
         run: sed -i "s/^browser=.*/browser=${{ inputs.browser }}/" src/main/resources/config.properties
 
       - name: Run tests
-        run: ./mvnw test -P${{ inputs.package }}
+        run: ./mvnw test -P ${{ inputs.package }}
 
       # Создание репорта с покрытием API тестов, основанного на Swagger. Документация: https://github.com/viclovsky/swagger-coverage
       # Обязательно добавить SwaggerCoverageRestAssured фильтр во все реквесты, как в Specifications.reqBuilder
