@@ -40,8 +40,7 @@ jobs:
         run: sed -i "s/^browser=.*/browser=${{ inputs.browser }}/" src/main/resources/config.properties
 
       - name: Run tests
-        # Указываем группу, чтобы еще раз не запустить тесты, которые использовались для сетапа сервера и агента
-        run: ./mvnw test -Dtest='com.teamcity.${{ inputs.package }}.**' -Dgroups=Regression
+        run: ./mvnw test -P${{ inputs.package }}
 
       # Создание репорта с покрытием API тестов, основанного на Swagger. Документация: https://github.com/viclovsky/swagger-coverage
       # Обязательно добавить SwaggerCoverageRestAssured фильтр во все реквесты, как в Specifications.reqBuilder

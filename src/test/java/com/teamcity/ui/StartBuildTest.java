@@ -17,20 +17,20 @@ public class StartBuildTest extends BaseUiTest {
 
     @Test(description = "User should be able to create build type step and start build", groups = {"Regression"})
     public void userCreatesBuildTypeStepAndStartsBuildTest(String ignoredBrowser) {
-        checkedSuperUser.getRequest(PROJECTS).create(testData.getNewProjectDescription());
-        checkedSuperUser.getRequest(BUILD_TYPES).create(testData.getBuildType());
-        loginAs(testData.getUser());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.get().getNewProjectDescription());
+        checkedSuperUser.getRequest(BUILD_TYPES).create(testData.get().getBuildType());
+        loginAs(testData.get().getUser());
 
-        CreateBuildTypeStepPage.open(testData.getBuildType().getId())
+        CreateBuildTypeStepPage.open(testData.get().getBuildType().getId())
                 .createCommandLineBuildStep("echo 'Hello World!'");
 
         // Тесты реализованы по паттерну fluent page object, поэтому эта запись выглядит как билдер, в одну строчку
         var createdBuildId = ProjectsPage.open()
-                .verifyProjectAndBuildType(testData.getProject().getName(), testData.getBuildType().getName())
+                .verifyProjectAndBuildType(testData.get().getProject().getName(), testData.get().getBuildType().getName())
                 .runBuildAndWaitUntilItIsFinished()
                 .getBuildId();
         var checkedBuildRequest = new CheckedBase<Build>(Specifications.getSpec()
-                .authSpec(testData.getUser()), BUILDS);
+                .authSpec(testData.get().getUser()), BUILDS);
         // Каждое действие на UI всегда проверяется через API
         var build = checkedBuildRequest.read(createdBuildId);
         softy.assertThat(build.getState()).as("buildState").isEqualTo("finished");

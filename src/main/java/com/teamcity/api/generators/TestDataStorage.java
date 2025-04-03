@@ -11,7 +11,7 @@ import java.util.Set;
 
 public final class TestDataStorage {
 
-    private static TestDataStorage testDataStorage;
+    private static final ThreadLocal<TestDataStorage> TEST_DATA_STORAGE = ThreadLocal.withInitial(TestDataStorage::new);
     /* Набор, хранящий список созданных сущностей, с привязкой их к эндпоинтам (несколько сущностей на 1 эндпоинт).
     При обращении ко всем элементам EnumMap, например, с помощью .forEach(),
     порядок гарантировано будет соответствовать тому, в котором элементы определены в Enum файле.
@@ -25,10 +25,7 @@ public final class TestDataStorage {
     }
 
     public static TestDataStorage getStorage() {
-        if (testDataStorage == null) {
-            testDataStorage = new TestDataStorage();
-        }
-        return testDataStorage;
+        return TEST_DATA_STORAGE.get();
     }
 
     /* В Map добавляется только id созданной сущности, этого достаточно для удаления

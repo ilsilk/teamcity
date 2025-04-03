@@ -20,7 +20,7 @@ public abstract class CreateBasePage extends BasePage {
     private final SelenideElement projectNameError = $("#error_projectName");
     private final SelenideElement buildTypeNameError = $("#error_buildTypeName");
 
-    public CreateBasePage() {
+    protected CreateBasePage() {
         submitButton.shouldBe(visible, BASE_WAITING);
     }
 

@@ -11,13 +11,13 @@ public final class RandomData {
     }
 
     public static String getString() {
-        return TEST_PREFIX + RandomStringUtils.randomAlphabetic(LENGTH);
+        return TEST_PREFIX + RandomStringUtils.secure().nextAlphabetic(LENGTH);
     }
 
     public static String getString(int length) {
         // Генерируем строку кастомной длины, учитывая то, что test_ уже занимает 5 символов.
         // Строка меньше 10 символов не может получиться
-        return TEST_PREFIX + RandomStringUtils.randomAlphabetic(Math.max(length - TEST_PREFIX.length(), LENGTH));
+        return TEST_PREFIX + RandomStringUtils.secure().nextAlphabetic(Math.max(length - TEST_PREFIX.length(), LENGTH));
     }
 
 }

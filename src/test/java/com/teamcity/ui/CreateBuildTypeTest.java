@@ -16,26 +16,26 @@ public class CreateBuildTypeTest extends BaseUiTest {
 
     @Test(description = "User should be able to create build type", groups = {"Regression"})
     public void userCreatesBuildTypeTest(String ignoredBrowser) {
-        checkedSuperUser.getRequest(PROJECTS).create(testData.getNewProjectDescription());
-        loginAs(testData.getUser());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.get().getNewProjectDescription());
+        loginAs(testData.get().getUser());
 
-        CreateBuildTypePage.open(testData.getProject().getId())
+        CreateBuildTypePage.open(testData.get().getProject().getId())
                 .createFrom(GIT_URL)
-                .setupBuildType(testData.getBuildType().getName());
+                .setupBuildType(testData.get().getBuildType().getName());
         var createdBuildTypeId = EditBuildTypePage.open().getBuildTypeId();
 
         var checkedBuildTypeRequest = new CheckedBase<BuildType>(Specifications.getSpec()
-                .authSpec(testData.getUser()), BUILD_TYPES);
+                .authSpec(testData.get().getUser()), BUILD_TYPES);
         var buildType = checkedBuildTypeRequest.read(createdBuildTypeId);
-        softy.assertThat(buildType.getName()).as("buildTypeName").isEqualTo(testData.getBuildType().getName());
+        softy.assertThat(buildType.getName()).as("buildTypeName").isEqualTo(testData.get().getBuildType().getName());
     }
 
     @Test(description = "User should not be able to create build type without name", groups = {"Regression"})
     public void userCreatesBuildTypeWithoutName(String ignoredBrowser) {
-        checkedSuperUser.getRequest(PROJECTS).create(testData.getNewProjectDescription());
-        loginAs(testData.getUser());
+        checkedSuperUser.getRequest(PROJECTS).create(testData.get().getNewProjectDescription());
+        loginAs(testData.get().getUser());
 
-        CreateBuildTypePage.open(testData.getProject().getId())
+        CreateBuildTypePage.open(testData.get().getProject().getId())
                 .createFrom(GIT_URL)
                 .setupBuildType("")
                 .verifyBuildTypeNameError("Build configuration name must not be empty");

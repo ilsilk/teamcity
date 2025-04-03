@@ -14,7 +14,7 @@ import java.time.Duration;
 
 import static com.teamcity.api.generators.TestDataGenerator.generate;
 
-public class BaseApiTest extends BaseTest {
+public abstract class BaseApiTest extends BaseTest {
 
     private final CheckedServerAuthSettings checkedServerAuthSettingsRequest = new CheckedServerAuthSettings(
             Specifications.getSpec().superUserSpec());

@@ -6,7 +6,7 @@ import java.util.Properties;
 public final class Config {
 
     private static final String CONFIG_PROPERTIES = "config.properties";
-    private static Config config;
+    private static final ThreadLocal<Config> CONFIG = ThreadLocal.withInitial(Config::new);
     private final Properties properties;
 
     private Config() {
@@ -15,10 +15,7 @@ public final class Config {
     }
 
     private static Config getConfig() {
-        if (config == null) {
-            config = new Config();
-        }
-        return config;
+        return CONFIG.get();
     }
 
     public static String getProperty(String key) {

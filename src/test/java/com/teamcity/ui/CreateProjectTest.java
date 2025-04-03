@@ -18,36 +18,36 @@ public class CreateProjectTest extends BaseUiTest {
 
     @Test(description = "User should be able to create project", groups = {"Regression"})
     public void userCreatesProject(String ignoredBrowser) {
-        loginAs(testData.getUser());
+        loginAs(testData.get().getUser());
 
-        CreateProjectPage.open(testData.getNewProjectDescription().getParentProject().getLocator())
+        CreateProjectPage.open(testData.get().getNewProjectDescription().getParentProject().getLocator())
                 .createFrom(GIT_URL)
-                .setupProject(testData.getProject().getName(), testData.getBuildType().getName());
+                .setupProject(testData.get().getProject().getName(), testData.get().getBuildType().getName());
         var createdBuildTypeId = EditBuildTypePage.open().getBuildTypeId();
 
         var checkedBuildTypeRequest = new CheckedBase<BuildType>(Specifications.getSpec()
-                .authSpec(testData.getUser()), BUILD_TYPES);
+                .authSpec(testData.get().getUser()), BUILD_TYPES);
         var buildType = checkedBuildTypeRequest.read(createdBuildTypeId);
-        softy.assertThat(buildType.getProject().getName()).as("projectName").isEqualTo(testData.getProject().getName());
-        softy.assertThat(buildType.getName()).as("buildTypeName").isEqualTo(testData.getBuildType().getName());
+        softy.assertThat(buildType.getProject().getName()).as("projectName").isEqualTo(testData.get().getProject().getName());
+        softy.assertThat(buildType.getName()).as("buildTypeName").isEqualTo(testData.get().getBuildType().getName());
         // Добавляем созданную сущность в сторедж, чтобы автоматически удалить ее в конце теста логикой, реализованной в API части
 
         var createdProjectId = ProjectsPage.open()
-                .verifyProjectAndBuildType(testData.getProject().getName(), testData.getBuildType().getName())
+                .verifyProjectAndBuildType(testData.get().getProject().getName(), testData.get().getBuildType().getName())
                 .getProjectId();
         var checkedProjectRequest = new CheckedBase<Project>(Specifications.getSpec()
-                .authSpec(testData.getUser()), PROJECTS);
+                .authSpec(testData.get().getUser()), PROJECTS);
         var project = checkedProjectRequest.read(createdProjectId);
-        softy.assertThat(project.getName()).as("projectName").isEqualTo(testData.getProject().getName());
+        softy.assertThat(project.getName()).as("projectName").isEqualTo(testData.get().getProject().getName());
     }
 
     @Test(description = "User should not be able to create project without name", groups = {"Regression"})
     public void userCreatesProjectWithoutName(String ignoredBrowser) {
-        loginAs(testData.getUser());
+        loginAs(testData.get().getUser());
 
-        CreateProjectPage.open(testData.getNewProjectDescription().getParentProject().getLocator())
+        CreateProjectPage.open(testData.get().getNewProjectDescription().getParentProject().getLocator())
                 .createFrom(GIT_URL)
-                .setupProject("", testData.getBuildType().getName())
+                .setupProject("", testData.get().getBuildType().getName())
                 .verifyProjectNameError("Project name must not be empty");
     }
 
