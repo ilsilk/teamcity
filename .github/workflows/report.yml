@@ -30,6 +30,9 @@ jobs:
           allure_history: allure-history
           allure_results: allure-results
 
+      - name: Build Swagger coverage report
+        run: sudo cp allure-results/swagger-coverage-report.html allure-history/${{ github.run_number }}/
+
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3
         with:
